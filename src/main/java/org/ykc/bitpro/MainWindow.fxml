@@ -52,10 +52,9 @@
             </MenuBar>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
                <items>
-                  <Button fx:id="bCreate" mnemonicParsing="false" onAction="#createBitFile" prefHeight="25.0" prefWidth="56.0" text="Create" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="31.0" text="Button" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="31.0" text="Button" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="31.0" text="Button" />
+                  <Button fx:id="bOpen" mnemonicParsing="false" onAction="#openBitFile" prefHeight="25.0" prefWidth="46.0" text="Open" />
+                  <Button fx:id="bSave" mnemonicParsing="false" onAction="#saveBitFile" prefHeight="25.0" prefWidth="46.0" text="Save" />
+                  <Button fx:id="bLoad" mnemonicParsing="false" onAction="#loadBitField" prefHeight="25.0" prefWidth="49.0" text="Load" />
                   <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="31.0" text="Button" />
                </items>
             </ToolBar>
@@ -98,9 +97,9 @@
                      </children></AnchorPane>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
-                        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TabPane fx:id="tabPaneMain" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <tabs>
-                            <Tab text="Create">
+                            <Tab fx:id="tabCreate" text="Create">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
@@ -114,7 +113,7 @@
                                                                <padding>
                                                                   <Insets right="15.0" />
                                                                </padding></Label>
-                                                            <JFXTextField maxWidth="344.0" minWidth="344.0" prefHeight="31.0" prefWidth="344.0" />
+                                                            <JFXTextField fx:id="txtBitProSimpleName" maxWidth="344.0" minWidth="344.0" prefHeight="31.0" prefWidth="344.0" />
                                                          </items>
                                                       </ToolBar>
                                                       <ToolBar prefHeight="55.0" prefWidth="662.0">
@@ -123,14 +122,14 @@
                                                                <padding>
                                                                   <Insets right="5.0" />
                                                                </padding></Label>
-                                                            <RadioButton mnemonicParsing="false" text="8 bit">
+                                                            <RadioButton fx:id="rbCreateView8bit" mnemonicParsing="false" text="8 bit">
                                                                <toggleGroup>
                                                                   <ToggleGroup fx:id="toggleGroupBitSel" />
                                                                </toggleGroup>
                                                             </RadioButton>
-                                                            <RadioButton mnemonicParsing="false" text="16 bit" toggleGroup="$toggleGroupBitSel" />
-                                                            <RadioButton mnemonicParsing="false" selected="true" text="32 bit" toggleGroup="$toggleGroupBitSel" />
-                                                            <RadioButton mnemonicParsing="false" text="64 bit" toggleGroup="$toggleGroupBitSel" />
+                                                            <RadioButton fx:id="rbCreateView16bit" mnemonicParsing="false" text="16 bit" toggleGroup="$toggleGroupBitSel" />
+                                                            <RadioButton fx:id="rbCreateView32bit" mnemonicParsing="false" selected="true" text="32 bit" toggleGroup="$toggleGroupBitSel" />
+                                                            <RadioButton fx:id="rbCreateView64bit" mnemonicParsing="false" text="64 bit" toggleGroup="$toggleGroupBitSel" />
                                                          </items>
                                                       </ToolBar>
                                                    </children>
@@ -160,6 +159,7 @@
                                                          <items>
                                                             <Button fx:id="bCreateViewAdd" mnemonicParsing="false" onAction="#addBitField" text="Add" />
                                                             <Button fx:id="bCreateViewDelete" mnemonicParsing="false" onAction="#deleteBitField" text="Delete" />
+                                                            <Button fx:id="bCreateViewModify" mnemonicParsing="false" onAction="#modifyBitField" text="Modify" />
                                                             <Button fx:id="bCreateViewUp" mnemonicParsing="false" onAction="#moveUpBitField" text="Up" />
                                                             <Button fx:id="bCreateViewDown" mnemonicParsing="false" onAction="#moveDownBitField" text="Down" />
                                                          </items>
@@ -189,7 +189,7 @@
                                     </AnchorPane>
                               </content>
                             </Tab>
-                            <Tab text="Combine">
+                            <Tab fx:id="tabCombine" text="Combine">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
@@ -202,10 +202,15 @@
                                     </AnchorPane>
                               </content>
                             </Tab>
-                              <Tab text="Load">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                </content>
+                              <Tab fx:id="tabLoad" text="Load">
+                                 <content>
+                                    <SplitPane dividerPositions="0.29797979797979796" prefHeight="160.0" prefWidth="200.0">
+                                      <items>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                                      </items>
+                                    </SplitPane>
+                                 </content>
                               </Tab>
                           </tabs>
                         </TabPane>
