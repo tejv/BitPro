@@ -2,8 +2,15 @@ package org.ykc.bitpro;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,6 +26,7 @@ import org.w3c.dom.*;
 import org.xml.sax.*;
 import javax.xml.parsers.*;
 
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
 public class XMLUtils {
@@ -30,7 +38,7 @@ public class XMLUtils {
 		}
 
 		Document doc = new Document();
-		Element theRoot = new Element("bitpro");
+		Element theRoot = new Element("simple");
 		doc.setRootElement(theRoot);
 
 		Element head = new Element("head");
@@ -266,6 +274,64 @@ public class XMLUtils {
 		}
 
 		return null;
+	}
+	
+	public static boolean loadSimpleXML(File file, JFXTextField txtData, GridPane gPane) {
+		
+		org.w3c.dom.Document xmlDoc = getDocument(file);
+		if(xmlDoc == null)
+		{
+			return false;
+		}		
+		Integer max_fields = getMaxFieldsSimpleXML(xmlDoc);
+		
+		ObservableList<JFXComboBox> comboList = FXCollections.observableArrayList();
+		ObservableList<Label> labelList = FXCollections.observableArrayList();
+		
+		gPane.getChildren().clear();
+        for(Integer i = 0; i < max_fields; i++)
+        {
+        	Integer offset = getFieldOffsetSimpleXML(xmlDoc,i);
+        	String name = getFieldNameSimpleXML(xmlDoc,i) + "( "+ offset.toString();
+        	Integer fsize = getFieldSizeSimpleXML(xmlDoc,i);
+        	if(fsize != 1)
+        	{
+        		name += "." + ((Integer)(fsize + offset)).toString();
+        	}
+        	name += " )";
+
+        	Label label = new Label(name);
+        	JFXComboBox cbox = new JFXComboBox();
+        	cbox.setEditable(true);
+        	comboList.add(cbox);
+        	labelList.add(label);
+        	gPane.add(label, 0, i);
+        	gPane.add(cbox, 1, i);
+        }
+		return true;
+	}
+	
+	private static Integer getMaxFieldsSimpleXML(org.w3c.dom.Document doc){
+		/* TODO */
+		return doc.getElementsByTagName("field").getLength();
+	}
+	
+	private static Integer getFieldOffsetSimpleXML(org.w3c.dom.Document doc,Integer index){
+		NodeList listOfFields = doc.getElementsByTagName("field");
+		Node node = listOfFields.item(index);
+		return Integer.parseInt(((org.w3c.dom.Element)node).getElementsByTagName("foffset").item(0).getTextContent());
+	}
+	
+	private static Integer getFieldSizeSimpleXML(org.w3c.dom.Document doc,Integer index){
+		NodeList listOfFields = doc.getElementsByTagName("field");
+		Node node = listOfFields.item(index);
+		return Integer.parseInt(((org.w3c.dom.Element)node).getElementsByTagName("fsize").item(0).getTextContent());
+	}
+	
+	private static String getFieldNameSimpleXML(org.w3c.dom.Document doc, Integer index){
+		NodeList listOfFields = doc.getElementsByTagName("field");
+		Node node = listOfFields.item(index);
+		return ((org.w3c.dom.Element)node).getElementsByTagName("fname").item(0).getTextContent();
 	}
 
 }

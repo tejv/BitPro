@@ -18,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
@@ -27,7 +28,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 
 public class MainWindowController implements Initializable{
@@ -40,10 +43,10 @@ public class MainWindowController implements Initializable{
 
     @FXML // fx:id="bSave"
     private Button bSave; // Value injected by FXMLLoader
-    
+
     @FXML // fx:id="bLoad"
     private Button bLoad; // Value injected by FXMLLoader
-    
+
     @FXML // fx:id="statusBar"
     private StatusBar statusBar; // Value injected by FXMLLoader
 
@@ -60,8 +63,8 @@ public class MainWindowController implements Initializable{
     private Tab tabCombine; // Value injected by FXMLLoader
 
     @FXML // fx:id="tabLoad"
-    private Tab tabLoad; // Value injected by FXMLLoader    
-    
+    private Tab tabLoad; // Value injected by FXMLLoader
+
     @FXML // fx:id="txtBitProSimpleName"
     private JFXTextField txtBitProSimpleName; // Value injected by FXMLLoader
 
@@ -122,6 +125,12 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="tCreateColEnum"
     private TableColumn<BitField, String> tCreateColEnum; // Value injected by FXMLLoader
 
+    @FXML // fx:id="txtLoadTabData"
+    private JFXTextField txtLoadTabData; // Value injected by FXMLLoader
+
+    @FXML // fx:id="gpaneLoadView"
+    private GridPane gpaneLoadTab; // Value injected by FXMLLoader
+
     @FXML
     void openBitFile(ActionEvent event) {
     	openBitFile();
@@ -131,11 +140,11 @@ public class MainWindowController implements Initializable{
     void saveBitFile(ActionEvent event) {
     	createBitFile();
     }
-    
+
     @FXML
     void loadBitField(ActionEvent event) {
-
-    }    
+    	loadBitFile();
+    }
 
     @FXML
     void addBitField(ActionEvent event) {
@@ -168,8 +177,14 @@ public class MainWindowController implements Initializable{
     	moveUpBitField(tableViewCreate);
     }
     
+    @FXML
+    void simpledataEnteredLoadTab(ActionEvent event) {
+    	populateSimpleLoadTabView();
+    }    
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		bLoad.setDisable(true);
 		/* Link tableViewCreate to Modal class BitField */
 		tCreateColFieldName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		tCreateColBitSize.setCellValueFactory(new PropertyValueFactory<>("size"));
@@ -186,7 +201,7 @@ public class MainWindowController implements Initializable{
 		    }
 		});
 		/* Not using this pane for now */
-		splitPaneFileExplorer.getItems().remove(splitPaneFileExplorer.getItems().get(0)); 
+		splitPaneFileExplorer.getItems().remove(splitPaneFileExplorer.getItems().get(0));
 		tabPaneMain.getSelectionModel().selectedItemProperty().addListener(
 			    new ChangeListener<Tab>() {
 			        @Override
@@ -195,15 +210,17 @@ public class MainWindowController implements Initializable{
 			    		{
 			    			bOpen.setDisable(true);
 			    			bSave.setDisable(true);
+			    			bLoad.setDisable(false);
 			    		}
 			    		else
 			    		{
 			    			bOpen.setDisable(false);
-			    			bSave.setDisable(false);				
+			    			bSave.setDisable(false);
+			    			bLoad.setDisable(true);
 			    		}
 			        }
 			    }
-			);		
+			);
 	}
 
     void createBitFile() {
@@ -358,6 +375,38 @@ public class MainWindowController implements Initializable{
         int newIndex = selectedIndex + 1;
         tableViewCreate.getItems().add(newIndex, removedItem);
         tableViewCreate.getSelectionModel().clearAndSelect(newIndex);
+	}
+	
+	public void loadBitFile(){
+    	FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Load BitPro File");
+        File samplesDir = new File(System.getProperty("user.home"), "BitPro/samples");
+        if (! samplesDir.exists()) {
+        	samplesDir.mkdirs();
+        }
+        fileChooser.setInitialDirectory(samplesDir);
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("BitPro Files(*.bpro)", "*.bpro")
+            );
+        File file = fileChooser.showOpenDialog(borderPaneMainWindow.getScene().getWindow());
+        if (file != null) {
+        	if(XMLUtils.loadSimpleXML(file, txtLoadTabData, gpaneLoadTab) == true)
+        	{
+        		statusBar.setText("Load Success");
+        	}
+        	else
+        	{
+        		statusBar.setText("Load Failed");
+        	}
+        }
+        else
+        {
+        	statusBar.setText("Operation Cancelled");
+        }		
+	}
+	
+	public static void populateSimpleLoadTabView(){
+		/* TODO load each field in simple view */
 	}
 
 }

@@ -8,7 +8,7 @@ public class BitField {
 
 	public BitField(String name, Integer size, String desc, String enums) throws Exception
 	{
-		if((name.trim().isEmpty()) || (size > 64))
+		if((name.trim().isEmpty()) || (size > 64) || (size == 0))
 		{
 			throw new Exception("Invalid Parameters");
 		}
