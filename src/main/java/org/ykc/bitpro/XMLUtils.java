@@ -2,12 +2,15 @@ package org.ykc.bitpro;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -15,6 +18,8 @@ import javafx.scene.layout.Priority;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import org.controlsfx.control.StatusBar;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -30,6 +35,15 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
 public class XMLUtils {
+	public static final int RADIX_HEX = 0;
+	public static final int RADIX_DECIMAL = 1;
+	public static final int RADIX_BINARY = 2;
+	private static int radix = RADIX_HEX;
+	
+	public static void setRadix(int value)
+	{
+		radix = value;
+	}
 	public static boolean createSimpleXML(File fileName, String name, Integer struct_size, TableView<BitField> table)
 	{
 		if(name.trim().isEmpty() || (struct_size > 64))
@@ -231,7 +245,7 @@ public class XMLUtils {
 	{
 		BitField x;
 		try {
-			x = new BitField("Error",0,"","");
+			x = new BitField("Error",1,"","");
 		} catch (Exception e) {
 			return false;
 		}
@@ -256,7 +270,7 @@ public class XMLUtils {
 
 	// Reads an XML file into a DOM document
 
-	private static org.w3c.dom.Document getDocument(File input) {
+	public static org.w3c.dom.Document getDocument(File input) {
 
 		try {
 
@@ -275,63 +289,171 @@ public class XMLUtils {
 
 		return null;
 	}
-	
-	public static boolean loadSimpleXML(File file, JFXTextField txtData, GridPane gPane) {
-		
-		org.w3c.dom.Document xmlDoc = getDocument(file);
-		if(xmlDoc == null)
-		{
-			return false;
-		}		
+
+	public static boolean loadSimpleXML(org.w3c.dom.Document xmlDoc, JFXTextField txtData, GridPane gPane, StatusBar statusBar) {
 		Integer max_fields = getMaxFieldsSimpleXML(xmlDoc);
-		
+
 		ObservableList<JFXComboBox> comboList = FXCollections.observableArrayList();
 		ObservableList<Label> labelList = FXCollections.observableArrayList();
-		
+
 		gPane.getChildren().clear();
         for(Integer i = 0; i < max_fields; i++)
         {
         	Integer offset = getFieldOffsetSimpleXML(xmlDoc,i);
-        	String name = getFieldNameSimpleXML(xmlDoc,i) + "( "+ offset.toString();
+        	String name = getFieldNameSimpleXML(xmlDoc,i) + "( " ;
         	Integer fsize = getFieldSizeSimpleXML(xmlDoc,i);
         	if(fsize != 1)
         	{
-        		name += "." + ((Integer)(fsize + offset)).toString();
+        		name += ((Integer)(fsize + offset -1)).toString() + ".";
         	}
+
+        	name += offset.toString();
+
         	name += " )";
 
         	Label label = new Label(name);
         	JFXComboBox cbox = new JFXComboBox();
+        	cbox.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                	updateMainTextLoadTab(xmlDoc, txtData, gPane, comboList);
+                }
+            });
+            label.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent e) {
+                	updateDescLoadTab(e, xmlDoc, statusBar, labelList);
+                }
+              });       	
         	cbox.setEditable(true);
         	comboList.add(cbox);
         	labelList.add(label);
         	gPane.add(label, 0, i);
         	gPane.add(cbox, 1, i);
         }
+        
+    	updateFieldTextLoadTab(xmlDoc, txtData, gPane, comboList);
+		txtData.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	updateFieldTextLoadTab(xmlDoc, txtData, gPane, comboList);
+            }
+        });
 		return true;
+	}
+
+	public static void updateDescLoadTab(MouseEvent e, org.w3c.dom.Document xmlDoc, StatusBar statusBar, ObservableList<Label> labelList){
+		for(int i = 0; i < labelList.size(); i++)
+		{
+			if(e.getSource().equals(labelList.get(i)))
+			{
+				statusBar.setText(getFieldDescSimpleXML(xmlDoc,i));
+			}
+		}
+	}
+	
+	public static void updateMainTextLoadTab(org.w3c.dom.Document xmlDoc, JFXTextField txtData, GridPane gPane,ObservableList<JFXComboBox> comboList){
+		Integer max_fields = getMaxFieldsSimpleXML(xmlDoc);
+		Long value = 0L;
+        for(Integer i = 0; i < max_fields; i++)
+        {
+        	Integer offset = getFieldOffsetSimpleXML(xmlDoc,i);
+        	Integer fsize = getFieldSizeSimpleXML(xmlDoc,i);
+        	Long mask = BitUtils.getMask(fsize);
+        	Long result = (parseStringtoNumber(comboList.get(i).getValue().toString()) & mask);
+        	value |=  result << offset;
+        	String res = "";
+            switch(radix)
+            {
+            case RADIX_BINARY:
+            	res = "0b" + Long.toBinaryString(result);
+            	break;
+            case RADIX_DECIMAL:
+            	res = Long.toString(result);
+            	break;
+            default:
+            	res = "0x" + Long.toHexString(result);
+            	break;
+            }
+        	comboList.get(i).setValue(res);
+        }
+        switch(radix)
+        {
+        case RADIX_BINARY:
+        	txtData.setText("0b" + Long.toBinaryString(value));
+        	break;
+        case RADIX_DECIMAL:
+        	txtData.setText(Long.toString(value));
+        	break;
+        default:
+        	txtData.setText("0x" + Long.toHexString(value));
+        	break;
+        }
+        
+	}
+
+	private static void updateFieldTextLoadTab(org.w3c.dom.Document xmlDoc, JFXTextField txtData, GridPane gPane,ObservableList<JFXComboBox> comboList){
+		Long value = parseStringtoNumber(txtData.getText());
+		Integer max_fields = getMaxFieldsSimpleXML(xmlDoc);
+        for(Integer i = 0; i < max_fields; i++)
+        {
+        	Integer offset = getFieldOffsetSimpleXML(xmlDoc,i);
+        	Integer fsize = getFieldSizeSimpleXML(xmlDoc,i);
+        	Long result = BitUtils.getValue(value, offset, fsize);
+        	String res = "";
+            switch(radix)
+            {
+            case RADIX_BINARY:
+            	res = "0b" + Long.toBinaryString(result);
+            	break;
+            case RADIX_DECIMAL:
+            	res = Long.toString(result);
+            	break;
+            default:
+            	res = "0x" + Long.toHexString(result);
+            	break;
+            }
+        	comboList.get(i).setValue(res);
+        }
+        switch(radix)
+        {
+        case RADIX_BINARY:
+        	txtData.setText("0b" + Long.toBinaryString(value));
+        	break;
+        case RADIX_DECIMAL:
+        	txtData.setText(Long.toString(value));
+        	break;
+        default:
+        	txtData.setText("0x" + Long.toHexString(value));
+        	break;
+        }
 	}
 	
 	private static Integer getMaxFieldsSimpleXML(org.w3c.dom.Document doc){
-		/* TODO */
 		return doc.getElementsByTagName("field").getLength();
 	}
-	
+
 	private static Integer getFieldOffsetSimpleXML(org.w3c.dom.Document doc,Integer index){
 		NodeList listOfFields = doc.getElementsByTagName("field");
 		Node node = listOfFields.item(index);
 		return Integer.parseInt(((org.w3c.dom.Element)node).getElementsByTagName("foffset").item(0).getTextContent());
 	}
-	
+
 	private static Integer getFieldSizeSimpleXML(org.w3c.dom.Document doc,Integer index){
 		NodeList listOfFields = doc.getElementsByTagName("field");
 		Node node = listOfFields.item(index);
 		return Integer.parseInt(((org.w3c.dom.Element)node).getElementsByTagName("fsize").item(0).getTextContent());
 	}
-	
+
 	private static String getFieldNameSimpleXML(org.w3c.dom.Document doc, Integer index){
 		NodeList listOfFields = doc.getElementsByTagName("field");
 		Node node = listOfFields.item(index);
 		return ((org.w3c.dom.Element)node).getElementsByTagName("fname").item(0).getTextContent();
 	}
-
+	
+	private static String getFieldDescSimpleXML(org.w3c.dom.Document doc, Integer index){
+		NodeList listOfFields = doc.getElementsByTagName("field");
+		Node node = listOfFields.item(index);
+		return ((org.w3c.dom.Element)node).getElementsByTagName("fdesc").item(0).getTextContent();
+	}	
 }

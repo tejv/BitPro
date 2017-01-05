@@ -27,7 +27,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.StatusBar?>
 
-<BorderPane fx:id="borderPaneMainWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="833.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ykc.bitpro.MainWindowController">
+<BorderPane fx:id="borderPaneMainWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="522.0" prefWidth="868.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ykc.bitpro.MainWindowController">
    <top>
       <VBox prefHeight="65.0" prefWidth="1021.0" BorderPane.alignment="CENTER">
          <children>
@@ -52,9 +52,9 @@
             </MenuBar>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
                <items>
-                  <Button fx:id="bOpen" mnemonicParsing="false" onAction="#openBitFile" prefHeight="25.0" prefWidth="46.0" text="Open" />
-                  <Button fx:id="bSave" mnemonicParsing="false" onAction="#saveBitFile" prefHeight="25.0" prefWidth="46.0" text="Save" />
-                  <Button fx:id="bLoad" mnemonicParsing="false" onAction="#loadBitField" prefHeight="25.0" prefWidth="49.0" text="Load" />
+                  <Button fx:id="bOpen" mnemonicParsing="false" onAction="#openBitFile" prefHeight="31.0" prefWidth="64.0" text="Open" />
+                  <Button fx:id="bSave" mnemonicParsing="false" onAction="#saveBitFile" prefHeight="31.0" prefWidth="61.0" text="Save" />
+                  <Button fx:id="bLoad" mnemonicParsing="false" onAction="#loadBitField" prefHeight="31.0" prefWidth="64.0" text="Load" />
                   <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="31.0" text="Button" />
                </items>
             </ToolBar>
@@ -136,16 +136,16 @@
                                                 </VBox>
                                              </top>
                                              <bottom>
-                                                <VBox prefHeight="86.0" prefWidth="662.0" BorderPane.alignment="CENTER">
+                                                <VBox prefHeight="109.0" prefWidth="775.0" BorderPane.alignment="CENTER">
                                                    <children>
-                                                      <GridPane prefHeight="88.0" prefWidth="662.0">
+                                                      <GridPane prefHeight="63.0" prefWidth="775.0">
                                                          <columnConstraints>
                                                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                          </columnConstraints>
                                                          <rowConstraints>
-                                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                            <RowConstraints maxHeight="33.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                                                            <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                                                            <RowConstraints maxHeight="33.0" minHeight="5.0" prefHeight="16.0" vgrow="SOMETIMES" />
                                                             <RowConstraints maxHeight="12.0" minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
                                                          </rowConstraints>
                                                          <children>
@@ -155,7 +155,7 @@
                                                             <TextField fx:id="tDescription" promptText="Description" GridPane.rowIndex="1" />
                                                          </children>
                                                       </GridPane>
-                                                      <ToolBar prefHeight="40.0" prefWidth="200.0">
+                                                      <ToolBar prefHeight="20.0" prefWidth="775.0">
                                                          <items>
                                                             <Button fx:id="bCreateViewAdd" mnemonicParsing="false" onAction="#addBitField" text="Add" />
                                                             <Button fx:id="bCreateViewDelete" mnemonicParsing="false" onAction="#deleteBitField" text="Delete" />
@@ -180,8 +180,14 @@
                                                          <columnResizePolicy>
                                                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                                          </columnResizePolicy>
+                                                         <opaqueInsets>
+                                                            <Insets />
+                                                         </opaqueInsets>
                                                       </TableView>
                                                    </children>
+                                                   <opaqueInsets>
+                                                      <Insets />
+                                                   </opaqueInsets>
                                                 </StackPane>
                                              </center>
                                           </BorderPane>
@@ -211,15 +217,22 @@
                                              <children>
                                                 <ToolBar prefHeight="34.0" prefWidth="593.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                   <items>
-                                                    <Button mnemonicParsing="false" prefHeight="12.0" prefWidth="52.0" text="Button" />
+                                                    <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="71.0" text="Button" />
+                                                      <RadioButton fx:id="rbLoadViewHex" mnemonicParsing="false" onAction="#displayHexLoadView" selected="true" text="Hex">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="toggleGroupRadixSelect" />
+                                                         </toggleGroup>
+                                                      </RadioButton>
+                                                      <RadioButton fx:id="rbLoadViewDecimal" mnemonicParsing="false" onAction="#displayDecimalLoadView" text="Decimal" toggleGroup="$toggleGroupRadixSelect" />
+                                                      <RadioButton fx:id="rbLoadViewBinary" mnemonicParsing="false" onAction="#displayBinaryLoadView" text="Binary" toggleGroup="$toggleGroupRadixSelect" />
                                                   </items>
                                                 </ToolBar>
-                                                <VBox layoutY="33.0" prefHeight="26.0" prefWidth="593.0" AnchorPane.bottomAnchor="291.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
+                                                <VBox layoutY="44.0" prefHeight="38.0" prefWidth="616.0" AnchorPane.bottomAnchor="291.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0">
                                                    <children>
-                                                      <JFXTextField fx:id="txtLoadTabData" onAction="#simpledataEnteredLoadTab" promptText="Value" />
+                                                      <JFXTextField fx:id="txtLoadTabData" maxWidth="616.0" minWidth="616.0" prefHeight="33.0" prefWidth="616.0" promptText="Value" />
                                                    </children>
                                                 </VBox>
-                                                <ScrollPane layoutY="64.0" pannable="true" prefHeight="286.0" prefWidth="593.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="64.0">
+                                                <ScrollPane layoutY="80.0" pannable="true" prefHeight="293.0" prefWidth="616.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
                                                    <content>
                                                       <GridPane fx:id="gpaneLoadTab" hgap="20.0" prefWidth="593.0" vgap="10.0">
                                                         <columnConstraints>
@@ -231,6 +244,9 @@
                                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                         </rowConstraints>
+                                                         <padding>
+                                                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                         </padding>
                                                       </GridPane>
                                                    </content>
                                                 </ScrollPane>

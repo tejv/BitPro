@@ -124,7 +124,19 @@ public class MainWindowController implements Initializable{
 
     @FXML // fx:id="tCreateColEnum"
     private TableColumn<BitField, String> tCreateColEnum; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="rbLoadViewHex"
+    private RadioButton rbLoadViewHex; // Value injected by FXMLLoader
 
+    @FXML // fx:id="toggleGroupRadixSelect"
+    private ToggleGroup toggleGroupRadixSelect; // Value injected by FXMLLoader
+
+    @FXML // fx:id="rbLoadViewDecimal"
+    private RadioButton rbLoadViewDecimal; // Value injected by FXMLLoader
+
+    @FXML // fx:id="rbLoadViewBinary"
+    private RadioButton rbLoadViewBinary; // Value injected by FXMLLoader
+    
     @FXML // fx:id="txtLoadTabData"
     private JFXTextField txtLoadTabData; // Value injected by FXMLLoader
 
@@ -178,10 +190,29 @@ public class MainWindowController implements Initializable{
     }
     
     @FXML
-    void simpledataEnteredLoadTab(ActionEvent event) {
-    	populateSimpleLoadTabView();
-    }    
+    void displayBinaryLoadView(ActionEvent event) {
+    	if(rbLoadViewBinary.isSelected() == true){
+    		XMLUtils.setRadix(XMLUtils.RADIX_BINARY);
+    		txtLoadTabData.fireEvent(event);
+    	}
+    }
 
+    @FXML
+    void displayDecimalLoadView(ActionEvent event) {
+    	if(rbLoadViewDecimal.isSelected() == true){
+    		XMLUtils.setRadix(XMLUtils.RADIX_DECIMAL);
+    		txtLoadTabData.fireEvent(event);
+    	}
+    }
+
+    @FXML
+    void displayHexLoadView(ActionEvent event) {
+    	if(rbLoadViewHex.isSelected() == true){
+    		XMLUtils.setRadix(XMLUtils.RADIX_HEX);
+    		txtLoadTabData.fireEvent(event);
+    	}
+    }
+    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		bLoad.setDisable(true);
@@ -376,7 +407,7 @@ public class MainWindowController implements Initializable{
         tableViewCreate.getItems().add(newIndex, removedItem);
         tableViewCreate.getSelectionModel().clearAndSelect(newIndex);
 	}
-	
+
 	public void loadBitFile(){
     	FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Load BitPro File");
@@ -390,7 +421,13 @@ public class MainWindowController implements Initializable{
             );
         File file = fileChooser.showOpenDialog(borderPaneMainWindow.getScene().getWindow());
         if (file != null) {
-        	if(XMLUtils.loadSimpleXML(file, txtLoadTabData, gpaneLoadTab) == true)
+    		org.w3c.dom.Document xmlDoc = XMLUtils.getDocument(file);
+    		if(xmlDoc == null)
+    		{
+    			statusBar.setText("Load Failed");
+    			return;
+    		}
+        	if(XMLUtils.loadSimpleXML(xmlDoc, txtLoadTabData, gpaneLoadTab, statusBar) == true)
         	{
         		statusBar.setText("Load Success");
         	}
@@ -402,11 +439,7 @@ public class MainWindowController implements Initializable{
         else
         {
         	statusBar.setText("Operation Cancelled");
-        }		
-	}
-	
-	public static void populateSimpleLoadTabView(){
-		/* TODO load each field in simple view */
+        }
 	}
 
 }
