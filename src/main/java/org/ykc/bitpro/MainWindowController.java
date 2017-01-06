@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.StatusBar;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import com.jfoenix.controls.JFXTextField;
 
@@ -124,7 +126,7 @@ public class MainWindowController implements Initializable{
 
     @FXML // fx:id="tCreateColEnum"
     private TableColumn<BitField, String> tCreateColEnum; // Value injected by FXMLLoader
-    
+
     @FXML // fx:id="rbLoadViewHex"
     private RadioButton rbLoadViewHex; // Value injected by FXMLLoader
 
@@ -136,7 +138,7 @@ public class MainWindowController implements Initializable{
 
     @FXML // fx:id="rbLoadViewBinary"
     private RadioButton rbLoadViewBinary; // Value injected by FXMLLoader
-    
+
     @FXML // fx:id="txtLoadTabData"
     private JFXTextField txtLoadTabData; // Value injected by FXMLLoader
 
@@ -188,11 +190,11 @@ public class MainWindowController implements Initializable{
     void moveUpBitField(ActionEvent event) {
     	moveUpBitField(tableViewCreate);
     }
-    
+
     @FXML
     void displayBinaryLoadView(ActionEvent event) {
     	if(rbLoadViewBinary.isSelected() == true){
-    		XMLUtils.setRadix(XMLUtils.RADIX_BINARY);
+    		LoadSimpleBPro.setRadix(GenericUtils.Radix.RADIX_BINARY);
     		txtLoadTabData.fireEvent(event);
     	}
     }
@@ -200,7 +202,7 @@ public class MainWindowController implements Initializable{
     @FXML
     void displayDecimalLoadView(ActionEvent event) {
     	if(rbLoadViewDecimal.isSelected() == true){
-    		XMLUtils.setRadix(XMLUtils.RADIX_DECIMAL);
+    		LoadSimpleBPro.setRadix(GenericUtils.Radix.RADIX_DECIMAL);
     		txtLoadTabData.fireEvent(event);
     	}
     }
@@ -208,11 +210,11 @@ public class MainWindowController implements Initializable{
     @FXML
     void displayHexLoadView(ActionEvent event) {
     	if(rbLoadViewHex.isSelected() == true){
-    		XMLUtils.setRadix(XMLUtils.RADIX_HEX);
+    		LoadSimpleBPro.setRadix(GenericUtils.Radix.RADIX_HEX);
     		txtLoadTabData.fireEvent(event);
     	}
     }
-    
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		bLoad.setDisable(true);
@@ -258,6 +260,7 @@ public class MainWindowController implements Initializable{
     	if(txtBitProSimpleName.getText().isEmpty() == true)
     	{
     		statusBar.setText("Please provide a name");
+    		return;
     	}
     	Integer size = 32;
     	if(rbCreateView8bit.isSelected())
@@ -272,28 +275,12 @@ public class MainWindowController implements Initializable{
     	{
     		size = 64;
     	}
-    	FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save BitPro File");
-        File samplesDir = new File(System.getProperty("user.home"), "BitPro/samples");
-        if (! samplesDir.exists()) {
-        	samplesDir.mkdirs();
-        }
-        fileChooser.setInitialDirectory(samplesDir);
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("BitPro Files(*.bpro)", "*.bpro")
-            );
-        File file = fileChooser.showSaveDialog(borderPaneMainWindow.getScene().getWindow());
+    	File file = BProUtils.saveBitFile(borderPaneMainWindow.getScene().getWindow());
+    	
         if (file != null) {
-        	if(!file.getName().contains(".")) {
-        		file = new File(file.getAbsolutePath() + ".bpro");
-        		}
-        	if(XMLUtils.createSimpleXML(file, txtBitProSimpleName.getText(), size, tableViewCreate) == true)
+        	if(CreateBPro.createSimpleXML(file, txtBitProSimpleName.getText(), size, tableViewCreate, statusBar) == true)
         	{
         		statusBar.setText("Save Success");
-        	}
-        	else
-        	{
-        		statusBar.setText("Save Failed");
         	}
         }
         else
@@ -305,23 +292,14 @@ public class MainWindowController implements Initializable{
 
     void openBitFile()
     {
-    	FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open BitPro File");
-        File samplesDir = new File(System.getProperty("user.home"), "BitPro/samples");
-        if (! samplesDir.exists()) {
-        	samplesDir.mkdirs();
-        }
-        fileChooser.setInitialDirectory(samplesDir);
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("BitPro Files(*.bpro)", "*.bpro")
-            );
-        File file = fileChooser.showOpenDialog(borderPaneMainWindow.getScene().getWindow());
+    	File file = BProUtils.openBitFile(borderPaneMainWindow.getScene().getWindow());
+ 
         if (file != null) {
     		tFieldName.clear();
     		tBitSize.clear();
     		tDescription.clear();
     		tEnum.clear();
-        	if(XMLUtils.openSimpleXML(file, txtBitProSimpleName, toggleGroupBitSel, tableViewCreate) == true)
+        	if(OpenBPro.openSimpleXML(file, txtBitProSimpleName, toggleGroupBitSel, tableViewCreate) == true)
         	{
         		statusBar.setText("Open Success");
         	}
@@ -409,25 +387,16 @@ public class MainWindowController implements Initializable{
 	}
 
 	public void loadBitFile(){
-    	FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Load BitPro File");
-        File samplesDir = new File(System.getProperty("user.home"), "BitPro/samples");
-        if (! samplesDir.exists()) {
-        	samplesDir.mkdirs();
-        }
-        fileChooser.setInitialDirectory(samplesDir);
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("BitPro Files(*.bpro)", "*.bpro")
-            );
-        File file = fileChooser.showOpenDialog(borderPaneMainWindow.getScene().getWindow());
+		File file = BProUtils.openBitFile(borderPaneMainWindow.getScene().getWindow());
+    	
         if (file != null) {
-    		org.w3c.dom.Document xmlDoc = XMLUtils.getDocument(file);
+    		Document xmlDoc = BProUtils.getDocument(file);
     		if(xmlDoc == null)
     		{
     			statusBar.setText("Load Failed");
     			return;
     		}
-        	if(XMLUtils.loadSimpleXML(xmlDoc, txtLoadTabData, gpaneLoadTab, statusBar) == true)
+        	if(LoadSimpleBPro.loadSimpleXML((Element)(xmlDoc.getElementsByTagName("simple").item(0)), txtLoadTabData, gpaneLoadTab, statusBar) == true)
         	{
         		statusBar.setText("Load Success");
         	}

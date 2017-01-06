@@ -15,7 +15,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			BorderPane root = (BorderPane) FXMLLoader.load(Main.class.getResource("MainWindow.fxml"));
-			Scene scene = new Scene(root,900,500);
+			Scene scene = new Scene(root,900,700);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("BitPro");

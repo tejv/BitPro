@@ -129,7 +129,7 @@
                                                             </RadioButton>
                                                             <RadioButton fx:id="rbCreateView16bit" mnemonicParsing="false" text="16 bit" toggleGroup="$toggleGroupBitSel" />
                                                             <RadioButton fx:id="rbCreateView32bit" mnemonicParsing="false" selected="true" text="32 bit" toggleGroup="$toggleGroupBitSel" />
-                                                            <RadioButton fx:id="rbCreateView64bit" mnemonicParsing="false" text="64 bit" toggleGroup="$toggleGroupBitSel" />
+                                                            <RadioButton fx:id="rbCreateView64bit" mnemonicParsing="false" text="64 bit" toggleGroup="$toggleGroupBitSel" visible="false" />
                                                          </items>
                                                       </ToolBar>
                                                    </children>
