@@ -1,6 +1,15 @@
 package org.ykc.bitpro;
 
+import java.awt.Window;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -9,6 +18,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.jfoenix.controls.JFXTextField;
+import com.sun.glass.ui.Application;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -19,6 +29,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
@@ -34,12 +45,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class MainWindowController implements Initializable{
 
     @FXML // fx:id="borderPaneMainWindow"
     private BorderPane borderPaneMainWindow; // Value injected by FXMLLoader
 
+    @FXML // fx:id="mItemExit"
+    private MenuItem mItemExit; // Value injected by FXMLLoader
+    
     @FXML // fx:id="bOpen"
     private Button bOpen; // Value injected by FXMLLoader
 
@@ -144,7 +159,17 @@ public class MainWindowController implements Initializable{
 
     @FXML // fx:id="gpaneLoadView"
     private GridPane gpaneLoadTab; // Value injected by FXMLLoader
+    
+    @FXML
+    void exitApplication(ActionEvent event) {
+    	closeProgram();
+    }
 
+	@FXML
+    void setPreferences(ActionEvent event) {
+    	
+    }
+    
     @FXML
     void openBitFile(ActionEvent event) {
     	openBitFile();
@@ -217,6 +242,7 @@ public class MainWindowController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		Preferences.loadPreferences();
 		bLoad.setDisable(true);
 		/* Link tableViewCreate to Modal class BitField */
 		tCreateColFieldName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -386,10 +412,49 @@ public class MainWindowController implements Initializable{
         tableViewCreate.getSelectionModel().clearAndSelect(newIndex);
 	}
 
+	public void storeSimpleData(){
+		File lastFile = Preferences.getLastLoadedFile();
+		if(lastFile != null)
+		{
+			/* Store data in temp file */
+			File tempFile = GenericUtils.getFileNewExtension(lastFile, "tmp");
+			if(!tempFile.exists()){
+				try {
+					tempFile.createNewFile();
+				} catch (IOException e) {
+				}
+			}
+			if(tempFile.exists()){
+				try {
+					FileWriter x = new FileWriter(tempFile);
+					x.write(txtLoadTabData.getText());
+					x.close();
+				} catch (IOException e) {
+				}
+			}
+			
+		}
+	}
 	public void loadBitFile(){
+		storeSimpleData();
 		File file = BProUtils.openBitFile(borderPaneMainWindow.getScene().getWindow());
     	
         if (file != null) {
+        	Preferences.setLastLoadedFile(file);
+        	File tmpFile = GenericUtils.getFileNewExtension(file, "tmp");
+        	if(tmpFile.exists())
+        	{
+        		try {
+					BufferedReader x = new BufferedReader(new FileReader(tmpFile));
+					txtLoadTabData.setText(x.readLine());
+					x.close();
+				} catch (FileNotFoundException e) {
+				} catch (IOException e) {
+				}
+        	}
+        	else{
+        		txtLoadTabData.setText("0");
+        	}
     		Document xmlDoc = BProUtils.getDocument(file);
     		if(xmlDoc == null)
     		{
@@ -409,6 +474,12 @@ public class MainWindowController implements Initializable{
         {
         	statusBar.setText("Operation Cancelled");
         }
+	}
+	
+    private void closeProgram() {
+    	Preferences.storePreferences();
+    	storeSimpleData();
+    	/* TODO : exit application */
 	}
 
 }

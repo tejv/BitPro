@@ -1,5 +1,8 @@
 package org.ykc.bitpro;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import com.jfoenix.controls.JFXTextField;
 
 public class GenericUtils {
@@ -105,5 +108,19 @@ public class GenericUtils {
 		}
 		return x;
 	}	
+	
+	public static File getFileNewExtension(File input, String extension){
+		String nameString = input.getName();	
+		String[] partsStrings = nameString.split("\\.");
+		String newFile = input.getParentFile() + "\\" + partsStrings[0] + "." + extension;
+		return new File(newFile);
+		
+	}
+	
+	public static void main(String[] args) {
+		
+		getFileNewExtension(new File(System.getProperty("user.home"), "BitPro/preferences/app.xml"), "temp");
+	}
+	
 
 }

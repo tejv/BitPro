@@ -22,14 +22,18 @@ public class LoadSimpleBPro {
 	private static Element curElement;
 	private static JFXTextField txtMain;
 	private static StatusBar status;
+	private static boolean isLoaded = false;
 
 	public static void setRadix(GenericUtils.Radix value) {
 		radix = value;
 	}
-
+	
+	public static boolean isLoaded(){
+		return isLoaded;
+	}
 	public static boolean loadSimpleXML(Element simpleElement, JFXTextField txtData, GridPane gPane,
 			StatusBar statusBar) {
-		
+		isLoaded = true;
 		gPane.getChildren().clear();
 		
 		curElement = simpleElement;
@@ -138,7 +142,6 @@ public class LoadSimpleBPro {
 	
 	private static String getComboInput(ObservableList<JFXComboBox> comboList, Integer index){
 		int selectedIdx = comboList.get(index).getSelectionModel().getSelectedIndex();
-		System.out.println(selectedIdx);
 		if(selectedIdx < 0)
 		{
 			return comboList.get(index).getValue().toString();

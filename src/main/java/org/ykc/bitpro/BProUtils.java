@@ -14,35 +14,22 @@ import javafx.stage.Window;
 import javax.xml.parsers.*;
 
 public class BProUtils {
-	private static File lastDirectory = null;
-	
-	public static File getLastDirectory()
-	{
-		return lastDirectory;
-	}
-	
+
 	public static File openBitFile(Window win){
 		FileChooser fileChooser = new FileChooser();
 	    fileChooser.setTitle("Open BitPro File");
 	    
-	    if(lastDirectory == null)
+	    if(Preferences.getLastDirectory() != null)
 	    {
-		    File samplesDir = new File(System.getProperty("user.home"), "BitPro/samples");
-		    if (! samplesDir.exists()) {
-		    	samplesDir.mkdirs();
-		    }
-		    fileChooser.setInitialDirectory(samplesDir);
+	    	fileChooser.setInitialDirectory(Preferences.getLastDirectory());
 	    }
-	    else {
-	    	fileChooser.setInitialDirectory(lastDirectory);
-		}
 	    
 	    fileChooser.getExtensionFilters().addAll(
 	            new FileChooser.ExtensionFilter("BitPro Files(*.bpro)", "*.bpro")
 	        );
 	    File file = fileChooser.showOpenDialog(win);
 	    if (file != null) {
-			lastDirectory = file.getParentFile();
+	    	Preferences.setLastDirectory(file.getParentFile());
 	    }
 	    return file;
 	}
@@ -51,17 +38,10 @@ public class BProUtils {
 		FileChooser fileChooser = new FileChooser();
 	    fileChooser.setTitle("Save BitPro File");
 	    
-	    if(lastDirectory == null)
+	    if(Preferences.getLastDirectory() != null)
 	    {
-		    File samplesDir = new File(System.getProperty("user.home"), "BitPro/samples");
-		    if (! samplesDir.exists()) {
-		    	samplesDir.mkdirs();
-		    }
-		    fileChooser.setInitialDirectory(samplesDir);
+	    	fileChooser.setInitialDirectory(Preferences.getLastDirectory());
 	    }
-	    else {
-	    	fileChooser.setInitialDirectory(lastDirectory);
-		}
 	    
 	    fileChooser.getExtensionFilters().addAll(
 	            new FileChooser.ExtensionFilter("BitPro Files(*.bpro)", "*.bpro")
@@ -71,13 +51,12 @@ public class BProUtils {
         	if(!file.getName().contains(".")) {
         		file = new File(file.getAbsolutePath() + ".bpro");
         		}
-        	lastDirectory = file.getParentFile();
+        	Preferences.setLastDirectory(file.getParentFile());
         }
 	    return file;
 	}
 	
 	public static Document getDocument(File input) {
-
 		try {
 
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
