@@ -243,7 +243,21 @@ public class MainWindowController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Preferences.loadPreferences();
-		bLoad.setDisable(true);
+		enDisTabButtons(Preferences.getLastOpenTabName());
+		switch(Preferences.getLastOpenTabName())
+		{
+		case "tabLoad":
+			tabPaneMain.getSelectionModel().select(tabLoad);
+			loadFile(Preferences.getLastLoadedFile());
+			//Platform.runLater(()->loadFile(Preferences.getLastLoadedFile()));
+			break;
+		case "tabCreate":
+			tabPaneMain.getSelectionModel().select(tabCreate);
+			break;
+		case "tabCombine":
+			tabPaneMain.getSelectionModel().select(tabCombine);
+			break;
+		}
 		/* Link tableViewCreate to Modal class BitField */
 		tCreateColFieldName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		tCreateColBitSize.setCellValueFactory(new PropertyValueFactory<>("size"));
@@ -265,21 +279,26 @@ public class MainWindowController implements Initializable{
 			    new ChangeListener<Tab>() {
 			        @Override
 			        public void changed(ObservableValue<? extends Tab> ov, Tab oldTab, Tab newTab) {
-			    		if(newTab == tabLoad)
-			    		{
-			    			bOpen.setDisable(true);
-			    			bSave.setDisable(true);
-			    			bLoad.setDisable(false);
-			    		}
-			    		else
-			    		{
-			    			bOpen.setDisable(false);
-			    			bSave.setDisable(false);
-			    			bLoad.setDisable(true);
-			    		}
+			        	enDisTabButtons(newTab.getId());
+			        	Preferences.setLastOpenTabName(newTab.getId());
 			        }
 			    }
 			);
+	}
+	
+	private void enDisTabButtons(String tabId){
+		if(tabId.equals("tabLoad"))
+		{
+			bOpen.setDisable(true);
+			bSave.setDisable(true);
+			bLoad.setDisable(false);
+		}
+		else
+		{
+			bOpen.setDisable(false);
+			bSave.setDisable(false);
+			bLoad.setDisable(true);
+		}		
 	}
 
     void createBitFile() {
@@ -438,7 +457,12 @@ public class MainWindowController implements Initializable{
 	public void loadBitFile(){
 		storeSimpleData();
 		File file = BProUtils.openBitFile(borderPaneMainWindow.getScene().getWindow());
-    	
+		if(loadFile(file) == false){
+        	statusBar.setText("Operation Cancelled");
+		}
+	}
+	
+	private boolean loadFile(File file){
         if (file != null) {
         	Preferences.setLastLoadedFile(file);
         	File tmpFile = GenericUtils.getFileNewExtension(file, "tmp");
@@ -459,7 +483,7 @@ public class MainWindowController implements Initializable{
     		if(xmlDoc == null)
     		{
     			statusBar.setText("Load Failed");
-    			return;
+    			return true;
     		}
         	if(LoadSimpleBPro.loadSimpleXML((Element)(xmlDoc.getElementsByTagName("simple").item(0)), txtLoadTabData, gpaneLoadTab, statusBar) == true)
         	{
@@ -469,11 +493,12 @@ public class MainWindowController implements Initializable{
         	{
         		statusBar.setText("Load Failed");
         	}
+        	return true;
         }
         else
         {
-        	statusBar.setText("Operation Cancelled");
-        }
+        	return false;
+        }		
 	}
 	
     private void closeProgram() {
