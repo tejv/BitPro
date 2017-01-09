@@ -151,8 +151,8 @@
                                                          <children>
                                                             <TextField fx:id="tFieldName" promptText="Field Name" />
                                                             <TextField fx:id="tBitSize" promptText="Bit Size" GridPane.columnIndex="1" />
-                                                            <TextField fx:id="tEnum" promptText="Enums" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                                            <TextField fx:id="tDescription" promptText="Description" GridPane.rowIndex="1" />
+                                                            <TextField fx:id="tEnum" promptText="Enums (Optional)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                            <TextField fx:id="tDescription" promptText="Description (Optional)" GridPane.rowIndex="1" />
                                                          </children>
                                                       </GridPane>
                                                       <ToolBar prefHeight="20.0" prefWidth="775.0">
