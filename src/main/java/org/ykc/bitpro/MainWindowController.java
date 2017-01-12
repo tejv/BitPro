@@ -160,6 +160,21 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="gpaneLoadView"
     private GridPane gpaneLoadTab; // Value injected by FXMLLoader
     
+    @FXML // fx:id="tabSolver"
+    private Tab tabSolver; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtSolveEnter"
+    private JFXTextField txtSolveEnter; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtSolveShowHex"
+    private TextField txtSolveShowHex; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtSolveShowDecimal"
+    private TextField txtSolveShowDecimal; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtSolveShowBinary"
+    private TextField txtSolveShowBinary; // Value injected by FXMLLoader    
+    
     @FXML
     void exitApplication(ActionEvent event) {
     	closeProgram();
@@ -215,8 +230,14 @@ public class MainWindowController implements Initializable{
     void moveUpBitField(ActionEvent event) {
     	moveUpBitField(tableViewCreate);
     }
+    
 
     @FXML
+    void solveExpression(ActionEvent event) {
+    	solveExpression();
+    }
+
+	@FXML
     void displayBinaryLoadView(ActionEvent event) {
     	if(rbLoadViewBinary.isSelected() == true){
     		LoadSimpleBPro.setRadix(GenericUtils.Radix.RADIX_BINARY);
@@ -505,6 +526,23 @@ public class MainWindowController implements Initializable{
     	Preferences.storePreferences();
     	storeSimpleData();
     	/* TODO : exit application */
+	}
+    
+    private void solveExpression() {
+		XpressionSolver x = new XpressionSolver();
+		Integer idx = 0;
+		String a = "";
+		if(x.x_solve(txtSolveEnter.getText(), a, idx) == true){
+			txtSolveShowDecimal.setText(a);
+			txtSolveShowHex.setText("0x" + Integer.parseInt(a, 16));
+			txtSolveShowBinary.setText("0b" + Integer.parseInt(a, 2));
+		}
+		else{
+			txtSolveShowDecimal.setText("Error in Parsing");
+			txtSolveShowHex.setText("Error in Parsing");
+			txtSolveShowBinary.setText("Error in Parsing");			
+		}
+		
 	}
 
 }

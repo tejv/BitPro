@@ -17,6 +17,10 @@ public class GenericUtils {
 		return ((c == '0') || (c == '1'));
 	}
 
+	public static String getSubString(String x, int start, int length) {
+	    return x.substring(start, Math.min(start + length, x.length()));
+	}
+	
 	public static byte uint16_get_lsb(int input) {
 		return (byte) (input & 0xFF);
 	}
@@ -56,7 +60,11 @@ public class GenericUtils {
 	public static long getUnsignedInt(int x) {
 		return x & 0x00000000ffffffffL;
 	}
-
+	
+	public static int getUsignedIntFromLong(long x) {
+		return (int) (x & 0x00000000ffffffffL);
+	}	
+	
 	public static Long getLRightShift(Long x, Integer shift) {
 		return x >>> shift;
 	}

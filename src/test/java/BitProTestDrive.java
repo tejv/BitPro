@@ -3,6 +3,19 @@ import org.ykc.bitpro.*;
 public class BitProTestDrive {
     
 	public static void main(String[] args) {
-			System.out.println("BitPro");
-		}   
+		long a = 0x6;
+		long b = 0x0;
+		int c = GenericUtils.getUsignedIntFromLong(a);
+		int d = GenericUtils.getUsignedIntFromLong(b);
+		
+		System.out.println(Long.toHexString(b-a));
+		//System.out.println((Long.toHexString(0xFFFFFFFFFFFFFFFFL - (b-a))));
+		System.out.println(Integer.toHexString((d-c)));
+		System.out.println(Integer.toString((d-c)));
+		System.out.println(Integer.toUnsignedString((d-c)));
+		//System.out.println(Integer.toHexString((c-d)));
+		//System.out.println(Integer.toHexString((c-d)));
+		//System.out.println(Integer.toHexString((c-d)));
+
+	}   
 }
