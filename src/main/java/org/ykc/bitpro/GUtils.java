@@ -5,15 +5,20 @@ import java.io.FileOutputStream;
 
 import com.jfoenix.controls.JFXTextField;
 
-public class GenericUtils {
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+
+public class GUtils {
 	public enum Radix {
 		RADIX_HEX, RADIX_DECIMAL, RADIX_BINARY
 	}
-	public static boolean is_char_hex(char c) {
+	public static boolean isCharHex(char c) {
 		return ((c >= '0') && (c <= '9')) || ((c >= 'a') && (c <= 'f')) || ((c >= 'A') && (c <= 'F'));
 	}
 
-	public static boolean is_char_binary(char c) {
+	public static boolean isCharBinary(char c) {
 		return ((c == '0') || (c == '1'));
 	}
 
@@ -57,11 +62,11 @@ public class GenericUtils {
 		return ((b0 & 0xFF) | ((b1 & 0xFF) << 8) | ((b2 & 0xFF) << 16) | ((b3 & 0xFF) << 24));
 	}
 
-	public static long getUnsignedInt(int x) {
+	public static long castInttoLong(int x) {
 		return x & 0x00000000ffffffffL;
 	}
 	
-	public static int getUsignedIntFromLong(long x) {
+	public static int castLongtoUInt(long x) {
 		return (int) (x & 0x00000000ffffffffL);
 	}	
 	
@@ -88,7 +93,10 @@ public class GenericUtils {
 	public static Long parseStringtoNumber(String input) {
 		Long value = 0L;
 		try {
-			if (input.startsWith("0x")) {
+			if((input == null) || input.isEmpty()){
+				value = 0L;
+			}
+			else if (input.startsWith("0x")) {
 				value = Long.parseLong(input.substring(2), 16);
 			} else if (input.startsWith("0b")) {
 				value = Long.parseLong(input.substring(2), 2);

@@ -125,6 +125,6 @@ public class BProUtils {
 	public static Long getFieldEnumValueSimpleXML(Element enumElement,Integer index){
 		NodeList listOfEnames = enumElement.getElementsByTagName("enum");
 		Node node = listOfEnames.item(index);
-		return GenericUtils.parseStringtoNumber(((Element)node).getElementsByTagName("evalue").item(0).getTextContent());
+		return GUtils.parseStringtoNumber(((Element)node).getElementsByTagName("evalue").item(0).getTextContent());
 	}	
 }

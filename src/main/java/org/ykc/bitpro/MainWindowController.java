@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.print.attribute.standard.PresentationDirection;
+
 import org.controlsfx.control.StatusBar;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -26,6 +28,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -46,6 +49,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class MainWindowController implements Initializable{
 
@@ -54,7 +58,7 @@ public class MainWindowController implements Initializable{
 
     @FXML // fx:id="mItemExit"
     private MenuItem mItemExit; // Value injected by FXMLLoader
-    
+
     @FXML // fx:id="bOpen"
     private Button bOpen; // Value injected by FXMLLoader
 
@@ -159,7 +163,7 @@ public class MainWindowController implements Initializable{
 
     @FXML // fx:id="gpaneLoadView"
     private GridPane gpaneLoadTab; // Value injected by FXMLLoader
-    
+
     @FXML // fx:id="tabSolver"
     private Tab tabSolver; // Value injected by FXMLLoader
 
@@ -173,8 +177,11 @@ public class MainWindowController implements Initializable{
     private TextField txtSolveShowDecimal; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtSolveShowBinary"
-    private TextField txtSolveShowBinary; // Value injected by FXMLLoader    
-    
+    private TextField txtSolveShowBinary; // Value injected by FXMLLoader
+
+    @FXML // fx:id="gPaneXsolveTab"
+    private GridPane gPaneXsolveTab; // Value injected by FXMLLoader
+
     @FXML
     void exitApplication(ActionEvent event) {
     	closeProgram();
@@ -182,9 +189,9 @@ public class MainWindowController implements Initializable{
 
 	@FXML
     void setPreferences(ActionEvent event) {
-    	
+
     }
-    
+
     @FXML
     void openBitFile(ActionEvent event) {
     	openBitFile();
@@ -230,17 +237,22 @@ public class MainWindowController implements Initializable{
     void moveUpBitField(ActionEvent event) {
     	moveUpBitField(tableViewCreate);
     }
-    
+
 
     @FXML
     void solveExpression(ActionEvent event) {
     	solveExpression();
     }
+    
+    @FXML
+    void showAboutMe(ActionEvent event) {
+    	displayAboutMe();
+    }
 
 	@FXML
     void displayBinaryLoadView(ActionEvent event) {
     	if(rbLoadViewBinary.isSelected() == true){
-    		LoadSimpleBPro.setRadix(GenericUtils.Radix.RADIX_BINARY);
+    		LoadSimpleBPro.setRadix(GUtils.Radix.RADIX_BINARY);
     		txtLoadTabData.fireEvent(event);
     	}
     }
@@ -248,7 +260,7 @@ public class MainWindowController implements Initializable{
     @FXML
     void displayDecimalLoadView(ActionEvent event) {
     	if(rbLoadViewDecimal.isSelected() == true){
-    		LoadSimpleBPro.setRadix(GenericUtils.Radix.RADIX_DECIMAL);
+    		LoadSimpleBPro.setRadix(GUtils.Radix.RADIX_DECIMAL);
     		txtLoadTabData.fireEvent(event);
     	}
     }
@@ -256,7 +268,7 @@ public class MainWindowController implements Initializable{
     @FXML
     void displayHexLoadView(ActionEvent event) {
     	if(rbLoadViewHex.isSelected() == true){
-    		LoadSimpleBPro.setRadix(GenericUtils.Radix.RADIX_HEX);
+    		LoadSimpleBPro.setRadix(GUtils.Radix.RADIX_HEX);
     		txtLoadTabData.fireEvent(event);
     	}
     }
@@ -264,19 +276,22 @@ public class MainWindowController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Preferences.loadPreferences();
+		txtSolveEnter.setText(Preferences.getxSolveLastData());
+		solveExpression();
 		enDisTabButtons(Preferences.getLastOpenTabName());
 		switch(Preferences.getLastOpenTabName())
 		{
 		case "tabLoad":
 			tabPaneMain.getSelectionModel().select(tabLoad);
 			loadFile(Preferences.getLastLoadedFile());
-			//Platform.runLater(()->loadFile(Preferences.getLastLoadedFile()));
 			break;
 		case "tabCreate":
 			tabPaneMain.getSelectionModel().select(tabCreate);
 			break;
 		case "tabCombine":
 			tabPaneMain.getSelectionModel().select(tabCombine);
+		case "tabSolver":
+			tabPaneMain.getSelectionModel().select(tabSolver);
 			break;
 		}
 		/* Link tableViewCreate to Modal class BitField */
@@ -305,8 +320,14 @@ public class MainWindowController implements Initializable{
 			        }
 			    }
 			);
+//		Stage stage = (Stage)borderPaneMainWindow.getScene().getWindow();
+//        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+//            public void handle(WindowEvent we) {
+//                System.out.println("Stage is closing");
+//            }
+//        });
 	}
-	
+
 	private void enDisTabButtons(String tabId){
 		if(tabId.equals("tabLoad"))
 		{
@@ -314,12 +335,17 @@ public class MainWindowController implements Initializable{
 			bSave.setDisable(true);
 			bLoad.setDisable(false);
 		}
+		else if(tabId.equals("tabSolver")){
+			bOpen.setDisable(true);
+			bSave.setDisable(true);
+			bLoad.setDisable(true);
+		}
 		else
 		{
 			bOpen.setDisable(false);
 			bSave.setDisable(false);
 			bLoad.setDisable(true);
-		}		
+		}
 	}
 
     void createBitFile() {
@@ -342,7 +368,7 @@ public class MainWindowController implements Initializable{
     		size = 64;
     	}
     	File file = BProUtils.saveBitFile(borderPaneMainWindow.getScene().getWindow());
-    	
+
         if (file != null) {
         	if(CreateBPro.createSimpleXML(file, txtBitProSimpleName.getText(), size, tableViewCreate, statusBar) == true)
         	{
@@ -359,7 +385,7 @@ public class MainWindowController implements Initializable{
     void openBitFile()
     {
     	File file = BProUtils.openBitFile(borderPaneMainWindow.getScene().getWindow());
- 
+
         if (file != null) {
     		tFieldName.clear();
     		tBitSize.clear();
@@ -457,7 +483,7 @@ public class MainWindowController implements Initializable{
 		if(lastFile != null)
 		{
 			/* Store data in temp file */
-			File tempFile = GenericUtils.getFileNewExtension(lastFile, "tmp");
+			File tempFile = GUtils.getFileNewExtension(lastFile, "tmp");
 			if(!tempFile.exists()){
 				try {
 					tempFile.createNewFile();
@@ -472,7 +498,7 @@ public class MainWindowController implements Initializable{
 				} catch (IOException e) {
 				}
 			}
-			
+
 		}
 	}
 	public void loadBitFile(){
@@ -482,11 +508,11 @@ public class MainWindowController implements Initializable{
         	statusBar.setText("Operation Cancelled");
 		}
 	}
-	
+
 	private boolean loadFile(File file){
         if (file != null) {
         	Preferences.setLastLoadedFile(file);
-        	File tmpFile = GenericUtils.getFileNewExtension(file, "tmp");
+        	File tmpFile = GUtils.getFileNewExtension(file, "tmp");
         	if(tmpFile.exists())
         	{
         		try {
@@ -519,31 +545,23 @@ public class MainWindowController implements Initializable{
         else
         {
         	return false;
-        }		
+        }
 	}
-	
+
     private void closeProgram() {
     	Preferences.storePreferences();
     	storeSimpleData();
-    	/* TODO : exit application */
-	}
-    
-    private void solveExpression() {
-		XpressionSolver x = new XpressionSolver();
-		Integer idx = 0;
-		String a = "";
-		if(x.x_solve(txtSolveEnter.getText(), a, idx) == true){
-			txtSolveShowDecimal.setText(a);
-			txtSolveShowHex.setText("0x" + Integer.parseInt(a, 16));
-			txtSolveShowBinary.setText("0b" + Integer.parseInt(a, 2));
-		}
-		else{
-			txtSolveShowDecimal.setText("Error in Parsing");
-			txtSolveShowHex.setText("Error in Parsing");
-			txtSolveShowBinary.setText("Error in Parsing");			
-		}
-		
+    	Platform.exit();
 	}
 
+    private void solveExpression() {
+		XpressionSolver x = new XpressionSolver();
+		x.solve(txtSolveEnter, txtSolveShowHex, txtSolveShowBinary, txtSolveShowDecimal, statusBar, gPaneXsolveTab);
+		Preferences.setxSolveLastData(txtSolveEnter.getText());
+	}
+    
+	private void displayAboutMe() {
+		MsgBox.display("About Me", "BitPro\nVersion: Alpha\nAuthor: Tejender Sheoran\nEmail: tejendersheoran@gmail.com\nCopyright(C) (2016-2017) Tejender Sheoran\nThis program is free software. You can redistribute it and/or modify it\nunder the terms of the GNU General Public License Ver 3.\n<http://www.gnu.org/licenses/>");		
+	}
 }
 

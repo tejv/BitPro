@@ -19,7 +19,16 @@ public class Preferences {
 	private static File lastDirectory = null;
 	private static File lastLoadedFile = null;
 	private static String lastOpenTabName = "tabCreate";
+	private static String xSolveLastData = "0";
 	
+	public static String getxSolveLastData() {
+		return xSolveLastData;
+	}
+
+	public static void setxSolveLastData(String xSolveLastData) {
+		Preferences.xSolveLastData = xSolveLastData;
+	}
+
 	public static String getLastOpenTabName() {
 		return lastOpenTabName;
 	}
@@ -89,6 +98,12 @@ public class Preferences {
 			{
 				lastLoadedFile = new File(fileName);
 			}	
+			
+			String xSolveDat = prefDoc.getElementsByTagName("xSolveLastData").item(0).getTextContent();
+			if(xSolveDat != null)
+			{
+				xSolveLastData = xSolveDat;
+			}				
 			return true;
 		} catch (Exception e) {
 			
@@ -122,6 +137,10 @@ public class Preferences {
 			lastLoadFile.setText("null");
 		}
 		theRoot.addContent(lastLoadFile);
+		
+		Element xsolveDat = new Element("xSolveLastData");
+		xsolveDat.setText(xSolveLastData);
+		theRoot.addContent(xsolveDat);
 		
 		XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
 		try {

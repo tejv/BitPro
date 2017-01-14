@@ -151,7 +151,7 @@ public class CreateBPro {
 			{
 				String[] x = part.split("=");
 				name = x[0].trim();
-				value = GenericUtils.parseStringtoNumber(x[1].trim());
+				value = GUtils.parseStringtoNumber(x[1].trim());
 			}
 			else
 			{

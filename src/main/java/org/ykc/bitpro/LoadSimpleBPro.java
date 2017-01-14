@@ -18,13 +18,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 public class LoadSimpleBPro {
-	private static GenericUtils.Radix radix = GenericUtils.Radix.RADIX_HEX;
+	private static GUtils.Radix radix = GUtils.Radix.RADIX_HEX;
 	private static Element curElement;
 	private static JFXTextField txtMain;
 	private static StatusBar status;
 	private static boolean isLoaded = false;
 
-	public static void setRadix(GenericUtils.Radix value) {
+	public static void setRadix(GUtils.Radix value) {
 		radix = value;
 	}
 	
@@ -102,7 +102,7 @@ public class LoadSimpleBPro {
 			if (e.getSource().equals(labelList.get(i))) {
 				Integer offset = BProUtils.getFieldOffsetSimpleXML(curElement, i);
 				Integer fsize = BProUtils.getFieldSizeSimpleXML(curElement, i);
-				Long mask = GenericUtils.get32bitMask(fsize);
+				Long mask = GUtils.get32bitMask(fsize);
 				String x = "Mask: 0x" + Long.toHexString(mask << offset);
 				x += ", Max: (0x" + Long.toHexString(mask) + ", " + mask.toString() + ", 0b"
 						+ Long.toBinaryString(mask) + ")";
@@ -117,27 +117,27 @@ public class LoadSimpleBPro {
 		for (Integer i = 0; i < comboList.size(); i++) {
 			Integer offset = BProUtils.getFieldOffsetSimpleXML(curElement, i);
 			Integer fsize = BProUtils.getFieldSizeSimpleXML(curElement, i);
-			Long mask = GenericUtils.get32bitMask(fsize);
-			Long result = (GenericUtils.parseStringtoNumber(getComboInput(comboList, i)) & mask);
+			Long mask = GUtils.get32bitMask(fsize);
+			Long result = (GUtils.parseStringtoNumber(getComboInput(comboList, i)) & mask);
 			value |= result << offset;
 			if(event.getSource().equals(comboList.get(i)))
 			{
 				comboList.get(i).getSelectionModel().clearSelection();
 				//continue;
 			}
-			comboList.get(i).setValue(GenericUtils.longToString(result, radix));
+			comboList.get(i).setValue(GUtils.longToString(result, radix));
 		}
-		txtMain.setText(GenericUtils.longToString(value, radix));
+		txtMain.setText(GUtils.longToString(value, radix));
 	}
 
 	private static void updateFieldTextLoadTab(ObservableList<JFXComboBox> comboList) {
-		Long value = GenericUtils.parseStringtoNumber(txtMain.getText());
+		Long value = GUtils.parseStringtoNumber(txtMain.getText());
 		for (Integer i = 0; i < comboList.size(); i++) {
 			Integer offset = BProUtils.getFieldOffsetSimpleXML(curElement, i);
 			Integer size = BProUtils.getFieldSizeSimpleXML(curElement, i);
-			comboList.get(i).setValue(GenericUtils.longToString(GenericUtils.getMaskValue(value, offset, size), radix));
+			comboList.get(i).setValue(GUtils.longToString(GUtils.getMaskValue(value, offset, size), radix));
 		}
-		txtMain.setText(GenericUtils.longToString(value, radix));
+		txtMain.setText(GUtils.longToString(value, radix));
 	}
 	
 	private static String getComboInput(ObservableList<JFXComboBox> comboList, Integer index){
