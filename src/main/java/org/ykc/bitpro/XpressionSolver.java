@@ -9,6 +9,7 @@ import org.controlsfx.control.StatusBar;
 import com.jfoenix.controls.JFXTextField;
 
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -338,6 +339,29 @@ public class XpressionSolver {
             }
         }
     }
+	public void reverseSolve(JFXTextField txtSolveEnter, TextField txtSolveShowHex, TextField txtSolveShowBinary,
+			TextField txtSolveShowDecimal, StatusBar statusBar, GridPane gPaneXsolveTab, ActionEvent event) {
+		String bString = "";
+		try {
+			for(Integer i = 0; i < 8; i++){
+				TextField txtField = getTextFieldByRowColumnIndex(1, i, gPaneXsolveTab);
+				String txtString = txtField.getText();
+				if(txtString.length() > 4){
+					statusBar.setText("Error: Max character exceeded in " + ((Integer)(i+1)).toString() + "th box");
+					return;
+				}
+				bString += txtString;
+			}
+			
+			txtSolveEnter.setText("0x" + Integer.toHexString(Integer.parseUnsignedInt(bString, 2)));
+			txtSolveEnter.fireEvent(event);
+		} catch (NumberFormatException e) {
+			statusBar.setText("Error in parsing");
+		}
+		
+		
+		
+	}
 
 
 }

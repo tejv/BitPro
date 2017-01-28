@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -196,6 +197,24 @@
                                     </AnchorPane>
                               </content>
                             </Tab>
+                            <Tab fx:id="tabParse" text="Parse">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <JFXTextArea fx:id="txtAreaParse" maxWidth="775.0" minWidth="775.0" prefHeight="321.0" prefWidth="775.0" promptText="Paste here" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <VBox alignment="BOTTOM_LEFT" prefHeight="51.0" prefWidth="775.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="323.0">
+                                             <children>
+                                                <ToolBar prefHeight="34.0" prefWidth="775.0">
+                                                  <items>
+                                                    <Button fx:id="bParseRegMap" mnemonicParsing="false" onAction="#parseSimpleRegmap" text="Parse Regmap" />
+                                                  </items>
+                                                </ToolBar>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
                             <Tab fx:id="tabCombine" text="Combine">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -309,7 +328,7 @@
                                                          </padding>
                                                          <font>
                                                             <Font name="System Bold" size="15.0" />
-                                                         </font>                                                         
+                                                         </font>
                                                       </Label>
                                                       <Label text="23..20" GridPane.columnIndex="2">
                                                          <padding>
@@ -317,7 +336,7 @@
                                                          </padding>
                                                          <font>
                                                             <Font name="System Bold" size="15.0" />
-                                                         </font>                                                         
+                                                         </font>
                                                       </Label>
                                                       <Label text="19..16" GridPane.columnIndex="3">
                                                          <padding>
@@ -325,7 +344,7 @@
                                                          </padding>
                                                          <font>
                                                             <Font name="System Bold" size="15.0" />
-                                                         </font>                                                         
+                                                         </font>
                                                       </Label>
                                                       <Label text="15..12" GridPane.columnIndex="4">
                                                          <padding>
@@ -333,7 +352,7 @@
                                                          </padding>
                                                          <font>
                                                             <Font name="System Bold" size="15.0" />
-                                                         </font>                                                         
+                                                         </font>
                                                       </Label>
                                                       <Label text="11...8" GridPane.columnIndex="5">
                                                          <padding>
@@ -341,7 +360,7 @@
                                                          </padding>
                                                          <font>
                                                             <Font name="System Bold" size="15.0" />
-                                                         </font>                                                         
+                                                         </font>
                                                       </Label>
                                                       <Label text="7....4" GridPane.columnIndex="6">
                                                          <padding>
@@ -349,7 +368,7 @@
                                                          </padding>
                                                          <font>
                                                             <Font name="System Bold" size="15.0" />
-                                                         </font>                                                         
+                                                         </font>
                                                       </Label>
                                                       <Label text="3....0" GridPane.columnIndex="7">
                                                          <padding>
@@ -357,16 +376,16 @@
                                                          </padding>
                                                          <font>
                                                             <Font name="System Bold" size="15.0" />
-                                                         </font>                                                         
+                                                         </font>
                                                       </Label>
-                                                      <TextField prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.rowIndex="1">
+                                                      <TextField onAction="#solveReverseExpression" prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.rowIndex="1">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
                                                          <GridPane.margin>
                                                             <Insets left="20.0" right="25.0" />
                                                          </GridPane.margin></TextField>
-                                                      <TextField prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                      <TextField onAction="#solveReverseExpression" prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
@@ -374,7 +393,7 @@
                                                             <Insets left="20.0" right="25.0" />
                                                          </GridPane.margin>
                                                       </TextField>
-                                                      <TextField prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                                      <TextField onAction="#solveReverseExpression" prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
@@ -382,7 +401,7 @@
                                                             <Insets left="20.0" right="25.0" />
                                                          </GridPane.margin>
                                                       </TextField>
-                                                      <TextField prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                                      <TextField onAction="#solveReverseExpression" prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
@@ -390,7 +409,7 @@
                                                             <Insets left="20.0" right="25.0" />
                                                          </GridPane.margin>
                                                       </TextField>
-                                                      <TextField prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                                                      <TextField onAction="#solveReverseExpression" prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="4" GridPane.rowIndex="1">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
@@ -398,7 +417,7 @@
                                                             <Insets left="20.0" right="25.0" />
                                                          </GridPane.margin>
                                                       </TextField>
-                                                      <TextField prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                                                      <TextField onAction="#solveReverseExpression" prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="5" GridPane.rowIndex="1">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
@@ -406,7 +425,7 @@
                                                             <Insets left="20.0" right="25.0" />
                                                          </GridPane.margin>
                                                       </TextField>
-                                                      <TextField prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                                                      <TextField onAction="#solveReverseExpression" prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="6" GridPane.rowIndex="1">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
@@ -414,7 +433,7 @@
                                                             <Insets left="20.0" right="25.0" />
                                                          </GridPane.margin>
                                                       </TextField>
-                                                      <TextField prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="7" GridPane.rowIndex="1">
+                                                      <TextField onAction="#solveReverseExpression" prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="7" GridPane.rowIndex="1">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
@@ -430,7 +449,7 @@
                                                             <Insets left="30.0" right="35.0" />
                                                          </GridPane.margin>
                                                          <font>
-                                                            <Font name="System Bold" size="15.0" />
+                                                            <Font name="System Italic" size="15.0" />
                                                          </font>
                                                       </TextField>
                                                       <TextField prefHeight="31.0" prefWidth="40.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -441,8 +460,8 @@
                                                             <Insets left="30.0" right="35.0" />
                                                          </GridPane.margin>
                                                          <font>
-                                                            <Font name="System Bold" size="15.0" />
-                                                         </font>                                                         
+                                                            <Font name="System Italic" size="15.0" />
+                                                         </font>
                                                       </TextField>
                                                       <TextField prefHeight="31.0" prefWidth="40.0" text="0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                                          <opaqueInsets>
@@ -452,8 +471,8 @@
                                                             <Insets left="30.0" right="35.0" />
                                                          </GridPane.margin>
                                                          <font>
-                                                            <Font name="System Bold" size="15.0" />
-                                                         </font>                                                         
+                                                            <Font name="System Italic" size="15.0" />
+                                                         </font>
                                                       </TextField>
                                                       <TextField prefHeight="31.0" prefWidth="40.0" text="0" GridPane.columnIndex="3" GridPane.rowIndex="2">
                                                          <opaqueInsets>
@@ -463,8 +482,8 @@
                                                             <Insets left="30.0" right="35.0" />
                                                          </GridPane.margin>
                                                          <font>
-                                                            <Font name="System Bold" size="15.0" />
-                                                         </font>                                                         
+                                                            <Font name="System Italic" size="15.0" />
+                                                         </font>
                                                       </TextField>
                                                       <TextField prefHeight="31.0" prefWidth="40.0" text="0" GridPane.columnIndex="4" GridPane.rowIndex="2">
                                                          <opaqueInsets>
@@ -474,8 +493,8 @@
                                                             <Insets left="30.0" right="35.0" />
                                                          </GridPane.margin>
                                                          <font>
-                                                            <Font name="System Bold" size="15.0" />
-                                                         </font>                                                         
+                                                            <Font name="System Italic" size="15.0" />
+                                                         </font>
                                                       </TextField>
                                                       <TextField prefHeight="31.0" prefWidth="40.0" text="0" GridPane.columnIndex="5" GridPane.rowIndex="2">
                                                          <opaqueInsets>
@@ -485,8 +504,8 @@
                                                             <Insets left="30.0" right="35.0" />
                                                          </GridPane.margin>
                                                          <font>
-                                                            <Font name="System Bold" size="15.0" />
-                                                         </font>                                                         
+                                                            <Font name="System Italic" size="15.0" />
+                                                         </font>
                                                       </TextField>
                                                       <TextField prefHeight="31.0" prefWidth="40.0" text="0" GridPane.columnIndex="6" GridPane.rowIndex="2">
                                                          <opaqueInsets>
@@ -496,8 +515,8 @@
                                                             <Insets left="30.0" right="35.0" />
                                                          </GridPane.margin>
                                                          <font>
-                                                            <Font name="System Bold" size="15.0" />
-                                                         </font>                                                         
+                                                            <Font name="System Italic" size="15.0" />
+                                                         </font>
                                                       </TextField>
                                                       <TextField prefHeight="31.0" prefWidth="40.0" text="0" GridPane.columnIndex="7" GridPane.rowIndex="2">
                                                          <opaqueInsets>
@@ -507,8 +526,8 @@
                                                             <Insets left="30.0" right="35.0" />
                                                          </GridPane.margin>
                                                          <font>
-                                                            <Font name="System Bold" size="15.0" />
-                                                         </font>                                                         
+                                                            <Font name="System Italic" size="15.0" />
+                                                         </font>
                                                       </TextField>
                                                    </children>
                                                 </GridPane>

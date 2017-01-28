@@ -8,14 +8,17 @@ import org.controlsfx.control.StatusBar;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
 
 import javax.xml.parsers.*;
 
 public class BProUtils {
 
-	public static File openBitFile(Window win){
+	public static File openBitFile(Window win, ObservableList<ExtensionFilter> extensionFilterslist){
 		FileChooser fileChooser = new FileChooser();
 	    fileChooser.setTitle("Open BitPro File");
 	    
@@ -24,9 +27,7 @@ public class BProUtils {
 	    	fileChooser.setInitialDirectory(Preferences.getLastDirectory());
 	    }
 	    
-	    fileChooser.getExtensionFilters().addAll(
-	            new FileChooser.ExtensionFilter("BitPro Files(*.bpro)", "*.bpro")
-	        );
+	    fileChooser.getExtensionFilters().addAll(extensionFilterslist);
 	    File file = fileChooser.showOpenDialog(win);
 	    if (file != null) {
 	    	Preferences.setLastDirectory(file.getParentFile());
@@ -34,7 +35,34 @@ public class BProUtils {
 	    return file;
 	}
 	
-	public static File saveBitFile(Window win){
+	public static File openSimpleBitFile(Window win){
+		ObservableList<ExtensionFilter> extensionFilters = FXCollections.observableArrayList();
+		extensionFilters.add(new ExtensionFilter("BitPro Files(*.spro)", "*.spro"));
+		return openBitFile(win, extensionFilters);
+	}
+
+	public static File openComplexBitFile(Window win){
+		ObservableList<ExtensionFilter> extensionFilters = FXCollections.observableArrayList();
+		extensionFilters.add(new ExtensionFilter("BitPro Files(*.bpro)", "*.bpro"));
+		return openBitFile(win, extensionFilters);
+	}
+	
+	public static File openBitFileForLoad(Window win){
+		
+		ObservableList<ExtensionFilter> extensionFilters = FXCollections.observableArrayList();
+		extensionFilters.add(new ExtensionFilter("BitPro Files(All Files)", "*.spro", "bpro", "*.bpro"));		
+		extensionFilters.add(new ExtensionFilter("BitPro Files(*.spro)", "*.spro"));
+		extensionFilters.add(new ExtensionFilter("BitPro Files(*.bpro)", "*.bpro"));		
+		return openBitFile(win, extensionFilters);
+	}	
+	
+	public static File openComplexDesignBitFile(Window win){
+		ObservableList<ExtensionFilter> extensionFilters = FXCollections.observableArrayList();
+		extensionFilters.add(new ExtensionFilter("BitPro Files(*.dpro)", "*.dpro"));
+		return openBitFile(win, extensionFilters);
+	}
+	
+	private static File saveFile(Window win, String initialName, String typeString1, String typeString2){
 		FileChooser fileChooser = new FileChooser();
 	    fileChooser.setTitle("Save BitPro File");
 	    
@@ -44,8 +72,10 @@ public class BProUtils {
 	    }
 	    
 	    fileChooser.getExtensionFilters().addAll(
-	            new FileChooser.ExtensionFilter("BitPro Files(*.bpro)", "*.bpro")
+	            new FileChooser.ExtensionFilter(typeString1, typeString2)
 	        );
+	    fileChooser.setInitialFileName(initialName);
+	    
 	    File file = fileChooser.showSaveDialog(win);
         if (file != null) {
         	if(!file.getName().contains(".")) {
@@ -54,6 +84,10 @@ public class BProUtils {
         	Preferences.setLastDirectory(file.getParentFile());
         }
 	    return file;
+	}	
+	
+	public static File saveSimpleBitFile(Window win, String initialName){
+		return saveFile(win, initialName, "BitPro Files(*.spro)", "*.spro");
 	}
 	
 	public static Document getDocument(File input) {

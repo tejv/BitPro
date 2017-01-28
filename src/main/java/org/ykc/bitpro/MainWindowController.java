@@ -19,6 +19,7 @@ import org.controlsfx.control.StatusBar;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.sun.glass.ui.Application;
 
@@ -182,6 +183,15 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="gPaneXsolveTab"
     private GridPane gPaneXsolveTab; // Value injected by FXMLLoader
 
+    @FXML // fx:id="txtAreaParse"
+    private JFXTextArea txtAreaParse; // Value injected by FXMLLoader
+
+    @FXML // fx:id="bParseRegMap"
+    private Button bParseRegMap; // Value injected by FXMLLoader
+
+    @FXML // fx:id="tabParse"
+    private Tab tabParse; // Value injected by FXMLLoader
+
     @FXML
     void exitApplication(ActionEvent event) {
     	closeProgram();
@@ -211,10 +221,10 @@ public class MainWindowController implements Initializable{
     void addBitField(ActionEvent event) {
     	if(addBitField(tableViewCreate, tFieldName.getText(), tBitSize.getText(), tDescription.getText(), tEnum.getText()) == true)
     	{
-    		tFieldName.clear();
-    		tBitSize.clear();
-    		tDescription.clear();
-    		tEnum.clear();
+//    		tFieldName.clear();
+//    		tBitSize.clear();
+//    		tDescription.clear();
+//    		tEnum.clear();
     	}
     }
 
@@ -243,8 +253,13 @@ public class MainWindowController implements Initializable{
     void solveExpression(ActionEvent event) {
     	solveExpression();
     }
-    
+
     @FXML
+    void solveReverseExpression(ActionEvent event) {
+    	solveReverseXpression(event);
+    }
+
+	@FXML
     void showAboutMe(ActionEvent event) {
     	displayAboutMe();
     }
@@ -273,6 +288,11 @@ public class MainWindowController implements Initializable{
     	}
     }
 
+    @FXML
+    void parseSimpleRegmap(ActionEvent event) {
+    	parseSimpleRegister(event);
+    }
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Preferences.loadPreferences();
@@ -290,8 +310,12 @@ public class MainWindowController implements Initializable{
 			break;
 		case "tabCombine":
 			tabPaneMain.getSelectionModel().select(tabCombine);
+			break;
 		case "tabSolver":
 			tabPaneMain.getSelectionModel().select(tabSolver);
+			break;
+		case "tabParse":
+			tabPaneMain.getSelectionModel().select(tabParse);
 			break;
 		}
 		/* Link tableViewCreate to Modal class BitField */
@@ -320,10 +344,10 @@ public class MainWindowController implements Initializable{
 			        }
 			    }
 			);
-//		Stage stage = (Stage)borderPaneMainWindow.getScene().getWindow();
-//        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+//		borderPaneMainWindow.getScene().getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
 //            public void handle(WindowEvent we) {
-//                System.out.println("Stage is closing");
+//                storeDataBeforeClose();
 //            }
 //        });
 	}
@@ -336,6 +360,12 @@ public class MainWindowController implements Initializable{
 			bLoad.setDisable(false);
 		}
 		else if(tabId.equals("tabSolver")){
+			bOpen.setDisable(true);
+			bSave.setDisable(true);
+			bLoad.setDisable(true);
+		}
+		else if(tabId.equals("tabParse"))
+		{
 			bOpen.setDisable(true);
 			bSave.setDisable(true);
 			bLoad.setDisable(true);
@@ -367,7 +397,7 @@ public class MainWindowController implements Initializable{
     	{
     		size = 64;
     	}
-    	File file = BProUtils.saveBitFile(borderPaneMainWindow.getScene().getWindow());
+    	File file = BProUtils.saveSimpleBitFile(borderPaneMainWindow.getScene().getWindow(), txtBitProSimpleName.getText());
 
         if (file != null) {
         	if(CreateBPro.createSimpleXML(file, txtBitProSimpleName.getText(), size, tableViewCreate, statusBar) == true)
@@ -384,7 +414,7 @@ public class MainWindowController implements Initializable{
 
     void openBitFile()
     {
-    	File file = BProUtils.openBitFile(borderPaneMainWindow.getScene().getWindow());
+    	File file = BProUtils.openSimpleBitFile(borderPaneMainWindow.getScene().getWindow());
 
         if (file != null) {
     		tFieldName.clear();
@@ -503,7 +533,7 @@ public class MainWindowController implements Initializable{
 	}
 	public void loadBitFile(){
 		storeSimpleData();
-		File file = BProUtils.openBitFile(borderPaneMainWindow.getScene().getWindow());
+		File file = BProUtils.openBitFileForLoad(borderPaneMainWindow.getScene().getWindow());
 		if(loadFile(file) == false){
         	statusBar.setText("Operation Cancelled");
 		}
@@ -548,9 +578,13 @@ public class MainWindowController implements Initializable{
         }
 	}
 
-    private void closeProgram() {
+	public void storeDataBeforeClose(){
     	Preferences.storePreferences();
     	storeSimpleData();
+	}
+
+    private void closeProgram() {
+    	storeDataBeforeClose();
     	Platform.exit();
 	}
 
@@ -559,9 +593,26 @@ public class MainWindowController implements Initializable{
 		x.solve(txtSolveEnter, txtSolveShowHex, txtSolveShowBinary, txtSolveShowDecimal, statusBar, gPaneXsolveTab);
 		Preferences.setxSolveLastData(txtSolveEnter.getText());
 	}
-    
+
 	private void displayAboutMe() {
-		MsgBox.display("About Me", "BitPro\nVersion: Alpha\nAuthor: Tejender Sheoran\nEmail: tejendersheoran@gmail.com\nCopyright(C) (2016-2017) Tejender Sheoran\nThis program is free software. You can redistribute it and/or modify it\nunder the terms of the GNU General Public License Ver 3.\n<http://www.gnu.org/licenses/>");		
+		MsgBox.display("About Me", "BitPro\nVersion: Alpha\nAuthor: Tejender Sheoran\nEmail: tejendersheoran@gmail.com\nCopyright(C) (2016-2017) Tejender Sheoran\nThis program is free software. You can redistribute it and/or modify it\nunder the terms of the GNU General Public License Ver 3.\n<http://www.gnu.org/licenses/>");
+	}
+
+    private void solveReverseXpression(ActionEvent event) {
+		XpressionSolver x = new XpressionSolver();
+		x.reverseSolve(txtSolveEnter, txtSolveShowHex, txtSolveShowBinary, txtSolveShowDecimal, statusBar, gPaneXsolveTab, event);
+		Preferences.setxSolveLastData(txtSolveEnter.getText());
+
+	}
+
+	private void parseSimpleRegister(ActionEvent event) {
+		if(ParseSimpleRegister.parse(txtAreaParse, statusBar, tableViewCreate, txtBitProSimpleName, rbCreateView32bit) == true)
+		{
+			tabPaneMain.getSelectionModel().select(tabCreate);
+			bSave.fireEvent(event);
+		}
+
+
 	}
 }
 
