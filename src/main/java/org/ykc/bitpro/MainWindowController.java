@@ -33,6 +33,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
@@ -191,6 +192,9 @@ public class MainWindowController implements Initializable{
 
     @FXML // fx:id="tabParse"
     private Tab tabParse; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="lbNameLoadView"
+    private Label lbNameLoadView; // Value injected by FXMLLoader
 
     @FXML
     void exitApplication(ActionEvent event) {
@@ -536,6 +540,9 @@ public class MainWindowController implements Initializable{
 		File file = BProUtils.openBitFileForLoad(borderPaneMainWindow.getScene().getWindow());
 		if(loadFile(file) == false){
         	statusBar.setText("Operation Cancelled");
+		}
+		else{
+			lbNameLoadView.setText(file.getName());
 		}
 	}
 

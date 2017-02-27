@@ -235,9 +235,17 @@
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                              <children>
-                                                <ToolBar prefHeight="34.0" prefWidth="593.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                  <items>
-                                                    <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="71.0" text="Button" />
+                                                <ToolBar prefHeight="37.0" prefWidth="593.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <items>
+                                                      <Label fx:id="lbNameLoadView" text="Name">
+                                                         <font>
+                                                            <Font name="System Bold" size="15.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </items>
+                                                </ToolBar>
+                                                <ToolBar prefHeight="53.0" prefWidth="616.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="36.0">
+                                                   <items>
                                                       <RadioButton fx:id="rbLoadViewHex" mnemonicParsing="false" onAction="#displayHexLoadView" selected="true" text="Hex">
                                                          <toggleGroup>
                                                             <ToggleGroup fx:id="toggleGroupRadixSelect" />
@@ -245,14 +253,14 @@
                                                       </RadioButton>
                                                       <RadioButton fx:id="rbLoadViewDecimal" mnemonicParsing="false" onAction="#displayDecimalLoadView" text="Decimal" toggleGroup="$toggleGroupRadixSelect" />
                                                       <RadioButton fx:id="rbLoadViewBinary" mnemonicParsing="false" onAction="#displayBinaryLoadView" text="Binary" toggleGroup="$toggleGroupRadixSelect" />
-                                                  </items>
+                                                   </items>
                                                 </ToolBar>
-                                                <VBox layoutY="44.0" prefHeight="38.0" prefWidth="616.0" AnchorPane.bottomAnchor="291.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="44.0">
+                                                <VBox layoutY="89.0" prefHeight="95.0" prefWidth="616.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="89.0">
                                                    <children>
-                                                      <JFXTextField fx:id="txtLoadTabData" maxWidth="616.0" minWidth="616.0" prefHeight="33.0" prefWidth="616.0" promptText="Value" />
+                                                      <JFXTextField fx:id="txtLoadTabData" maxWidth="616.0" minWidth="616.0" prefHeight="38.0" prefWidth="616.0" promptText="Value" />
                                                    </children>
                                                 </VBox>
-                                                <ScrollPane layoutY="80.0" pannable="true" prefHeight="293.0" prefWidth="616.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+                                                <ScrollPane layoutY="130.0" pannable="true" prefHeight="293.0" prefWidth="616.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
                                                    <content>
                                                       <GridPane fx:id="gpaneLoadTab" hgap="20.0" prefWidth="593.0" vgap="10.0">
                                                         <columnConstraints>
