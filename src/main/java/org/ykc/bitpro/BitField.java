@@ -12,7 +12,7 @@ public class BitField {
 		{
 			throw new Exception("Invalid Parameters");
 		}
-			
+
 		this.name = name;
 		this.size = size;
 		this.desc = desc;

@@ -133,19 +133,19 @@ public class MainWindowController implements Initializable{
     private Button bCreateViewDown; // Value injected by FXMLLoader
 
     @FXML // fx:id="tableViewCreate"
-    private TableView<BitField> tableViewCreate; // Value injected by FXMLLoader
+    private TableView<BFieldSimpleRow> tableViewCreate; // Value injected by FXMLLoader
 
     @FXML // fx:id="tCreateColFieldName"
-    private TableColumn<BitField, String> tCreateColFieldName; // Value injected by FXMLLoader
+    private TableColumn<BFieldSimpleRow, String> tCreateColFieldName; // Value injected by FXMLLoader
 
     @FXML // fx:id="tCreateColBitSize"
-    private TableColumn<BitField, Integer> tCreateColBitSize; // Value injected by FXMLLoader
+    private TableColumn<BFieldSimpleRow, Integer> tCreateColBitSize; // Value injected by FXMLLoader
 
     @FXML // fx:id="tCreateColDesc"
-    private TableColumn<BitField, String> tCreateColDesc; // Value injected by FXMLLoader
+    private TableColumn<BFieldSimpleRow, String> tCreateColDesc; // Value injected by FXMLLoader
 
     @FXML // fx:id="tCreateColEnum"
-    private TableColumn<BitField, String> tCreateColEnum; // Value injected by FXMLLoader
+    private TableColumn<BFieldSimpleRow, String> tCreateColEnum; // Value injected by FXMLLoader
 
     @FXML // fx:id="rbLoadViewHex"
     private RadioButton rbLoadViewHex; // Value injected by FXMLLoader
@@ -326,7 +326,7 @@ public class MainWindowController implements Initializable{
 		tableViewCreate.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		tableViewCreate.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 		    if (newSelection != null) {
-		    	BitField x = tableViewCreate.getSelectionModel().getSelectedItem();
+		    	BFieldSimpleRow x = tableViewCreate.getSelectionModel().getSelectedItem();
 		    	tFieldName.setText(x.getName());
 	    		tBitSize.setText(x.getSize().toString());
 	    		tDescription.setText(x.getDesc());
@@ -437,11 +437,11 @@ public class MainWindowController implements Initializable{
 
     }
 
-	public boolean addBitField(TableView<BitField> tableViewCreate, String name, String size, String desc, String enums)
+	public boolean addBitField(TableView<BFieldSimpleRow> tableViewCreate, String name, String size, String desc, String enums)
 	{
-		BitField row;
+		BFieldSimpleRow row;
 		try {
-			row = new BitField(name, Integer.parseInt(size), desc, enums);
+			row = new BFieldSimpleRow(name, size, desc, enums);
 		} catch (Exception e) {
 			statusBar.setText("Invalid Entry");
 			return false;
@@ -451,16 +451,16 @@ public class MainWindowController implements Initializable{
 		return true;
 	}
 
-	public boolean modifyBitField(TableView<BitField> tableViewCreate, String name, String size, String desc, String enums)
+	public boolean modifyBitField(TableView<BFieldSimpleRow> tableViewCreate, String name, String size, String desc, String enums)
 	{
-		BitField row;
+		BFieldSimpleRow row;
 		try {
-			row = new BitField(name, Integer.parseInt(size), desc, enums);
+			row = new BFieldSimpleRow(name, size, desc, enums);
 		} catch (Exception e) {
 			statusBar.setText("Invalid Entry");
 			return false;
 		}
-		BitField x = tableViewCreate.getSelectionModel().getSelectedItem();
+		BFieldSimpleRow x = tableViewCreate.getSelectionModel().getSelectedItem();
 		x.setName(row.getName());
 		x.setDesc(row.getDesc());
 		x.setEnums(row.getEnums());
@@ -474,27 +474,27 @@ public class MainWindowController implements Initializable{
 	}
 
 
-	public void removeBitField(TableView<BitField> tableViewCreate)
+	public void removeBitField(TableView<BFieldSimpleRow> tableViewCreate)
 	{
-        ObservableList<BitField> selectedItems;
+        ObservableList<BFieldSimpleRow> selectedItems;
         selectedItems = tableViewCreate.getSelectionModel().getSelectedItems();
         tableViewCreate.getItems().removeAll(selectedItems);
 	}
 
-	public void moveUpBitField(TableView<BitField> tableViewCreate)
+	public void moveUpBitField(TableView<BFieldSimpleRow> tableViewCreate)
 	{
         int selectedIndex = tableViewCreate.getSelectionModel().getSelectedIndex();
         if(selectedIndex <= 0)
         {
         	return;
         }
-        BitField removedItem = tableViewCreate.getItems().remove(selectedIndex);
+        BFieldSimpleRow removedItem = tableViewCreate.getItems().remove(selectedIndex);
         int newIndex = selectedIndex - 1;
         tableViewCreate.getItems().add(newIndex, removedItem);
         tableViewCreate.getSelectionModel().clearAndSelect(newIndex);
 	}
 
-	public void moveDownBitField(TableView<BitField> tableViewCreate)
+	public void moveDownBitField(TableView<BFieldSimpleRow> tableViewCreate)
 	{
         int selectedIndex = tableViewCreate.getSelectionModel().getSelectedIndex();
         int maxIndex = tableViewCreate.getItems().size() - 1;
@@ -502,7 +502,7 @@ public class MainWindowController implements Initializable{
         {
         	return;
         }
-        BitField removedItem = tableViewCreate.getItems().remove(selectedIndex);
+        BFieldSimpleRow removedItem = tableViewCreate.getItems().remove(selectedIndex);
         int newIndex = selectedIndex + 1;
         tableViewCreate.getItems().add(newIndex, removedItem);
         tableViewCreate.getSelectionModel().clearAndSelect(newIndex);

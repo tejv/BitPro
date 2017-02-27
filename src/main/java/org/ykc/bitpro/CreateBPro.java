@@ -16,7 +16,7 @@ import javafx.scene.control.TableView;
 
 public class CreateBPro {
 	private static StatusBar status;
-	public static boolean createSimpleXML(File fileName, String name, Integer struct_size, TableView<BitField> table, StatusBar statusBar)
+	public static boolean createSimpleXML(File fileName, String name, Integer struct_size, TableView<BFieldSimpleRow> table, StatusBar statusBar)
 	{
 		status = statusBar;
 		if(name.trim().isEmpty() || (struct_size > 64))
@@ -47,19 +47,19 @@ public class CreateBPro {
 		size.setText(struct_size.toString());
 		head.addContent(size);
 		Integer offset = 0;
-		for(BitField row: table.getItems())
+		for(BFieldSimpleRow row: table.getItems())
 		{
-			if((offset + row.getSize()) > struct_size)
+			if((offset + row.getLen()) > struct_size)
 			{
 				status.setText("Error in parsing: Max size limit exceeded");
 				return false;
 			}
-			if(writeFieldXML(body, row.getName(), row.getSize(), row.getDesc(), row.getEnums(), offset) == false)
+			if(writeFieldXML(body, row.getName(), row.getLen(), row.getDesc(), row.getEnums(), offset) == false)
 			{
 				status.setText("Error in parsing: Field Parse Error");
 				return false;
 			}
-			offset += row.getSize();
+			offset += row.getLen();
 		}
 
 		XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());

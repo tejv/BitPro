@@ -14,7 +14,7 @@ import javafx.scene.control.ToggleGroup;
 
 public class OpenBPro {
 	
-	public static boolean openSimpleXML(File fileName, JFXTextField name, ToggleGroup toggleGroup, TableView<BitField> table){
+	public static boolean openSimpleXML(File fileName, JFXTextField name, ToggleGroup toggleGroup, TableView<BFieldSimpleRow> table){
 		table.getItems().clear();
 		Document xmlDoc = BProUtils.getDocument(fileName);
 		if((xmlDoc == null) || (!xmlDoc.getElementsByTagName("stype").item(0).getTextContent().matches("simple")))
@@ -41,7 +41,7 @@ public class OpenBPro {
 		return openRows(xmlDoc,table);
 	}
 
-	private static boolean openRows(Document xmlDoc, TableView<BitField> table)
+	private static boolean openRows(Document xmlDoc, TableView<BFieldSimpleRow> table)
 	{
 		NodeList listOfFields = xmlDoc.getElementsByTagName("field");
 		for(int i=0; i < listOfFields.getLength(); i++){
@@ -51,16 +51,16 @@ public class OpenBPro {
 		return true;
 	}
 
-	private static boolean openRow(Node node, TableView<BitField> table)
+	private static boolean openRow(Node node, TableView<BFieldSimpleRow> table)
 	{
-		BitField x;
+		BFieldSimpleRow x;
 		try {
-			x = new BitField("Error",1,"","");
+			x = new BFieldSimpleRow("Error","1","","");
 		} catch (Exception e) {
 			return false;
 		}
 		x.setName(((Element)node).getElementsByTagName("fname").item(0).getTextContent());
-		x.setSize(Integer.parseInt(((Element)node).getElementsByTagName("fsize").item(0).getTextContent()));
+		x.setSize(((Element)node).getElementsByTagName("fsize").item(0).getTextContent());
 		x.setDesc(((Element)node).getElementsByTagName("fdesc").item(0).getTextContent());
 		x.setEnums(openEnums((Element)(((Element)node).getElementsByTagName("fenum").item(0))));
 		table.getItems().add(x);
