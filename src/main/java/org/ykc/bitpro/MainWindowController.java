@@ -317,11 +317,11 @@ public class MainWindowController implements Initializable{
 		txtSolveEnter.setText(Preferences.getxSolveLastData());
 		solveExpression();
 		enDisTabButtons(Preferences.getLastOpenTabName());
+		loadFile(Preferences.getLastLoadedFile());
 		switch(Preferences.getLastOpenTabName())
 		{
 		case "tabLoad":
 			tabPaneMain.getSelectionModel().select(tabLoad);
-			loadFile(Preferences.getLastLoadedFile());
 			break;
 		case "tabCreate":
 			tabPaneMain.getSelectionModel().select(tabCreate);
@@ -335,7 +335,7 @@ public class MainWindowController implements Initializable{
 		case "tabParse":
 			tabPaneMain.getSelectionModel().select(tabParse);
 			break;
-		}
+		}		
 		/* Link tableViewCreate to Modal class BitField */
 		tCreateColFieldName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		tCreateColBitSize.setCellValueFactory(new PropertyValueFactory<>("size"));
