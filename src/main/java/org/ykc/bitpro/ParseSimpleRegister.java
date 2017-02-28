@@ -42,7 +42,7 @@ public class ParseSimpleRegister {
 					bList.add(bField);
 				}
 			}
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
 			statusBar.setText("Parsing Failed");
 			return false;
 		}

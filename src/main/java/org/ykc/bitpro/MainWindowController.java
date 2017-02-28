@@ -195,7 +195,12 @@ public class MainWindowController implements Initializable{
     
     @FXML // fx:id="lbNameLoadView"
     private Label lbNameLoadView; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="aPaneMain"
+    private AnchorPane aPaneMain; // Value injected by FXMLLoader
 
+    private Stage myStage;
+    
     @FXML
     void exitApplication(ActionEvent event) {
     	closeProgram();
@@ -296,6 +301,15 @@ public class MainWindowController implements Initializable{
     void parseSimpleRegmap(ActionEvent event) {
     	parseSimpleRegister(event);
     }
+    
+    public void setStage(Stage stage) {
+        myStage = stage;
+		myStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+		      public void handle(WindowEvent we) {
+		    	  storeDataBeforeClose();
+		      }
+		  });
+   }
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -347,13 +361,7 @@ public class MainWindowController implements Initializable{
 			        	Preferences.setLastOpenTabName(newTab.getId());
 			        }
 			    }
-			);
-
-//		borderPaneMainWindow.getScene().getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
-//            public void handle(WindowEvent we) {
-//                storeDataBeforeClose();
-//            }
-//        });
+			);	
 	}
 
 	private void enDisTabButtons(String tabId){
@@ -540,10 +548,7 @@ public class MainWindowController implements Initializable{
 		File file = BProUtils.openBitFileForLoad(borderPaneMainWindow.getScene().getWindow());
 		if(loadFile(file) == false){
         	statusBar.setText("Operation Cancelled");
-		}
-		else{
-			lbNameLoadView.setText(file.getName());
-		}
+		}		
 	}
 
 	private boolean loadFile(File file){
@@ -577,6 +582,7 @@ public class MainWindowController implements Initializable{
         	{
         		statusBar.setText("Load Failed");
         	}
+        	lbNameLoadView.setText(file.getName());
         	return true;
         }
         else

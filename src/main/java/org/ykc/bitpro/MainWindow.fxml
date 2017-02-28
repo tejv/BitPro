@@ -67,7 +67,7 @@
       <StatusBar fx:id="statusBar" prefWidth="880.0" BorderPane.alignment="CENTER" />
    </bottom>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="aPaneMain" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <SplitPane fx:id="splitPaneFileExplorer" dividerPositions="0.1" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <items>
@@ -260,7 +260,7 @@
                                                       <JFXTextField fx:id="txtLoadTabData" maxWidth="616.0" minWidth="616.0" prefHeight="38.0" prefWidth="616.0" promptText="Value" />
                                                    </children>
                                                 </VBox>
-                                                <ScrollPane layoutY="130.0" pannable="true" prefHeight="293.0" prefWidth="616.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+                                                <ScrollPane layoutY="130.0" pannable="true" prefHeight="293.0" prefWidth="616.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="130.0">
                                                    <content>
                                                       <GridPane fx:id="gpaneLoadTab" hgap="20.0" prefWidth="593.0" vgap="10.0">
                                                         <columnConstraints>
