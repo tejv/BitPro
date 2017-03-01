@@ -10,7 +10,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 import javax.print.attribute.standard.PresentationDirection;
@@ -192,15 +194,15 @@ public class MainWindowController implements Initializable{
 
     @FXML // fx:id="tabParse"
     private Tab tabParse; // Value injected by FXMLLoader
-    
+
     @FXML // fx:id="lbNameLoadView"
     private Label lbNameLoadView; // Value injected by FXMLLoader
-    
+
     @FXML // fx:id="aPaneMain"
     private AnchorPane aPaneMain; // Value injected by FXMLLoader
 
     private Stage myStage;
-    
+
     @FXML
     void exitApplication(ActionEvent event) {
     	closeProgram();
@@ -301,7 +303,7 @@ public class MainWindowController implements Initializable{
     void parseSimpleRegmap(ActionEvent event) {
     	parseSimpleRegister(event);
     }
-    
+
     public void setStage(Stage stage) {
         myStage = stage;
 		myStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -335,7 +337,7 @@ public class MainWindowController implements Initializable{
 		case "tabParse":
 			tabPaneMain.getSelectionModel().select(tabParse);
 			break;
-		}		
+		}
 		/* Link tableViewCreate to Modal class BitField */
 		tCreateColFieldName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		tCreateColBitSize.setCellValueFactory(new PropertyValueFactory<>("size"));
@@ -361,7 +363,7 @@ public class MainWindowController implements Initializable{
 			        	Preferences.setLastOpenTabName(newTab.getId());
 			        }
 			    }
-			);	
+			);
 	}
 
 	private void enDisTabButtons(String tabId){
@@ -548,7 +550,7 @@ public class MainWindowController implements Initializable{
 		File file = BProUtils.openBitFileForLoad(borderPaneMainWindow.getScene().getWindow());
 		if(loadFile(file) == false){
         	statusBar.setText("Operation Cancelled");
-		}		
+		}
 	}
 
 	private boolean loadFile(File file){
@@ -608,7 +610,17 @@ public class MainWindowController implements Initializable{
 	}
 
 	private void displayAboutMe() {
-		MsgBox.display("About Me", "BitPro\nVersion: Alpha\nAuthor: Tejender Sheoran\nEmail: tejendersheoran@gmail.com\nCopyright(C) (2016-2017) Tejender Sheoran\nThis program is free software. You can redistribute it and/or modify it\nunder the terms of the GNU General Public License Ver 3.\n<http://www.gnu.org/licenses/>");
+		Properties prop = new Properties();
+		InputStream input;
+		try {
+			input = getClass().getResource("/version.properties").openStream();
+			prop.load(input);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String ver = prop.getProperty("MAJOR_VERSION") + "."+ prop.getProperty("MINOR_VERSION") + "." + prop.getProperty("BUILD_NO");
+		MsgBox.display("About Me", "BitPro\nVersion: "+ ver +"\nAuthor: Tejender Sheoran\nEmail: tejendersheoran@gmail.com\nCopyright(C) (2016-2017) Tejender Sheoran\nThis program is free software. You can redistribute it and/or modify it\nunder the terms of the GNU General Public License Ver 3.\n<http://www.gnu.org/licenses/>");
 	}
 
     private void solveReverseXpression(ActionEvent event) {

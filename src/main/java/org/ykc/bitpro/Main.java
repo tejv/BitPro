@@ -16,12 +16,12 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));		
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainWindow.fxml"));
 			BorderPane root = (BorderPane) loader.load();
 			MainWindowController controller = (MainWindowController)loader.getController();
-			controller.setStage(primaryStage);				
+			controller.setStage(primaryStage);
 			Scene scene = new Scene(root,900,700);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("BitPro");
 			primaryStage.getIcons().add(new Image("file:/main_app_icon.png"));
