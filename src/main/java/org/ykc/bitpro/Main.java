@@ -27,7 +27,6 @@ public class Main extends Application {
 			primaryStage.getIcons().add(new Image("file:/main_app_icon.png"));
 			primaryStage.show();
 
-
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

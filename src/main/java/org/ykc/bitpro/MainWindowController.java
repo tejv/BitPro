@@ -71,6 +71,9 @@ public class MainWindowController implements Initializable{
 
     @FXML // fx:id="bLoad"
     private Button bLoad; // Value injected by FXMLLoader
+    
+    @FXML
+    private Button bGenMacros;
 
     @FXML // fx:id="statusBar"
     private StatusBar statusBar; // Value injected by FXMLLoader
@@ -202,6 +205,7 @@ public class MainWindowController implements Initializable{
     private AnchorPane aPaneMain; // Value injected by FXMLLoader
 
     private Stage myStage;
+    private File curLoadedFile = null;
 
     @FXML
     void exitApplication(ActionEvent event) {
@@ -303,6 +307,11 @@ public class MainWindowController implements Initializable{
     void parseSimpleRegmap(ActionEvent event) {
     	parseSimpleRegister(event);
     }
+    
+    @FXML
+    void generateMacros(ActionEvent event) {
+    	genMacros(event);
+    }    
 
     public void setStage(Stage stage) {
         myStage = stage;
@@ -311,8 +320,8 @@ public class MainWindowController implements Initializable{
 		    	  storeDataBeforeClose();
 		      }
 		  });
-   }
-
+    }
+    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Preferences.loadPreferences();
@@ -372,23 +381,27 @@ public class MainWindowController implements Initializable{
 			bOpen.setDisable(true);
 			bSave.setDisable(true);
 			bLoad.setDisable(false);
+			bGenMacros.setDisable(false);
 		}
 		else if(tabId.equals("tabSolver")){
 			bOpen.setDisable(true);
 			bSave.setDisable(true);
 			bLoad.setDisable(true);
+			bGenMacros.setDisable(true);
 		}
 		else if(tabId.equals("tabParse"))
 		{
 			bOpen.setDisable(true);
 			bSave.setDisable(true);
 			bLoad.setDisable(true);
+			bGenMacros.setDisable(true);
 		}
 		else
 		{
 			bOpen.setDisable(false);
 			bSave.setDisable(false);
 			bLoad.setDisable(true);
+			bGenMacros.setDisable(true);
 		}
 	}
 
@@ -549,6 +562,7 @@ public class MainWindowController implements Initializable{
 		storeSimpleData();
 		File file = BProUtils.openBitFileForLoad(borderPaneMainWindow.getScene().getWindow());
 		if(loadFile(file) == false){
+			curLoadedFile = null;
         	statusBar.setText("Operation Cancelled");
 		}
 	}
@@ -585,6 +599,7 @@ public class MainWindowController implements Initializable{
         		statusBar.setText("Load Failed");
         	}
         	lbNameLoadView.setText(file.getName());
+    		curLoadedFile = file;
         	return true;
         }
         else
@@ -636,8 +651,15 @@ public class MainWindowController implements Initializable{
 			tabPaneMain.getSelectionModel().select(tabCreate);
 			bSave.fireEvent(event);
 		}
-
-
+	}
+	
+	private void genMacros(ActionEvent event){
+		if(curLoadedFile != null){
+			MacroView.display("Generated Macros", MacroGenerator.run(curLoadedFile));
+		}
+		else {
+			statusBar.setText("Operation Fail: No file loaded");
+		}
 	}
 }
 
