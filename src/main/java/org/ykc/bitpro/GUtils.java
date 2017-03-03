@@ -3,6 +3,8 @@ package org.ykc.bitpro;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import org.apache.commons.io.FilenameUtils;
+
 import com.jfoenix.controls.JFXTextField;
 
 import javafx.collections.ObservableList;
@@ -25,7 +27,7 @@ public class GUtils {
 	public static String getSubString(String x, int start, int length) {
 	    return x.substring(start, Math.min(start + length, x.length()));
 	}
-	
+
 	public static byte uint16_get_lsb(int input) {
 		return (byte) (input & 0xFF);
 	}
@@ -65,11 +67,11 @@ public class GUtils {
 	public static long castInttoLong(int x) {
 		return x & 0x00000000ffffffffL;
 	}
-	
+
 	public static int castLongtoUInt(long x) {
 		return (int) (x & 0x00000000ffffffffL);
-	}	
-	
+	}
+
 	public static Long getLRightShift(Long x, Integer shift) {
 		return x >>> shift;
 	}
@@ -108,7 +110,7 @@ public class GUtils {
 		}
 		return value;
 	}
-	
+
 	public static String longToString(Long value, Radix radix){
 		String x = "";
 		switch (radix) {
@@ -123,20 +125,53 @@ public class GUtils {
 			break;
 		}
 		return x;
-	}	
-	
+	}
+
 	public static File getFileNewExtension(File input, String extension){
-		String nameString = input.getName();	
+		String nameString = input.getName();
 		String[] partsStrings = nameString.split("\\.");
 		String newFile = input.getParentFile() + "\\" + partsStrings[0] + "." + extension;
 		return new File(newFile);
-		
+
 	}
-	
+
+	public static String getFileExtension(File input){
+		String outString = "";
+		if(input.exists())
+		{
+			outString = FilenameUtils.getExtension(input.getName());
+		}
+		return outString;
+	}
+
 	public static void main(String[] args) {
-		
+
 		getFileNewExtension(new File(System.getProperty("user.home"), "BitPro/preferences/app.xml"), "temp");
 	}
 	
+	public static String fixedLengthStringRightAlign(String string, int length) {
+	    return String.format("%1$"+length+ "s", string);
+	}
+	public static String fixedLengthStringLeftAlign(String string, int length) {
+		int appendLen = length -string.length();
+		
+		if(appendLen > 0){
+			for(int i = 0; i < appendLen; i++ ){
+				string += " ";
+			}
+		}
+		return string;
+	}
+	
+	public static String intToHexWithPadding(Integer input, Integer max_size){
+		if(max_size <= 8){
+			return String.format("%02x", input);
+		}else if(max_size <= 16){
+			return String.format("%04x", input);
+		}
+		else{
+			return String.format("%08x", input);
+		}
+	}
 
 }

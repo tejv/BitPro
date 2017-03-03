@@ -107,6 +107,14 @@ public class BProUtils {
 		return null;
 	}
 
+	public static String getNameSimpleXML(Element simpleElement){
+		return simpleElement.getElementsByTagName("sname").item(0).getTextContent();
+	}
+	
+	public static Integer getLengthSimpleXML(Element simpleElement){
+		return Integer.parseInt(simpleElement.getElementsByTagName("slen").item(0).getTextContent());
+	}	
+	
 	public static Integer getMaxFieldsSimpleXML(Element simpleElement){
 		return simpleElement.getElementsByTagName("field").getLength();
 	}

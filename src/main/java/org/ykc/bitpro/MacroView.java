@@ -3,6 +3,8 @@ package org.ykc.bitpro;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.control.*;
 import javafx.geometry.*;
 
@@ -16,6 +18,8 @@ public class MacroView {
         window.setMinWidth(250);
 
         TextArea area = new TextArea();
+        //area.setStyle("-fx-font-family: Consolas");
+        area.setFont(Font.font("Consolas", FontWeight.NORMAL, 20));
         area.setEditable(false);
         area.setText(message.toString());
         
