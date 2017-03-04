@@ -20,7 +20,16 @@ public class Preferences {
 	private static File lastLoadedFile = null;
 	private static String lastOpenTabName = "tabCreate";
 	private static String xSolveLastData = "0";
+	private static String loadViewPrefixValue = "";
 	
+	public static String getLoadViewPrefixValue() {
+		return loadViewPrefixValue;
+	}
+
+	public static void setLoadViewPrefixValue(String loadViewPrefixValue) {
+		Preferences.loadViewPrefixValue = loadViewPrefixValue;
+	}
+
 	public static String getxSolveLastData() {
 		return xSolveLastData;
 	}
@@ -103,7 +112,11 @@ public class Preferences {
 			if(xSolveDat != null)
 			{
 				xSolveLastData = xSolveDat;
-			}				
+			}
+			String temp = prefDoc.getElementsByTagName("lastLoadViewPrefix").item(0).getTextContent();
+			if(temp != null){
+				loadViewPrefixValue = temp;
+			}
 			return true;
 		} catch (Exception e) {
 			
@@ -141,6 +154,10 @@ public class Preferences {
 		Element xsolveDat = new Element("xSolveLastData");
 		xsolveDat.setText(xSolveLastData);
 		theRoot.addContent(xsolveDat);
+		
+		Element loadPrefix = new Element("lastLoadViewPrefix");
+		loadPrefix.setText(loadViewPrefixValue);
+		theRoot.addContent(loadPrefix);
 		
 		XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
 		try {

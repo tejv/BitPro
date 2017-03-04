@@ -11,7 +11,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class MacroGenerator {
-	public static StringBuilder run(File file){
+	public static StringBuilder run(File file, String prefix){
 		StringBuilder xBuilder = new StringBuilder();
 		addPreface(xBuilder);
 
@@ -24,29 +24,32 @@ public class MacroGenerator {
     			return xBuilder;
     		}
     		Element sElement = (Element)(xmlDoc.getElementsByTagName("simple").item(0));
-			genMacrosSPRO(xBuilder, sElement);
+			genMacrosSPRO(xBuilder, sElement, prefix);
 		}
 		return xBuilder;
 	}
 
 	private static void addPreface(StringBuilder xBuilder){
-		String prefaceString = "Auto Generated File ";
+		String prefaceString = "BitPro Auto Generated File ";
 		DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 		Date dateobj = new Date();
 		prefaceString += df.format(dateobj) + "\n";
 		xBuilder.append(prefaceString);
 	}
-	
-	private static void genMacrosSPRO(StringBuilder xBuilder, Element sElement) {
+
+	private static void genMacrosSPRO(StringBuilder xBuilder, Element sElement, String prefix) {
+
+		genPosMaskSPRO(xBuilder,sElement, prefix);
+		genFormationMacroSPRO(xBuilder,sElement);
+		genEnumSPRO(xBuilder, sElement);
 		genStructSPRO(xBuilder, sElement);
-		genPosMaskSPRO(xBuilder,sElement);
 	}
 
 	private static void genStructSPRO(StringBuilder xBuilder, Element sElement) {
 		String nameString = BProUtils.getNameSimpleXML(sElement).toLowerCase();
 		xBuilder.append("/**\n");
-		xBuilder.append(" * @union " + nameString + "_t"+ "\n");
-		xBuilder.append(" * @brief \n");
+		xBuilder.append(" * @typedef " + nameString + "_t"+ "\n");
+		xBuilder.append(" * @brief Union to \n");
 		xBuilder.append(" */\n");
 		xBuilder.append("typedef union\n{\n    ");
 		String tString = getLenType(BProUtils.getLengthSimpleXML(sElement));
@@ -57,7 +60,7 @@ public class MacroGenerator {
 		xBuilder.append("    }field;\n");
 		xBuilder.append("}" + nameString + "_t;\n");
 	}
-	
+
 	private static String getLenType(Integer len){
 		if(len == 8){
 			return "uint8_t";
@@ -69,7 +72,7 @@ public class MacroGenerator {
 			return "uint32_t";
 		}
 	}
-	
+
 	private static void getfieldsSPRO(StringBuilder xBuilder, Element sElement, String tString){
 		int maxStringSize = 0;
 		for(int i = 0; i < BProUtils.getMaxFieldsSimpleXML(sElement); i++){
@@ -77,17 +80,17 @@ public class MacroGenerator {
 			if(size > maxStringSize){
 				maxStringSize = size;
 			}
-		}		
-		
+		}
+
 		for(int i = 0; i < BProUtils.getMaxFieldsSimpleXML(sElement); i++){
-			
+
 			String a = "        " + tString + " " + BProUtils.getFieldNameSimpleXML(sElement, i).toLowerCase();
 			String b = ":" + BProUtils.getFieldSizeSimpleXML(sElement, i).toString() + ";";
 			String desc = BProUtils.getFieldDescSimpleXML(sElement, i);
 			String c ="";
 			if(!desc.trim().isEmpty())
 			{
-				c = "/**<" + BProUtils.getFieldDescSimpleXML(sElement, i)+ " */";
+				c = "/**< " + BProUtils.getFieldDescSimpleXML(sElement, i)+ " */";
 			}
 			a = GUtils.fixedLengthStringLeftAlign(a, (maxStringSize + 30));
 			b = GUtils.fixedLengthStringLeftAlign(b, 6);
@@ -95,8 +98,8 @@ public class MacroGenerator {
 			xBuilder.append("\n");
 		}
 	}
-	
-	private static void genPosMaskSPRO(StringBuilder xBuilder, Element sElement) {
+
+	private static void genPosMaskSPRO(StringBuilder xBuilder, Element sElement, String prefix) {
 		xBuilder.append("\n/* Macros */\n");
 		Integer len = BProUtils.getLengthSimpleXML(sElement);
 		int maxStringSize = 0;
@@ -105,11 +108,11 @@ public class MacroGenerator {
 			if(size > maxStringSize){
 				maxStringSize = size;
 			}
-		}		
-		
+		}
+
 		for(int i = 0; i < BProUtils.getMaxFieldsSimpleXML(sElement); i++){
-			String prefix = "";
-			String name = prefix + BProUtils.getFieldNameSimpleXML(sElement, i).toUpperCase();
+			String prefixString = prefix.trim();
+			String name = prefixString + BProUtils.getFieldNameSimpleXML(sElement, i).toUpperCase();
 			String a = "#define " + name;
 			String a1 = a + "_MASK";
 			String a2 = a + "_POS";
@@ -118,7 +121,7 @@ public class MacroGenerator {
 			Integer offset = BProUtils.getFieldOffsetSimpleXML(sElement, i);
 			Integer mask = (int) (GUtils.get32bitMask(size) << offset);
 			Integer pos_mask = (int) (1 << offset);
-			
+
 			String b1 = "(0x" + GUtils.intToHexWithPadding(mask, len) + ")";
 			String b2 = "(" + offset.toString() + ")";
 			String b3 = "(0x" + GUtils.intToHexWithPadding(pos_mask, len) + ")";
@@ -134,8 +137,80 @@ public class MacroGenerator {
 			}
 			xBuilder.append("\n\n");
 		}
-		
-	}	
+	}
 
+	private static void genFormationMacroSPRO(StringBuilder xBuilder, Element sElement) {
+		xBuilder.append("\n/* Formation Macros */\n");
+		String name = "FORM_" + BProUtils.getNameSimpleXML(sElement).toUpperCase();
+		String a = "#define " + name + "(";
+		int len1 = a.length();
+		int maxStringSize = 0;
+		for(int i = 0; i < BProUtils.getMaxFieldsSimpleXML(sElement); i++){
+			int size = BProUtils.getFieldNameSimpleXML(sElement, i).length();
+			if(size > maxStringSize){
+				maxStringSize = size;
+			}
+		}
+
+		for(int i = 0; i < BProUtils.getMaxFieldsSimpleXML(sElement); i++){
+			if(i != 0){
+				a += GUtils.fixedLengthStringLeftAlign(",", (maxStringSize + 1 - BProUtils.getFieldNameSimpleXML(sElement, i-1).length()));
+				a += "  \\\n";
+				a += GUtils.fixedLengthStringLeftAlign(" ", len1);
+			}
+
+			a += BProUtils.getFieldNameSimpleXML(sElement, i);
+		}
+		a += ")" + GUtils.fixedLengthStringLeftAlign(" ", (maxStringSize + 3 - BProUtils.getFieldNameSimpleXML(sElement, BProUtils.getMaxFieldsSimpleXML(sElement)-1).length()));
+
+		int len = len1 + maxStringSize + 4;
+		String temp = "";
+
+		for(int i = 0; i < BProUtils.getMaxFieldsSimpleXML(sElement); i++){
+
+			if(i != 0){
+				a += " |";
+				a += GUtils.fixedLengthStringLeftAlign(" ", (maxStringSize + 11 - temp.length()));
+				a += "    \\\n";
+				a += GUtils.fixedLengthStringLeftAlign(" ", len + 4);
+			}else{
+				a += "    ";
+			}
+			temp = "(("+ BProUtils.getFieldNameSimpleXML(sElement, i).toLowerCase()+ ") << " +
+				      BProUtils.getFieldOffsetSimpleXML(sElement, i).toString() + ")";
+			a += temp;
+		}
+		xBuilder.append(a);
+		xBuilder.append("\n\n");
+	}
+
+	private static void genEnumSPRO(StringBuilder xBuilder, Element sElement) {
+
+		for(int i = 0; i < BProUtils.getMaxFieldsSimpleXML(sElement); i++){
+
+			Element xElement = BProUtils.getFieldEnumSimpleXML(sElement, i);
+			if(xElement.hasAttribute("at_ename"))
+			{
+				String nameString = xElement.getAttribute("at_ename");
+
+				xBuilder.append("/**\n");
+				xBuilder.append(" * @typedef " + nameString + "_t"+ "\n");
+				xBuilder.append(" * @brief Enum to \n");
+				xBuilder.append(" */\n");
+				xBuilder.append("typedef enum\n{\n");
+				for(int j = 0; j < BProUtils.getFieldEnumCountSimpleXML(sElement, i); j++){
+					xBuilder.append("    " + BProUtils.getFieldEnumNameSimpleXML(xElement, j) + " = " + BProUtils.getFieldEnumValueStringSimpleXML(xElement, j));
+					if(j !=  (BProUtils.getFieldEnumCountSimpleXML(sElement, i) -1)){
+						xBuilder.append(",\n");
+					}
+					else{
+						xBuilder.append("\n");
+					}
+				}
+				xBuilder.append("}" + nameString + "_t;\n\n");
+			}
+		}
+
+	}
 }
 

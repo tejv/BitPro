@@ -204,6 +204,9 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="aPaneMain"
     private AnchorPane aPaneMain; // Value injected by FXMLLoader
 
+    @FXML // fx:id="txtLoadViewPrefix"
+    private TextField txtLoadViewPrefix; // Value injected by FXMLLoader
+    
     private Stage myStage;
     private File curLoadedFile = null;
 
@@ -325,6 +328,7 @@ public class MainWindowController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Preferences.loadPreferences();
+		txtLoadViewPrefix.setText(Preferences.getLoadViewPrefixValue());
 		txtSolveEnter.setText(Preferences.getxSolveLastData());
 		solveExpression();
 		enDisTabButtons(Preferences.getLastOpenTabName());
@@ -609,6 +613,7 @@ public class MainWindowController implements Initializable{
 	}
 
 	public void storeDataBeforeClose(){
+		Preferences.setLoadViewPrefixValue(txtLoadViewPrefix.getText());
     	Preferences.storePreferences();
     	storeSimpleData();
 	}
@@ -655,7 +660,7 @@ public class MainWindowController implements Initializable{
 	
 	private void genMacros(ActionEvent event){
 		if(curLoadedFile != null){
-			MacroView.display("Generated Macros", MacroGenerator.run(curLoadedFile));
+			MacroView.display("Generated Macros", MacroGenerator.run(curLoadedFile, txtLoadViewPrefix.getText()));
 		}
 		else {
 			statusBar.setText("Operation Fail: No file loaded");

@@ -168,5 +168,10 @@ public class BProUtils {
 		NodeList listOfEnames = enumElement.getElementsByTagName("enum");
 		Node node = listOfEnames.item(index);
 		return GUtils.parseStringtoNumber(((Element)node).getElementsByTagName("evalue").item(0).getTextContent());
-	}	
+	}
+	public static String getFieldEnumValueStringSimpleXML(Element enumElement,Integer index){
+		NodeList listOfEnames = enumElement.getElementsByTagName("enum");
+		Node node = listOfEnames.item(index);
+		return ((Element)node).getElementsByTagName("evalue").item(0).getTextContent();
+	}		
 }
