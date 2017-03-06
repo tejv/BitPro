@@ -8,7 +8,7 @@ import com.jfoenix.controls.JFXTextArea;
 
 import javafx.scene.control.TextArea;
 
-public class FnGenerator {
+public class FSMGenerator {
 	public static StringBuilder run(String namePrefix, String prefix, String postfix,
 			JFXTextArea txtAreaStateNames, JFXTextArea txtAreaEventNames){
 		StringBuilder xBuilder = new StringBuilder();

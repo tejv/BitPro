@@ -227,7 +227,13 @@ public class MainWindowController implements Initializable{
 
     @FXML // fx:id="tabUtils"
     private Tab tabUtils; // Value injected by FXMLLoader
-    
+
+    @FXML // fx:id="txtAreaUtilGen"
+    private JFXTextArea txtAreaUtilGen; // Value injected by FXMLLoader
+
+    @FXML // fx:id="bUtilsGenSwitch"
+    private Button bUtilsGenSwitch; // Value injected by FXMLLoader
+
     private Stage myStage;
     private File curLoadedFile = null;
 
@@ -340,6 +346,11 @@ public class MainWindowController implements Initializable{
     @FXML
     void utilsGenFunction(ActionEvent event) {
     	utilsGenerateFn(event);
+    }
+
+    @FXML
+    void utilsGenSwitchCase(ActionEvent event) {
+    	utilsGenerateSwitchCase(event);
     }
 
 	public void setStage(Stage stage) {
@@ -702,8 +713,12 @@ public class MainWindowController implements Initializable{
 	}
 
     private void utilsGenerateFn(ActionEvent event) {
-		MacroView.display("Generated objects", FnGenerator.run(txtUtilsFnNamePrefix.getText(),
+		MacroView.display("Generated Code", FSMGenerator.run(txtUtilsFnNamePrefix.getText(),
 				txtUtilsFnPrefix.getText(), txtUtilsFnPostFix.getText(), txtAreaUtil1StateNames, txtAreaUtil1EventNames));
+	}
+
+	private void utilsGenerateSwitchCase(ActionEvent event) {
+		MacroView.display("Generated Code", SwitchCaseGenerator.run(txtAreaUtilGen));
 	}
 
 }

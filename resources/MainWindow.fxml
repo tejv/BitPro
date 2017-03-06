@@ -619,7 +619,38 @@
                                                       </AnchorPane>
                                                    </content>
                                                 </Tab>
-                                              <Tab text="Generator2" />
+                                              <Tab text="Gen">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                         <children>
+                                                            <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                               <center>
+                                                                  <AnchorPane>
+                                                                     <children>
+                                                                        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="248.0" prefWidth="775.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                           <content>
+                                                                              <JFXTextArea fx:id="txtAreaUtilGen" maxHeight="1.7976931348623157E308" maxWidth="775.0" minWidth="775.0" prefHeight="321.0" prefWidth="775.0" promptText="Paste here" />
+                                                                           </content>
+                                                                        </ScrollPane>
+                                                                     </children>
+                                                                  </AnchorPane>
+                                                               </center>
+                                                               <bottom>
+                                                                  <VBox alignment="BOTTOM_LEFT" prefHeight="51.0" prefWidth="775.0" BorderPane.alignment="CENTER">
+                                                                     <children>
+                                                                        <ToolBar prefHeight="34.0" prefWidth="775.0" />
+                                                                        <ToolBar prefHeight="34.0" prefWidth="775.0">
+                                                                           <items>
+                                                                              <Button fx:id="bUtilsGenSwitch" mnemonicParsing="false" onAction="#utilsGenSwitchCase" text="Switch Case" />
+                                                                           </items>
+                                                                        </ToolBar>
+                                                                     </children>
+                                                                  </VBox>
+                                                               </bottom>
+                                                            </BorderPane>
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content></Tab>
                                             </tabs>
                                           </TabPane>
                                        </children>
