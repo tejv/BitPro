@@ -201,16 +201,26 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <JFXTextArea fx:id="txtAreaParse" maxWidth="775.0" minWidth="775.0" prefHeight="321.0" prefWidth="775.0" promptText="Paste here" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                          <VBox alignment="BOTTOM_LEFT" prefHeight="51.0" prefWidth="775.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="323.0">
-                                             <children>
-                                                <ToolBar prefHeight="34.0" prefWidth="775.0">
-                                                  <items>
-                                                    <Button fx:id="bParseRegMap" mnemonicParsing="false" onAction="#parseSimpleRegmap" text="Parse Regmap" />
-                                                  </items>
-                                                </ToolBar>
-                                             </children>
-                                          </VBox>
+                                          <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <center>
+                                                <ScrollPane fitToHeight="true" fitToWidth="true">
+                                                   <content>
+                                                      <JFXTextArea fx:id="txtAreaParse" maxWidth="775.0" minWidth="775.0" prefHeight="321.0" prefWidth="775.0" promptText="Paste here" />
+                                                   </content>
+                                                </ScrollPane>
+                                             </center>
+                                             <bottom>
+                                                <VBox alignment="BOTTOM_LEFT" prefHeight="51.0" prefWidth="775.0" BorderPane.alignment="CENTER">
+                                                   <children>
+                                                      <ToolBar prefHeight="34.0" prefWidth="775.0">
+                                                        <items>
+                                                          <Button fx:id="bParseRegMap" mnemonicParsing="false" onAction="#parseSimpleRegmap" text="Parse Regmap" />
+                                                        </items>
+                                                      </ToolBar>
+                                                   </children>
+                                                </VBox>
+                                             </bottom>
+                                          </BorderPane>
                                        </children>
                                     </AnchorPane>
                               </content>
@@ -556,11 +566,62 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                            <content>
-                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                                            </content>
-                                          </ScrollPane>
+                                          <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <tabs>
+                                              <Tab text="FSM">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                         <children>
+                                                            <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                               <center>
+                                                                  <AnchorPane>
+                                                                     <children>
+                                                                        <SplitPane dividerPositions="0.5" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                           <items>
+                                                                              <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="248.0" prefWidth="775.0">
+                                                                                 <content>
+                                                                                    <JFXTextArea fx:id="txtAreaUtil1StateNames" maxHeight="1.7976931348623157E308" maxWidth="775.0" minWidth="775.0" prefHeight="321.0" prefWidth="775.0" promptText="Paste here list of states (One state in one line) Just the state name, Proper prefix will be automatically added" />
+                                                                                 </content>
+                                                                              </ScrollPane>
+                                                                              <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="119.0" prefWidth="775.0">
+                                                                                 <content>
+                                                                                    <JFXTextArea fx:id="txtAreaUtil1EventNames" maxWidth="775.0" minWidth="775.0" prefHeight="321.0" prefWidth="775.0" promptText="Paste here list of events(One event in one line) Just the event, Proper prefix will be automatically added" />
+                                                                                 </content>
+                                                                              </ScrollPane>
+                                                                           </items>
+                                                                        </SplitPane>
+                                                                     </children>
+                                                                  </AnchorPane>
+                                                               </center>
+                                                               <bottom>
+                                                                  <VBox alignment="BOTTOM_LEFT" prefHeight="51.0" prefWidth="775.0" BorderPane.alignment="CENTER">
+                                                                     <children>
+                                                                        <ToolBar prefHeight="34.0" prefWidth="775.0">
+                                                                           <items>
+                                                                              <Label text="Name" />
+                                                                              <TextField fx:id="txtUtilsFnNamePrefix" promptText="FSM Name" />
+                                                                              <Label text="Fn Prefix" />
+                                                                              <TextField fx:id="txtUtilsFnPrefix" promptText="Prefix" />
+                                                                              <Label text="Fn Prefix" />
+                                                                              <TextField fx:id="txtUtilsFnPostFix" promptText="Postfix" />
+                                                                           </items>
+                                                                        </ToolBar>
+                                                                        <ToolBar prefHeight="34.0" prefWidth="775.0">
+                                                                           <items>
+                                                                              <Button fx:id="bUtilsGenerateFn" mnemonicParsing="false" onAction="#utilsGenFunction" text="FSM Func" />
+                                                                           </items>
+                                                                        </ToolBar>
+                                                                     </children>
+                                                                  </VBox>
+                                                               </bottom>
+                                                            </BorderPane>
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                </Tab>
+                                              <Tab text="Generator2" />
+                                            </tabs>
+                                          </TabPane>
                                        </children>
                                     </AnchorPane>
                               </content>

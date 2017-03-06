@@ -71,7 +71,7 @@ public class MainWindowController implements Initializable{
 
     @FXML // fx:id="bLoad"
     private Button bLoad; // Value injected by FXMLLoader
-    
+
     @FXML
     private Button bGenMacros;
 
@@ -206,6 +206,27 @@ public class MainWindowController implements Initializable{
 
     @FXML // fx:id="txtLoadViewPrefix"
     private TextField txtLoadViewPrefix; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtAreaUtil1StateNames"
+    private JFXTextArea txtAreaUtil1StateNames; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtAreaUtil1EventNames"
+    private JFXTextArea txtAreaUtil1EventNames; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtUtilsFnPrefix"
+    private TextField txtUtilsFnPrefix; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtUtilsFnPostFix"
+    private TextField txtUtilsFnPostFix; // Value injected by FXMLLoader
+
+    @FXML // fx:id="bUtilsGenerateFn"
+    private Button bUtilsGenerateFn; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtUtilsFnNamePrefix"
+    private TextField txtUtilsFnNamePrefix; // Value injected by FXMLLoader
+
+    @FXML // fx:id="tabUtils"
+    private Tab tabUtils; // Value injected by FXMLLoader
     
     private Stage myStage;
     private File curLoadedFile = null;
@@ -310,13 +331,18 @@ public class MainWindowController implements Initializable{
     void parseSimpleRegmap(ActionEvent event) {
     	parseSimpleRegister(event);
     }
-    
+
     @FXML
     void generateMacros(ActionEvent event) {
     	genMacros(event);
-    }    
+    }
 
-    public void setStage(Stage stage) {
+    @FXML
+    void utilsGenFunction(ActionEvent event) {
+    	utilsGenerateFn(event);
+    }
+
+	public void setStage(Stage stage) {
         myStage = stage;
 		myStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 		      public void handle(WindowEvent we) {
@@ -324,11 +350,14 @@ public class MainWindowController implements Initializable{
 		      }
 		  });
     }
-    
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Preferences.loadPreferences();
 		txtLoadViewPrefix.setText(Preferences.getLoadViewPrefixValue());
+		txtUtilsFnNamePrefix.setText(Preferences.getUtilsFnNamePrefixString());
+		txtUtilsFnPrefix.setText(Preferences.getUtilsFnPrefixString());
+		txtUtilsFnPostFix.setText(Preferences.getUtilsFnPostfixString());
 		txtSolveEnter.setText(Preferences.getxSolveLastData());
 		solveExpression();
 		enDisTabButtons(Preferences.getLastOpenTabName());
@@ -349,6 +378,8 @@ public class MainWindowController implements Initializable{
 			break;
 		case "tabParse":
 			tabPaneMain.getSelectionModel().select(tabParse);
+		case "tabUtils":
+			tabPaneMain.getSelectionModel().select(tabUtils);
 			break;
 		}
 		/* Link tableViewCreate to Modal class BitField */
@@ -387,7 +418,7 @@ public class MainWindowController implements Initializable{
 			bLoad.setDisable(false);
 			bGenMacros.setDisable(false);
 		}
-		else if(tabId.equals("tabSolver")){
+		else if( (tabId.equals("tabSolver") )|| (tabId.equals("tabUtils")) ){
 			bOpen.setDisable(true);
 			bSave.setDisable(true);
 			bLoad.setDisable(true);
@@ -614,6 +645,9 @@ public class MainWindowController implements Initializable{
 
 	public void storeDataBeforeClose(){
 		Preferences.setLoadViewPrefixValue(txtLoadViewPrefix.getText());
+		Preferences.setUtilsFnNamePrefixString(txtUtilsFnNamePrefix.getText());
+		Preferences.setUtilsFnPrefixString(txtUtilsFnPrefix.getText());
+		Preferences.setUtilsFnPostfixString(txtUtilsFnPostFix.getText());
     	Preferences.storePreferences();
     	storeSimpleData();
 	}
@@ -657,7 +691,7 @@ public class MainWindowController implements Initializable{
 			bSave.fireEvent(event);
 		}
 	}
-	
+
 	private void genMacros(ActionEvent event){
 		if(curLoadedFile != null){
 			MacroView.display("Generated Macros", MacroGenerator.run(curLoadedFile, txtLoadViewPrefix.getText()));
@@ -666,5 +700,11 @@ public class MainWindowController implements Initializable{
 			statusBar.setText("Operation Fail: No file loaded");
 		}
 	}
+
+    private void utilsGenerateFn(ActionEvent event) {
+		MacroView.display("Generated objects", FnGenerator.run(txtUtilsFnNamePrefix.getText(),
+				txtUtilsFnPrefix.getText(), txtUtilsFnPostFix.getText(), txtAreaUtil1StateNames, txtAreaUtil1EventNames));
+	}
+
 }
 

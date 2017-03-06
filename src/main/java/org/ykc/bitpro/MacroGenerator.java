@@ -112,6 +112,9 @@ public class MacroGenerator {
 
 		for(int i = 0; i < BProUtils.getMaxFieldsSimpleXML(sElement); i++){
 			String prefixString = prefix.trim();
+			if(!prefixString.isEmpty()){
+				prefixString += "_";
+			}
 			String name = prefixString + BProUtils.getFieldNameSimpleXML(sElement, i).toUpperCase();
 			String a = "#define " + name;
 			String a1 = a + "_MASK";

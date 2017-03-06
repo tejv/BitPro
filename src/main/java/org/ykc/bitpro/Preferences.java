@@ -21,7 +21,34 @@ public class Preferences {
 	private static String lastOpenTabName = "tabCreate";
 	private static String xSolveLastData = "0";
 	private static String loadViewPrefixValue = "";
+	private static String utilsFnNamePrefixString = "";
+	private static String utilsFnPrefixString = "";
+	private static String utilsFnPostfixString = "";
 	
+	public static String getUtilsFnNamePrefixString() {
+		return utilsFnNamePrefixString;
+	}
+
+	public static void setUtilsFnNamePrefixString(String utilsFnNamePrefixString) {
+		Preferences.utilsFnNamePrefixString = utilsFnNamePrefixString;
+	}
+
+	public static String getUtilsFnPrefixString() {
+		return utilsFnPrefixString;
+	}
+
+	public static void setUtilsFnPrefixString(String utilsFnPrefixString) {
+		Preferences.utilsFnPrefixString = utilsFnPrefixString;
+	}
+
+	public static String getUtilsFnPostfixString() {
+		return utilsFnPostfixString;
+	}
+
+	public static void setUtilsFnPostfixString(String utilsFnPostfixString) {
+		Preferences.utilsFnPostfixString = utilsFnPostfixString;
+	}
+
 	public static String getLoadViewPrefixValue() {
 		return loadViewPrefixValue;
 	}
@@ -117,6 +144,21 @@ public class Preferences {
 			if(temp != null){
 				loadViewPrefixValue = temp;
 			}
+			
+			temp = prefDoc.getElementsByTagName("lastUtilsGen1FnNamePrefix").item(0).getTextContent();
+			if(temp != null){
+				utilsFnNamePrefixString = temp;
+			}
+			
+			temp = prefDoc.getElementsByTagName("lastUtilsGen1FnPrefix").item(0).getTextContent();
+			if(temp != null){
+				utilsFnPrefixString = temp;
+			}
+			
+			temp = prefDoc.getElementsByTagName("lastUtilsGen1FnPostfix").item(0).getTextContent();
+			if(temp != null){
+				utilsFnPostfixString = temp;
+			}
 			return true;
 		} catch (Exception e) {
 			
@@ -158,6 +200,18 @@ public class Preferences {
 		Element loadPrefix = new Element("lastLoadViewPrefix");
 		loadPrefix.setText(loadViewPrefixValue);
 		theRoot.addContent(loadPrefix);
+		
+		Element fnNamePrefix = new Element("lastUtilsGen1FnNamePrefix");
+		fnNamePrefix.setText(utilsFnNamePrefixString);
+		theRoot.addContent(fnNamePrefix);	
+		
+		Element fnPrefix = new Element("lastUtilsGen1FnPrefix");
+		fnPrefix.setText(utilsFnPrefixString);
+		theRoot.addContent(fnPrefix);
+		
+		Element fnPostfix = new Element("lastUtilsGen1FnPostfix");
+		fnPostfix.setText(utilsFnPostfixString);
+		theRoot.addContent(fnPostfix);
 		
 		XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
 		try {
