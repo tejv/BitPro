@@ -268,10 +268,7 @@
                                                 </ToolBar>
                                                 <VBox layoutY="89.0" prefHeight="95.0" prefWidth="616.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="89.0">
                                                    <children>
-                                                      <JFXTextField fx:id="txtLoadTabData" maxWidth="616.0" minWidth="616.0" prefHeight="38.0" prefWidth="616.0" promptText="Value">
-                                                         <padding>
-                                                            <Insets left="10.0" />
-                                                         </padding></JFXTextField>
+                                                      <TextField fx:id="txtLoadTabData" prefHeight="42.0" prefWidth="616.0" promptText="Value" />
                                                    </children>
                                                 </VBox>
                                                 <ScrollPane layoutY="130.0" pannable="true" prefHeight="293.0" prefWidth="616.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="130.0">
@@ -303,13 +300,10 @@
                                        <children>
                                           <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
-                                                <JFXTextField fx:id="txtSolveEnter" onAction="#solveExpression" promptText="Enter expression here">
+                                                <TextField fx:id="txtSolveEnter" onAction="#solveExpression" promptText="Enter expression here">
                                                    <font>
                                                       <Font size="18.0" />
-                                                   </font>
-                                                   <padding>
-                                                      <Insets left="10.0" />
-                                                   </padding></JFXTextField>
+                                                   </font></TextField>
                                                 <TextField fx:id="txtSolveShowHex">
                                                    <font>
                                                       <Font size="18.0" />

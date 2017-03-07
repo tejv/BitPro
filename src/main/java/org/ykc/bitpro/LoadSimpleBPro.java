@@ -14,13 +14,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 public class LoadSimpleBPro {
 	private static GUtils.Radix radix = GUtils.Radix.RADIX_HEX;
 	private static Element curElement;
-	private static JFXTextField txtMain;
+	private static TextField txtMain;
 	private static StatusBar status;
 	private static boolean isLoaded = false;
 
@@ -31,7 +32,7 @@ public class LoadSimpleBPro {
 	public static boolean isLoaded(){
 		return isLoaded;
 	}
-	public static boolean loadSimpleXML(Element simpleElement, JFXTextField txtData, GridPane gPane,
+	public static boolean loadSimpleXML(Element simpleElement, TextField txtData, GridPane gPane,
 			StatusBar statusBar) {
 		isLoaded = true;
 		gPane.getChildren().clear();

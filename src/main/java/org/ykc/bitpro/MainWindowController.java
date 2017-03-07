@@ -166,7 +166,7 @@ public class MainWindowController implements Initializable{
     private RadioButton rbLoadViewBinary; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtLoadTabData"
-    private JFXTextField txtLoadTabData; // Value injected by FXMLLoader
+    private TextField txtLoadTabData; // Value injected by FXMLLoader
 
     @FXML // fx:id="gpaneLoadView"
     private GridPane gpaneLoadTab; // Value injected by FXMLLoader
@@ -175,7 +175,7 @@ public class MainWindowController implements Initializable{
     private Tab tabSolver; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtSolveEnter"
-    private JFXTextField txtSolveEnter; // Value injected by FXMLLoader
+    private TextField txtSolveEnter; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtSolveShowHex"
     private TextField txtSolveShowHex; // Value injected by FXMLLoader

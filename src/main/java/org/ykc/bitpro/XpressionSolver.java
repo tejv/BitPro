@@ -173,7 +173,7 @@ public class XpressionSolver {
 	    return result;
 	}
     
-    public void solve(JFXTextField input, TextField hex, TextField binary, TextField decimal, StatusBar statusBar, GridPane gPane){
+    public void solve(TextField input, TextField hex, TextField binary, TextField decimal, StatusBar statusBar, GridPane gPane){
     	statusBar.setText("");
     	if(x_solve(input.getText(), 0) == true)
     	{
@@ -339,7 +339,7 @@ public class XpressionSolver {
             }
         }
     }
-	public void reverseSolve(JFXTextField txtSolveEnter, TextField txtSolveShowHex, TextField txtSolveShowBinary,
+	public void reverseSolve(TextField txtSolveEnter, TextField txtSolveShowHex, TextField txtSolveShowBinary,
 			TextField txtSolveShowDecimal, StatusBar statusBar, GridPane gPaneXsolveTab, ActionEvent event) {
 		String bString = "";
 		try {
