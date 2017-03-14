@@ -8,7 +8,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.control.*;
 import javafx.geometry.*;
 
-public class MacroView {
+public class TextViewer {
     public static void display(String title, StringBuilder message) {
         Stage window = new Stage();
 

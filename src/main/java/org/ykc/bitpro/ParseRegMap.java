@@ -11,10 +11,10 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 
-public class ParseSimpleRegister {
-	static boolean parse(JFXTextArea txtArea, StatusBar statusBar, TableView<BFieldSimpleRow> tableViewCreate, JFXTextField txtBitProSimpleName, RadioButton rbCreateView32bit)
+public class ParseRegMap {
+	static boolean parse(JFXTextArea txtArea, StatusBar statusBar, TableView<SProRow> tableViewCreate, JFXTextField txtBitProSimpleName, RadioButton rbCreateView32bit)
 	{
-		ObservableList<BFieldSimpleRow> bList = FXCollections.observableArrayList();
+		ObservableList<SProRow> bList = FXCollections.observableArrayList();
 		try {
 			for (String line : txtArea.getText().split("\\n"))
 			{
@@ -32,9 +32,9 @@ public class ParseSimpleRegister {
 						fSize++;
 					}
 					fName = x[1].toLowerCase();
-					BFieldSimpleRow bField;
+					SProRow bField;
 					try {
-						bField = new BFieldSimpleRow(fName, fSize.toString(), "", "");
+						bField = new SProRow(fName, fSize.toString(), "", "");
 					} catch (Exception e) {
 						statusBar.setText("Parsing Failed");
 						return false;

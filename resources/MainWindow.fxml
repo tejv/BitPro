@@ -101,7 +101,7 @@
                      <children>
                         <TabPane fx:id="tabPaneMain" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <tabs>
-                            <Tab fx:id="tabCreate" text="Create">
+                            <Tab fx:id="tabSPro" text="SPro">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
@@ -115,7 +115,7 @@
                                                                <padding>
                                                                   <Insets right="15.0" />
                                                                </padding></Label>
-                                                            <JFXTextField fx:id="txtBitProSimpleName" maxWidth="344.0" minWidth="344.0" prefHeight="31.0" prefWidth="344.0" />
+                                                            <JFXTextField fx:id="txtSProName" maxWidth="344.0" minWidth="344.0" prefHeight="31.0" prefWidth="344.0" />
                                                          </items>
                                                       </ToolBar>
                                                       <ToolBar prefHeight="55.0" prefWidth="662.0">
@@ -124,14 +124,14 @@
                                                                <padding>
                                                                   <Insets right="5.0" />
                                                                </padding></Label>
-                                                            <RadioButton fx:id="rbCreateView8bit" mnemonicParsing="false" text="8 bit">
+                                                            <RadioButton fx:id="rbSPro8bit" mnemonicParsing="false" text="8 bit">
                                                                <toggleGroup>
-                                                                  <ToggleGroup fx:id="toggleGroupBitSel" />
+                                                                  <ToggleGroup fx:id="tgSProBitSel" />
                                                                </toggleGroup>
                                                             </RadioButton>
-                                                            <RadioButton fx:id="rbCreateView16bit" mnemonicParsing="false" text="16 bit" toggleGroup="$toggleGroupBitSel" />
-                                                            <RadioButton fx:id="rbCreateView32bit" mnemonicParsing="false" selected="true" text="32 bit" toggleGroup="$toggleGroupBitSel" />
-                                                            <RadioButton fx:id="rbCreateView64bit" mnemonicParsing="false" text="64 bit" toggleGroup="$toggleGroupBitSel" visible="false" />
+                                                            <RadioButton fx:id="rbSPro16bit" mnemonicParsing="false" text="16 bit" toggleGroup="$tgSProBitSel" />
+                                                            <RadioButton fx:id="rbSPro32bit" mnemonicParsing="false" selected="true" text="32 bit" toggleGroup="$tgSProBitSel" />
+                                                            <RadioButton fx:id="rbSPro64bit" mnemonicParsing="false" text="64 bit" toggleGroup="$tgSProBitSel" visible="false" />
                                                          </items>
                                                       </ToolBar>
                                                    </children>
@@ -151,19 +151,19 @@
                                                             <RowConstraints maxHeight="12.0" minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
                                                          </rowConstraints>
                                                          <children>
-                                                            <TextField fx:id="tFieldName" promptText="Field Name" />
-                                                            <TextField fx:id="tBitSize" promptText="Bit Size" GridPane.columnIndex="1" />
-                                                            <TextField fx:id="tEnum" promptText="Enums (Optional)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                                            <TextField fx:id="tDescription" promptText="Description (Optional)" GridPane.rowIndex="1" />
+                                                            <TextField fx:id="txtSProFieldName" promptText="Field Name" />
+                                                            <TextField fx:id="txtSProFieldSize" promptText="Bit Size" GridPane.columnIndex="1" />
+                                                            <TextField fx:id="txtSProFieldEnum" promptText="Enums (Optional)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                            <TextField fx:id="txtSProFieldDesc" promptText="Description (Optional)" GridPane.rowIndex="1" />
                                                          </children>
                                                       </GridPane>
                                                       <ToolBar prefHeight="20.0" prefWidth="775.0">
                                                          <items>
-                                                            <Button fx:id="bCreateViewAdd" mnemonicParsing="false" onAction="#addBitField" text="Add" />
-                                                            <Button fx:id="bCreateViewDelete" mnemonicParsing="false" onAction="#deleteBitField" text="Delete" />
-                                                            <Button fx:id="bCreateViewModify" mnemonicParsing="false" onAction="#modifyBitField" text="Modify" />
-                                                            <Button fx:id="bCreateViewUp" mnemonicParsing="false" onAction="#moveUpBitField" text="Up" />
-                                                            <Button fx:id="bCreateViewDown" mnemonicParsing="false" onAction="#moveDownBitField" text="Down" />
+                                                            <Button fx:id="bSProAdd" mnemonicParsing="false" onAction="#sproAddField" text="Add" />
+                                                            <Button fx:id="bSProDelete" mnemonicParsing="false" onAction="#sproDeleteField" text="Delete" />
+                                                            <Button fx:id="bSProModify" mnemonicParsing="false" onAction="#sproModifyField" text="Modify" />
+                                                            <Button fx:id="bSProUp" mnemonicParsing="false" onAction="#sproMoveFieldUp" text="Up" />
+                                                            <Button fx:id="bSProDown" mnemonicParsing="false" onAction="#sproMoveFieldDown" text="Down" />
                                                          </items>
                                                       </ToolBar>
                                                    </children>
@@ -172,12 +172,12 @@
                                              <center>
                                                 <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                                    <children>
-                                                      <TableView fx:id="tableViewCreate" editable="true" prefHeight="153.0" prefWidth="662.0" tableMenuButtonVisible="true">
+                                                      <TableView fx:id="tViewSPro" editable="true" prefHeight="153.0" prefWidth="662.0" tableMenuButtonVisible="true">
                                                          <columns>
-                                                            <TableColumn fx:id="tCreateColFieldName" prefWidth="100.0" sortable="false" text="Field Name" />
-                                                            <TableColumn fx:id="tCreateColBitSize" sortable="false" text="Bit Size" />
-                                                            <TableColumn fx:id="tCreateColDesc" prefWidth="105.0" sortable="false" text="Description" />
-                                                            <TableColumn fx:id="tCreateColEnum" prefWidth="205.0" sortable="false" text="Enum (if any)" />
+                                                            <TableColumn fx:id="tColSProFname" prefWidth="100.0" sortable="false" text="Field Name" />
+                                                            <TableColumn fx:id="tColSProFsize" sortable="false" text="Bit Size" />
+                                                            <TableColumn fx:id="tColSProFdesc" prefWidth="105.0" sortable="false" text="Description" />
+                                                            <TableColumn fx:id="tColSProFenum" prefWidth="205.0" sortable="false" text="Enum (if any)" />
                                                          </columns>
                                                          <columnResizePolicy>
                                                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -225,7 +225,7 @@
                                     </AnchorPane>
                               </content>
                             </Tab>
-                            <Tab fx:id="tabCombine" text="Combine">
+                            <Tab fx:id="tabDPro" text="DPro">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>

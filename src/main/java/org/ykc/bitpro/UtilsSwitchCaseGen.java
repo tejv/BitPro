@@ -6,7 +6,7 @@ import java.util.Date;
 
 import com.jfoenix.controls.JFXTextArea;
 
-public class SwitchCaseGenerator {
+public class UtilsSwitchCaseGen {
 
 	public static StringBuilder run(JFXTextArea txtAreaUtilGen) {
 		StringBuilder xBuilder = new StringBuilder();

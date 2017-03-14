@@ -12,7 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-public class GUtils {
+public class Utils {
 	public enum Radix {
 		RADIX_HEX, RADIX_DECIMAL, RADIX_BINARY
 	}

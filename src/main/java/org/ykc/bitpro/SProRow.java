@@ -1,13 +1,13 @@
 package org.ykc.bitpro;
 
-public class BFieldSimpleRow {
+public class SProRow {
 	private String name;
 	private String size;
 	private String desc;
 	private String enums;
 	private Integer length;
 
-	public BFieldSimpleRow(String name, String size, String desc, String enums) throws Exception
+	public SProRow(String name, String size, String desc, String enums) throws Exception
 	{
 		Integer len = findLength(size);
 		if((name.trim().isEmpty()) || (len > 64) || (len <= 0))

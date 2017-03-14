@@ -8,7 +8,7 @@ import com.jfoenix.controls.JFXTextArea;
 
 import javafx.scene.control.TextArea;
 
-public class FSMGenerator {
+public class UtilsFSMGen {
 	public static StringBuilder run(String namePrefix, String prefix, String postfix,
 			JFXTextArea txtAreaStateNames, JFXTextArea txtAreaEventNames){
 		StringBuilder xBuilder = new StringBuilder();
@@ -53,7 +53,7 @@ public class FSMGenerator {
 		xBuilder.append("/* Event Mask Macros */\n");
 		try {
 			int fixed_pad = maxStringSize + 12 + fnNamePrefix.length();
-			xBuilder.append(GUtils.fixedLengthStringLeftAlign("#define " + fnNamePrefix.toUpperCase() + "NONE", fixed_pad) + "(0x00000000u)\n");
+			xBuilder.append(Utils.fixedLengthStringLeftAlign("#define " + fnNamePrefix.toUpperCase() + "NONE", fixed_pad) + "(0x00000000u)\n");
 			int i = 0;
 			for (String line : txtAreaEventNames.getText().split("\\n"))
 			{
@@ -64,12 +64,12 @@ public class FSMGenerator {
 				line = line.trim();
 				line = line.toUpperCase();
 				line = "#define " + fnNamePrefix.toUpperCase() + line;
-				line = GUtils.fixedLengthStringLeftAlign(line, fixed_pad);
-				line += "(0x" + GUtils.intToHexWithPadding((1 << i),32) + "u)\n";
+				line = Utils.fixedLengthStringLeftAlign(line, fixed_pad);
+				line += "(0x" + Utils.intToHexWithPadding((1 << i),32) + "u)\n";
 				i++;
 				xBuilder.append(line);
 			}
-			xBuilder.append(GUtils.fixedLengthStringLeftAlign("#define " + fnNamePrefix.toUpperCase() + "ALL_MASK", fixed_pad));
+			xBuilder.append(Utils.fixedLengthStringLeftAlign("#define " + fnNamePrefix.toUpperCase() + "ALL_MASK", fixed_pad));
 			xBuilder.append("(0xffffffffu)\n\n");
 		} catch (Exception e) {
 			xBuilder.append("\n\nParsing Failed");
@@ -210,7 +210,7 @@ public class FSMGenerator {
 		}
 		String fnProtPrefix = prefix.trim();
 		String fnProtPostfix = postfix.trim();
-		String switchString = getEvtSwitchcase(namePrefix, txtAreaEventNames);
+		String switchString = getEvtSwitchCase(namePrefix, txtAreaEventNames);
 		xBuilder.append("/* Function Definitions */\n");
 
 		try {
@@ -232,7 +232,7 @@ public class FSMGenerator {
 		}
 	}
 	
-	private static String getEvtSwitchcase(String namePrefix, JFXTextArea txtAreaEventNames) {
+	private static String getEvtSwitchCase(String namePrefix, JFXTextArea txtAreaEventNames) {
 		String result="";
 		String fnNamePrefix = "";
 		String fnNamePrefixRaw = namePrefix.trim();

@@ -1,15 +1,15 @@
 package org.ykc.bitpro;
 
-public class Token {
+public class XSToken {
     public char kind;        
     public long value;     
-    public Token(char ch)
+    public XSToken(char ch)
     {
         kind = ch;
         value = 0;
     }
 
-    public Token(char ch, long val)
+    public XSToken(char ch, long val)
     {
         kind = ch;
         value = val;

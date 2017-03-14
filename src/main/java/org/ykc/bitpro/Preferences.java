@@ -118,7 +118,7 @@ public class Preferences {
 			if (! prefFile.exists()) {
 				return false;
 			}
-			org.w3c.dom.Document prefDoc = BProUtils.getDocument(prefFile);
+			org.w3c.dom.Document prefDoc = UtilsBPro.getW3cDomDoc(prefFile);
 			if(prefDoc == null)
 			{
 				return false;

@@ -16,9 +16,9 @@ import javafx.stage.Window;
 
 import javax.xml.parsers.*;
 
-public class BProUtils {
+public class UtilsBPro {
 
-	public static File openBitFile(Window win, ObservableList<ExtensionFilter> extensionFilterslist){
+	private static File openBitFile(Window win, ObservableList<ExtensionFilter> extensionFilterslist){
 		FileChooser fileChooser = new FileChooser();
 	    fileChooser.setTitle("Open BitPro File");
 	    
@@ -35,19 +35,19 @@ public class BProUtils {
 	    return file;
 	}
 	
-	public static File openSimpleBitFile(Window win){
+	public static File openSProFile(Window win){
 		ObservableList<ExtensionFilter> extensionFilters = FXCollections.observableArrayList();
 		extensionFilters.add(new ExtensionFilter("BitPro Files(*.spro)", "*.spro"));
 		return openBitFile(win, extensionFilters);
 	}
 
-	public static File openComplexBitFile(Window win){
+	public static File openBProFile(Window win){
 		ObservableList<ExtensionFilter> extensionFilters = FXCollections.observableArrayList();
 		extensionFilters.add(new ExtensionFilter("BitPro Files(*.bpro)", "*.bpro"));
 		return openBitFile(win, extensionFilters);
 	}
 	
-	public static File openBitFileForLoad(Window win){
+	public static File openLoadFile(Window win){
 		
 		ObservableList<ExtensionFilter> extensionFilters = FXCollections.observableArrayList();
 		extensionFilters.add(new ExtensionFilter("BitPro Files(All Files)", "*.spro", "bpro", "*.bpro"));		
@@ -56,7 +56,7 @@ public class BProUtils {
 		return openBitFile(win, extensionFilters);
 	}	
 	
-	public static File openComplexDesignBitFile(Window win){
+	public static File openDProFile(Window win){
 		ObservableList<ExtensionFilter> extensionFilters = FXCollections.observableArrayList();
 		extensionFilters.add(new ExtensionFilter("BitPro Files(*.dpro)", "*.dpro"));
 		return openBitFile(win, extensionFilters);
@@ -86,11 +86,15 @@ public class BProUtils {
 	    return file;
 	}	
 	
-	public static File saveSimpleBitFile(Window win, String initialName){
+	public static File saveSProFile(Window win, String initialName){
 		return saveFile(win, initialName, "BitPro Files(*.spro)", "*.spro");
 	}
 	
-	public static Document getDocument(File input) {
+	public static File saveDProFile(Window win, String initialName){
+		return saveFile(win, initialName, "BitPro Files(*.dpro)", "*.dpro");
+	}	
+	
+	public static Document getW3cDomDoc(File input) {
 		try {
 
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -107,43 +111,43 @@ public class BProUtils {
 		return null;
 	}
 
-	public static String getNameSimpleXML(Element simpleElement){
+	public static String getSProName(Element simpleElement){
 		return simpleElement.getElementsByTagName("sname").item(0).getTextContent();
 	}
 	
-	public static Integer getLengthSimpleXML(Element simpleElement){
+	public static Integer getSProLength(Element simpleElement){
 		return Integer.parseInt(simpleElement.getElementsByTagName("slen").item(0).getTextContent());
 	}	
 	
-	public static Integer getMaxFieldsSimpleXML(Element simpleElement){
+	public static Integer getSProFieldsCount(Element simpleElement){
 		return simpleElement.getElementsByTagName("field").getLength();
 	}
 
-	public static Integer getFieldOffsetSimpleXML(Element simpleElement,Integer index){
+	public static Integer getSProFieldOffset(Element simpleElement,Integer index){
 		NodeList listOfFields = simpleElement.getElementsByTagName("field");
 		Node node = listOfFields.item(index);
 		return Integer.parseInt(((Element)node).getElementsByTagName("foffset").item(0).getTextContent());
 	}
 
-	public static Integer getFieldSizeSimpleXML(Element simpleElement,Integer index){
+	public static Integer getSProFieldSize(Element simpleElement,Integer index){
 		NodeList listOfFields = simpleElement.getElementsByTagName("field");
 		Node node = listOfFields.item(index);
 		return Integer.parseInt(((Element)node).getElementsByTagName("fsize").item(0).getTextContent());
 	}
 
-	public static String getFieldNameSimpleXML(Element simpleElement, Integer index){
+	public static String getSProFieldName(Element simpleElement, Integer index){
 		NodeList listOfFields = simpleElement.getElementsByTagName("field");
 		Node node = listOfFields.item(index);
 		return ((Element)node).getElementsByTagName("fname").item(0).getTextContent();
 	}
 
-	public static String getFieldDescSimpleXML(Element simpleElement, Integer index){
+	public static String getSProFieldDesc(Element simpleElement, Integer index){
 		NodeList listOfFields = simpleElement.getElementsByTagName("field");
 		Node node = listOfFields.item(index);
 		return ((Element)node).getElementsByTagName("fdesc").item(0).getTextContent();
 	}
 	
-	public static Integer getFieldEnumCountSimpleXML(Element simpleElement,Integer index){
+	public static Integer getSProFieldEnumCount(Element simpleElement,Integer index){
 		NodeList listOfFields = simpleElement.getElementsByTagName("field");
 		Node node = listOfFields.item(index);
 		Element enumElement = (Element)((Element)node).getElementsByTagName("fenum").item(0);
@@ -151,25 +155,26 @@ public class BProUtils {
 		return enumElement.getElementsByTagName("enum").getLength();
 	}
 	
-	public static Element getFieldEnumSimpleXML(Element simpleElement,Integer index){
+	public static Element getSProFieldEnumElement(Element simpleElement,Integer index){
 		NodeList listOfFields = simpleElement.getElementsByTagName("field");
 		Node node = listOfFields.item(index);
 		Element enumElement = (Element)((Element)node).getElementsByTagName("fenum").item(0);
 		return enumElement;
 	}
 	
-	public static String getFieldEnumNameSimpleXML(Element enumElement,Integer index){
+	public static String getSProEnumName(Element enumElement,Integer index){
 		NodeList listOfEnames = enumElement.getElementsByTagName("enum");
 		Node node = listOfEnames.item(index);
 		return ((Element)node).getElementsByTagName("ename").item(0).getTextContent();
 	}
 	
-	public static Long getFieldEnumValueSimpleXML(Element enumElement,Integer index){
+	public static Long getSProEnumValue(Element enumElement,Integer index){
 		NodeList listOfEnames = enumElement.getElementsByTagName("enum");
 		Node node = listOfEnames.item(index);
-		return GUtils.parseStringtoNumber(((Element)node).getElementsByTagName("evalue").item(0).getTextContent());
+		return Utils.parseStringtoNumber(((Element)node).getElementsByTagName("evalue").item(0).getTextContent());
 	}
-	public static String getFieldEnumValueStringSimpleXML(Element enumElement,Integer index){
+	
+	public static String getSProEnumValueString(Element enumElement,Integer index){
 		NodeList listOfEnames = enumElement.getElementsByTagName("enum");
 		Node node = listOfEnames.item(index);
 		return ((Element)node).getElementsByTagName("evalue").item(0).getTextContent();

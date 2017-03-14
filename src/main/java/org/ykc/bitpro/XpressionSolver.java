@@ -19,12 +19,12 @@ public class XpressionSolver {
     private final char RIGHT_SHIFT = '7';
     private final char LEFT_SHIFT = '6';
     private boolean full = false;
-    private Token buffer;
+    private XSToken buffer;
     private String x =  "";
     private String result = "";
     private int idx = 0;
 
-    private Token  getToken() throws Exception
+    private XSToken  getToken() throws Exception
     {
         if (full)
         {       // do we already have a Token ready?
@@ -35,7 +35,7 @@ public class XpressionSolver {
         if(idx >= x.length())
         {
             //error("Parse error");
-            return new Token(' ');
+            return new XSToken(' ');
         }
         char ch;
         /*Get a char from input text stream*/
@@ -55,9 +55,9 @@ public class XpressionSolver {
             case '&':
             case '^':
                 idx++;
-                return new Token(ch);        // let each character represent itself
+                return new XSToken(ch);        // let each character represent itself
             case ',':
-                return new Token(' ');
+                return new XSToken(' ');
             case '0':
             case '1':
             case '2':
@@ -74,29 +74,29 @@ public class XpressionSolver {
                 String type = "";
                 if ((idx + 2) < x.length())
                 {
-                    type =  GUtils.getSubString(x, idx, 2);
+                    type =  Utils.getSubString(x, idx, 2);
                 }
 
                 if((type.equals("0x"))|| (type.equals("0X")))
                 {
                     idx = idx + 2;
-                    while ((idx < x.length()) && ((GUtils.isCharHex(x.charAt(idx)) == true)))
+                    while ((idx < x.length()) && ((Utils.isCharHex(x.charAt(idx)) == true)))
                     {
                         a = a + x.charAt(idx);
                         idx++;
                     }
-                    val = GUtils.castInttoLong((GUtils.castLongtoUInt((Long.parseUnsignedLong(a, 16)))));
+                    val = Utils.castInttoLong((Utils.castLongtoUInt((Long.parseUnsignedLong(a, 16)))));
 
                 }
                 else if((type.equals("0b")) || (type.equals("0B")))
                 {
                     idx = idx + 2;
-                    while ((idx < x.length()) && ((GUtils.isCharBinary(x.charAt(idx)) == true)))
+                    while ((idx < x.length()) && ((Utils.isCharBinary(x.charAt(idx)) == true)))
                     {
                         a = a + x.charAt(idx);
                         idx++;
                     }
-                    val = GUtils.castInttoLong((GUtils.castLongtoUInt((Long.parseUnsignedLong(a, 2)))));
+                    val = Utils.castInttoLong((Utils.castLongtoUInt((Long.parseUnsignedLong(a, 2)))));
                 }
                 else
                 {
@@ -108,18 +108,18 @@ public class XpressionSolver {
                         a = a + x.charAt(idx);
                         idx++;
                     }
-                    val = GUtils.castInttoLong((GUtils.castLongtoUInt((Long.parseUnsignedLong(a, 10)))));
+                    val = Utils.castInttoLong((Utils.castLongtoUInt((Long.parseUnsignedLong(a, 10)))));
                 }
-                return new Token(NUMBER, val);
+                return new XSToken(NUMBER, val);
             case '>':
                 {
                     if ((idx + 2) < x.length())
                     {
-                        String temp = GUtils.getSubString(x, idx, 2);
+                        String temp = Utils.getSubString(x, idx, 2);
                         if (temp.equals(">>"))
                         {
                             idx = idx + 2;
-                            return new Token(RIGHT_SHIFT, 0);
+                            return new XSToken(RIGHT_SHIFT, 0);
                         }
                     }
                     throw new Exception("Bad Token");
@@ -128,11 +128,11 @@ public class XpressionSolver {
                 {
                     if ((idx + 2) < x.length())
                     {
-                        String temp = GUtils.getSubString(x, idx, 2);
+                        String temp = Utils.getSubString(x, idx, 2);
                         if (temp.equals("<<"))
                         {
                             idx = idx + 2;
-                            return new Token(LEFT_SHIFT, 0);
+                            return new XSToken(LEFT_SHIFT, 0);
                         }
                     }
                     throw new Exception("Bad Token");
@@ -144,7 +144,7 @@ public class XpressionSolver {
             	throw new Exception("Bad Token");
         }
     }
-    void putbackToken(Token t) throws Exception
+    void putbackToken(XSToken t) throws Exception
     {
         if (full){
         	throw new Exception("putback() into a full buffer");
@@ -187,10 +187,10 @@ public class XpressionSolver {
 				for(int i = 0; i < 8; i++){
 					TextField txtField = getTextFieldByRowColumnIndex(j, i, gPane);
 					if(j == 1){
-						txtField.setText(GUtils.getSubString(bString, i*4, 4));
+						txtField.setText(Utils.getSubString(bString, i*4, 4));
 					}
 					else{
-						txtField.setText(GUtils.getSubString(hString, i, 1).toUpperCase());
+						txtField.setText(Utils.getSubString(hString, i, 1).toUpperCase());
 					}
 				}
 			}
@@ -232,7 +232,7 @@ public class XpressionSolver {
     // deal with numbers and parentheses
     private Long primary() throws Exception
     {
-        Token t = getToken();
+        XSToken t = getToken();
         switch (t.kind)
         {
             case '(':    // handle '(' expression ')'
@@ -247,11 +247,11 @@ public class XpressionSolver {
             case NUMBER:
                 return t.value;  // return the NUMBER's value
             case '-':
-            	return GUtils.castInttoLong((-GUtils.castLongtoUInt(primary())));
+            	return Utils.castInttoLong((-Utils.castLongtoUInt(primary())));
             case '+':
                 return primary();
             case '~':
-            	return GUtils.castInttoLong((~GUtils.castLongtoUInt(primary())));
+            	return Utils.castInttoLong((~Utils.castLongtoUInt(primary())));
             default:
                 throw new Exception("primary expected");
         }
@@ -263,14 +263,14 @@ public class XpressionSolver {
     Long term() throws Exception
     {
         Long left = primary();
-        Token t = getToken();        // get the next token from token stream
+        XSToken t = getToken();        // get the next token from token stream
 
         while (true)
         {
             switch (t.kind)
             {
                 case '*':
-                    left = GUtils.castInttoLong(GUtils.castLongtoUInt((left * primary())));
+                    left = Utils.castInttoLong(Utils.castLongtoUInt((left * primary())));
                     t = getToken();
                     break;
                 case '/':
@@ -299,18 +299,18 @@ public class XpressionSolver {
     Long expression() throws Exception
     {
         Long left = term();      // read and evaluate a Term
-        Token t = getToken();        // get the next token from token stream
+        XSToken t = getToken();        // get the next token from token stream
 
         while (true)
         {
             switch (t.kind)
             {
                 case '+':
-                	left = GUtils.castInttoLong(GUtils.castLongtoUInt((left + term())));  // evaluate Term and add
+                	left = Utils.castInttoLong(Utils.castLongtoUInt((left + term())));  // evaluate Term and add
                     t = getToken();
                     break;
                 case '-':
-                	left = GUtils.castInttoLong(GUtils.castLongtoUInt((left - term())));
+                	left = Utils.castInttoLong(Utils.castLongtoUInt((left - term())));
                     t = getToken();
                     break;
                 case '|':
@@ -326,11 +326,11 @@ public class XpressionSolver {
                     t = getToken();
                     break;
                 case RIGHT_SHIFT:
-                	left = GUtils.castInttoLong(GUtils.castLongtoUInt((left >> term())));
+                	left = Utils.castInttoLong(Utils.castLongtoUInt((left >> term())));
                     t = getToken();
                     break;
                 case LEFT_SHIFT:
-                	left = GUtils.castInttoLong(GUtils.castLongtoUInt((left << term())));
+                	left = Utils.castInttoLong(Utils.castLongtoUInt((left << term())));
                     t = getToken();
                     break;
                 default:
@@ -339,6 +339,7 @@ public class XpressionSolver {
             }
         }
     }
+    
 	public void reverseSolve(TextField txtSolveEnter, TextField txtSolveShowHex, TextField txtSolveShowBinary,
 			TextField txtSolveShowDecimal, StatusBar statusBar, GridPane gPaneXsolveTab, ActionEvent event) {
 		String bString = "";
@@ -358,10 +359,5 @@ public class XpressionSolver {
 		} catch (NumberFormatException e) {
 			statusBar.setText("Error in parsing");
 		}
-		
-		
-		
 	}
-
-
 }

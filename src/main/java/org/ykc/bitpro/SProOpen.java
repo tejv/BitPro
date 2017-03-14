@@ -2,6 +2,7 @@ package org.ykc.bitpro;
 
 import java.io.File;
 
+import org.controlsfx.control.StatusBar;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -10,13 +11,16 @@ import org.w3c.dom.NodeList;
 import com.jfoenix.controls.JFXTextField;
 
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.BorderPane;
 
-public class OpenBPro {
+public class SProOpen {
 	
-	public static boolean openSimpleXML(File fileName, JFXTextField name, ToggleGroup toggleGroup, TableView<BFieldSimpleRow> table){
+	public static boolean open(File fileName, JFXTextField name, ToggleGroup toggleGroup, TableView<SProRow> table){
 		table.getItems().clear();
-		Document xmlDoc = BProUtils.getDocument(fileName);
+		Document xmlDoc = UtilsBPro.getW3cDomDoc(fileName);
 		if((xmlDoc == null) || (!xmlDoc.getElementsByTagName("stype").item(0).getTextContent().matches("simple")))
 		{
 			return false;
@@ -41,7 +45,7 @@ public class OpenBPro {
 		return openRows(xmlDoc,table);
 	}
 
-	private static boolean openRows(Document xmlDoc, TableView<BFieldSimpleRow> table)
+	private static boolean openRows(Document xmlDoc, TableView<SProRow> table)
 	{
 		NodeList listOfFields = xmlDoc.getElementsByTagName("field");
 		for(int i=0; i < listOfFields.getLength(); i++){
@@ -51,11 +55,11 @@ public class OpenBPro {
 		return true;
 	}
 
-	private static boolean openRow(Node node, TableView<BFieldSimpleRow> table)
+	private static boolean openRow(Node node, TableView<SProRow> table)
 	{
-		BFieldSimpleRow x;
+		SProRow x;
 		try {
-			x = new BFieldSimpleRow("Error","1","","");
+			x = new SProRow("Error","1","","");
 		} catch (Exception e) {
 			return false;
 		}
@@ -84,4 +88,32 @@ public class OpenBPro {
 		}
 		return eString;
 	}
+	
+    public static void run(BorderPane borderPaneMainWindow, TextField txtSProFieldName,
+    		TextField txtSProFieldSize, TextField txtSProFieldDesc,
+    		TextField txtSProFieldEnum, JFXTextField txtSProName,
+    		ToggleGroup tgSProBitSel, TableView<SProRow> tViewSPro, StatusBar statusBar)
+    {
+    	File file = UtilsBPro.openSProFile(borderPaneMainWindow.getScene().getWindow());
+
+        if (file != null) {
+    		txtSProFieldName.clear();
+    		txtSProFieldSize.clear();
+    		txtSProFieldDesc.clear();
+    		txtSProFieldEnum.clear();
+        	if(open(file, txtSProName, tgSProBitSel, tViewSPro) == true)
+        	{
+        		statusBar.setText("Open Success");
+        	}
+        	else
+        	{
+        		statusBar.setText("Open Failed");
+        	}
+        }
+        else
+        {
+        	statusBar.setText("Operation Cancelled");
+        }
+
+    }	
 }

@@ -1,10 +1,10 @@
 package org.ykc.bitpro;
 
-public class EnumField {
+public class SProEnum {
 	private String name;
 	private Long val;
 	
-	public EnumField(String name, Long val)
+	public SProEnum(String name, Long val)
 	{
 		this.name = name;
 		this.val = val;

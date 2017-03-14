@@ -84,74 +84,74 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="tabPaneMain"
     private TabPane tabPaneMain; // Value injected by FXMLLoader
 
-    @FXML // fx:id="tabCreate"
-    private Tab tabCreate; // Value injected by FXMLLoader
+    @FXML // fx:id="tabSPro"
+    private Tab tabSPro; // Value injected by FXMLLoader
 
-    @FXML // fx:id="tabCombine"
-    private Tab tabCombine; // Value injected by FXMLLoader
+    @FXML // fx:id="tabDPro"
+    private Tab tabDPro; // Value injected by FXMLLoader
 
     @FXML // fx:id="tabLoad"
     private Tab tabLoad; // Value injected by FXMLLoader
 
-    @FXML // fx:id="txtBitProSimpleName"
-    private JFXTextField txtBitProSimpleName; // Value injected by FXMLLoader
+    @FXML // fx:id="txtSProName"
+    private JFXTextField txtSProName; // Value injected by FXMLLoader
 
-    @FXML // fx:id="rbCreateView8bit"
-    private RadioButton rbCreateView8bit; // Value injected by FXMLLoader
+    @FXML // fx:id="rbSPro8bit"
+    private RadioButton rbSPro8bit; // Value injected by FXMLLoader
 
-    @FXML // fx:id="toggleGroupBitSel"
-    private ToggleGroup toggleGroupBitSel; // Value injected by FXMLLoader
+    @FXML // fx:id="tgSProBitSel"
+    private ToggleGroup tgSProBitSel; // Value injected by FXMLLoader
 
-    @FXML // fx:id="rbCreateView16bit"
-    private RadioButton rbCreateView16bit; // Value injected by FXMLLoader
+    @FXML // fx:id="rbSPro16bit"
+    private RadioButton rbSPro16bit; // Value injected by FXMLLoader
 
-    @FXML // fx:id="rbCreateView32bit"
-    private RadioButton rbCreateView32bit; // Value injected by FXMLLoader
+    @FXML // fx:id="rbSPro32bit"
+    private RadioButton rbSPro32bit; // Value injected by FXMLLoader
 
-    @FXML // fx:id="rbCreateView64bit"
-    private RadioButton rbCreateView64bit; // Value injected by FXMLLoader
+    @FXML // fx:id="rbSPro64bit"
+    private RadioButton rbSPro64bit; // Value injected by FXMLLoader
 
-    @FXML // fx:id="tFieldName"
-    private TextField tFieldName; // Value injected by FXMLLoader
+    @FXML // fx:id="txtSProFieldName"
+    private TextField txtSProFieldName; // Value injected by FXMLLoader
 
-    @FXML // fx:id="tBitSize"
-    private TextField tBitSize; // Value injected by FXMLLoader
+    @FXML // fx:id="txtSProFieldSize"
+    private TextField txtSProFieldSize; // Value injected by FXMLLoader
 
-    @FXML // fx:id="tEnum"
-    private TextField tEnum; // Value injected by FXMLLoader
+    @FXML // fx:id="txtSProFieldEnum"
+    private TextField txtSProFieldEnum; // Value injected by FXMLLoader
 
-    @FXML // fx:id="tDescription"
-    private TextField tDescription; // Value injected by FXMLLoader
+    @FXML // fx:id="txtSProFieldDesc"
+    private TextField txtSProFieldDesc; // Value injected by FXMLLoader
 
-    @FXML // fx:id="bCreateViewAdd"
-    private Button bCreateViewAdd; // Value injected by FXMLLoader
+    @FXML // fx:id="bSProAdd"
+    private Button bSProAdd; // Value injected by FXMLLoader
 
     @FXML
-    private Button bCreateViewModify;
+    private Button bSProModify;
 
-    @FXML // fx:id="bCreateViewDelete"
-    private Button bCreateViewDelete; // Value injected by FXMLLoader
+    @FXML // fx:id="bSProDelete"
+    private Button bSProDelete; // Value injected by FXMLLoader
 
-    @FXML // fx:id="bCreateViewUp"
-    private Button bCreateViewUp; // Value injected by FXMLLoader
+    @FXML // fx:id="bSProUp"
+    private Button bSProUp; // Value injected by FXMLLoader
 
-    @FXML // fx:id="bCreateViewDown"
-    private Button bCreateViewDown; // Value injected by FXMLLoader
+    @FXML // fx:id="bSProDown"
+    private Button bSProDown; // Value injected by FXMLLoader
 
-    @FXML // fx:id="tableViewCreate"
-    private TableView<BFieldSimpleRow> tableViewCreate; // Value injected by FXMLLoader
+    @FXML // fx:id="tViewSPro"
+    private TableView<SProRow> tViewSPro; // Value injected by FXMLLoader
 
-    @FXML // fx:id="tCreateColFieldName"
-    private TableColumn<BFieldSimpleRow, String> tCreateColFieldName; // Value injected by FXMLLoader
+    @FXML // fx:id="tColSProFname"
+    private TableColumn<SProRow, String> tColSProFname; // Value injected by FXMLLoader
 
-    @FXML // fx:id="tCreateColBitSize"
-    private TableColumn<BFieldSimpleRow, Integer> tCreateColBitSize; // Value injected by FXMLLoader
+    @FXML // fx:id="tColSProFsize"
+    private TableColumn<SProRow, String> tColSProFsize; // Value injected by FXMLLoader
 
-    @FXML // fx:id="tCreateColDesc"
-    private TableColumn<BFieldSimpleRow, String> tCreateColDesc; // Value injected by FXMLLoader
+    @FXML // fx:id="tColSProFdesc"
+    private TableColumn<SProRow, String> tColSProFdesc; // Value injected by FXMLLoader
 
-    @FXML // fx:id="tCreateColEnum"
-    private TableColumn<BFieldSimpleRow, String> tCreateColEnum; // Value injected by FXMLLoader
+    @FXML // fx:id="tColSProFenum"
+    private TableColumn<SProRow, String> tColSProFenum; // Value injected by FXMLLoader
 
     @FXML // fx:id="rbLoadViewHex"
     private RadioButton rbLoadViewHex; // Value injected by FXMLLoader
@@ -249,12 +249,17 @@ public class MainWindowController implements Initializable{
 
     @FXML
     void openBitFile(ActionEvent event) {
-    	openBitFile();
+    	SProOpen.run(borderPaneMainWindow, txtSProFieldName,
+        		txtSProFieldSize, txtSProFieldDesc,
+        		txtSProFieldEnum, txtSProName,
+        		tgSProBitSel, tViewSPro, statusBar);
     }
 
     @FXML
     void saveBitFile(ActionEvent event) {
-    	createBitFile();
+    	SProCreate.run(txtSProName, rbSPro8bit,
+        		rbSPro16bit,rbSPro64bit, borderPaneMainWindow,
+        		tViewSPro, statusBar);
     }
 
     @FXML
@@ -263,34 +268,33 @@ public class MainWindowController implements Initializable{
     }
 
     @FXML
-    void addBitField(ActionEvent event) {
-    	if(addBitField(tableViewCreate, tFieldName.getText(), tBitSize.getText(), tDescription.getText(), tEnum.getText()) == true)
-    	{
-//    		tFieldName.clear();
-//    		tBitSize.clear();
-//    		tDescription.clear();
-//    		tEnum.clear();
-    	}
+    void sproAddField(ActionEvent event) {
+    	SProCreate.addField(tViewSPro, txtSProFieldName.getText(),
+    			txtSProFieldSize.getText(), txtSProFieldDesc.getText(),
+    			txtSProFieldEnum.getText(), statusBar);
+
     }
 
     @FXML
-    void deleteBitField(ActionEvent event) {
-    	removeBitField(tableViewCreate);
+    void sproDeleteField(ActionEvent event) {
+    	UtilsTableView.removeSelItem(tViewSPro);
     }
 
     @FXML
-    void modifyBitField(ActionEvent event) {
-    	modifyBitField(tableViewCreate, tFieldName.getText(), tBitSize.getText(), tDescription.getText(), tEnum.getText());
+    void sproModifyField(ActionEvent event) {
+    	SProCreate.modifyField(tViewSPro, txtSProFieldName.getText(),
+    			txtSProFieldSize.getText(), txtSProFieldDesc.getText(),
+    			txtSProFieldEnum.getText(), statusBar);
     }
 
     @FXML
-    void moveDownBitField(ActionEvent event) {
-    	moveDownBitField(tableViewCreate);
+    void sproMoveFieldDown(ActionEvent event) {
+    	UtilsTableView.moveDownSelItem(tViewSPro);
     }
 
     @FXML
-    void moveUpBitField(ActionEvent event) {
-    	moveUpBitField(tableViewCreate);
+    void sproMoveFieldUp(ActionEvent event) {
+    	UtilsTableView.moveUpSelItem(tViewSPro);
     }
 
 
@@ -312,7 +316,7 @@ public class MainWindowController implements Initializable{
 	@FXML
     void displayBinaryLoadView(ActionEvent event) {
     	if(rbLoadViewBinary.isSelected() == true){
-    		LoadSimpleBPro.setRadix(GUtils.Radix.RADIX_BINARY);
+    		SProLoad.setRadix(Utils.Radix.RADIX_BINARY);
     		txtLoadTabData.fireEvent(event);
     	}
     }
@@ -320,7 +324,7 @@ public class MainWindowController implements Initializable{
     @FXML
     void displayDecimalLoadView(ActionEvent event) {
     	if(rbLoadViewDecimal.isSelected() == true){
-    		LoadSimpleBPro.setRadix(GUtils.Radix.RADIX_DECIMAL);
+    		SProLoad.setRadix(Utils.Radix.RADIX_DECIMAL);
     		txtLoadTabData.fireEvent(event);
     	}
     }
@@ -328,7 +332,7 @@ public class MainWindowController implements Initializable{
     @FXML
     void displayHexLoadView(ActionEvent event) {
     	if(rbLoadViewHex.isSelected() == true){
-    		LoadSimpleBPro.setRadix(GUtils.Radix.RADIX_HEX);
+    		SProLoad.setRadix(Utils.Radix.RADIX_HEX);
     		txtLoadTabData.fireEvent(event);
     	}
     }
@@ -379,10 +383,10 @@ public class MainWindowController implements Initializable{
 			tabPaneMain.getSelectionModel().select(tabLoad);
 			break;
 		case "tabCreate":
-			tabPaneMain.getSelectionModel().select(tabCreate);
+			tabPaneMain.getSelectionModel().select(tabSPro);
 			break;
 		case "tabCombine":
-			tabPaneMain.getSelectionModel().select(tabCombine);
+			tabPaneMain.getSelectionModel().select(tabDPro);
 			break;
 		case "tabSolver":
 			tabPaneMain.getSelectionModel().select(tabSolver);
@@ -394,18 +398,18 @@ public class MainWindowController implements Initializable{
 			break;
 		}
 		/* Link tableViewCreate to Modal class BitField */
-		tCreateColFieldName.setCellValueFactory(new PropertyValueFactory<>("name"));
-		tCreateColBitSize.setCellValueFactory(new PropertyValueFactory<>("size"));
-		tCreateColDesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
-		tCreateColEnum.setCellValueFactory(new PropertyValueFactory<>("enums"));
-		tableViewCreate.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-		tableViewCreate.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+		tColSProFname.setCellValueFactory(new PropertyValueFactory<>("name"));
+		tColSProFsize.setCellValueFactory(new PropertyValueFactory<>("size"));
+		tColSProFdesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
+		tColSProFenum.setCellValueFactory(new PropertyValueFactory<>("enums"));
+		tViewSPro.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		tViewSPro.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 		    if (newSelection != null) {
-		    	BFieldSimpleRow x = tableViewCreate.getSelectionModel().getSelectedItem();
-		    	tFieldName.setText(x.getName());
-	    		tBitSize.setText(x.getSize().toString());
-	    		tDescription.setText(x.getDesc());
-	    		tEnum.setText(x.getEnums());
+		    	SProRow x = tViewSPro.getSelectionModel().getSelectedItem();
+		    	txtSProFieldName.setText(x.getName());
+	    		txtSProFieldSize.setText(x.getSize().toString());
+	    		txtSProFieldDesc.setText(x.getDesc());
+	    		txtSProFieldEnum.setText(x.getEnums());
 		    }
 		});
 		/* Not using this pane for now */
@@ -451,142 +455,12 @@ public class MainWindowController implements Initializable{
 		}
 	}
 
-    void createBitFile() {
-    	if(txtBitProSimpleName.getText().isEmpty() == true)
-    	{
-    		statusBar.setText("Please provide a name");
-    		return;
-    	}
-    	Integer size = 32;
-    	if(rbCreateView8bit.isSelected())
-    	{
-    		size = 8;
-    	}
-    	else if(rbCreateView16bit.isSelected())
-    	{
-    		size = 16;
-    	}
-    	else if(rbCreateView64bit.isSelected())
-    	{
-    		size = 64;
-    	}
-    	File file = BProUtils.saveSimpleBitFile(borderPaneMainWindow.getScene().getWindow(), txtBitProSimpleName.getText());
-
-        if (file != null) {
-        	if(CreateBPro.createSimpleXML(file, txtBitProSimpleName.getText(), size, tableViewCreate, statusBar) == true)
-        	{
-        		statusBar.setText("Save Success");
-        	}
-        }
-        else
-        {
-        	statusBar.setText("Operation Cancelled");
-        }
-
-    }
-
-    void openBitFile()
-    {
-    	File file = BProUtils.openSimpleBitFile(borderPaneMainWindow.getScene().getWindow());
-
-        if (file != null) {
-    		tFieldName.clear();
-    		tBitSize.clear();
-    		tDescription.clear();
-    		tEnum.clear();
-        	if(OpenBPro.openSimpleXML(file, txtBitProSimpleName, toggleGroupBitSel, tableViewCreate) == true)
-        	{
-        		statusBar.setText("Open Success");
-        	}
-        	else
-        	{
-        		statusBar.setText("Open Failed");
-        	}
-        }
-        else
-        {
-        	statusBar.setText("Operation Cancelled");
-        }
-
-    }
-
-	public boolean addBitField(TableView<BFieldSimpleRow> tableViewCreate, String name, String size, String desc, String enums)
-	{
-		BFieldSimpleRow row;
-		try {
-			row = new BFieldSimpleRow(name, size, desc, enums);
-		} catch (Exception e) {
-			statusBar.setText("Invalid Entry");
-			return false;
-		}
-		tableViewCreate.getItems().add(row);
-		statusBar.setText("Row Added");
-		return true;
-	}
-
-	public boolean modifyBitField(TableView<BFieldSimpleRow> tableViewCreate, String name, String size, String desc, String enums)
-	{
-		BFieldSimpleRow row;
-		try {
-			row = new BFieldSimpleRow(name, size, desc, enums);
-		} catch (Exception e) {
-			statusBar.setText("Invalid Entry");
-			return false;
-		}
-		BFieldSimpleRow x = tableViewCreate.getSelectionModel().getSelectedItem();
-		x.setName(row.getName());
-		x.setDesc(row.getDesc());
-		x.setEnums(row.getEnums());
-		x.setSize(row.getSize());
-
-		/* Workaround for tableview update issue */
-		tableViewCreate.getColumns().get(0).setVisible(false);
-		tableViewCreate.getColumns().get(0).setVisible(true);
-		statusBar.setText("Row Updated");
-		return true;
-	}
-
-
-	public void removeBitField(TableView<BFieldSimpleRow> tableViewCreate)
-	{
-        ObservableList<BFieldSimpleRow> selectedItems;
-        selectedItems = tableViewCreate.getSelectionModel().getSelectedItems();
-        tableViewCreate.getItems().removeAll(selectedItems);
-	}
-
-	public void moveUpBitField(TableView<BFieldSimpleRow> tableViewCreate)
-	{
-        int selectedIndex = tableViewCreate.getSelectionModel().getSelectedIndex();
-        if(selectedIndex <= 0)
-        {
-        	return;
-        }
-        BFieldSimpleRow removedItem = tableViewCreate.getItems().remove(selectedIndex);
-        int newIndex = selectedIndex - 1;
-        tableViewCreate.getItems().add(newIndex, removedItem);
-        tableViewCreate.getSelectionModel().clearAndSelect(newIndex);
-	}
-
-	public void moveDownBitField(TableView<BFieldSimpleRow> tableViewCreate)
-	{
-        int selectedIndex = tableViewCreate.getSelectionModel().getSelectedIndex();
-        int maxIndex = tableViewCreate.getItems().size() - 1;
-        if(selectedIndex == maxIndex)
-        {
-        	return;
-        }
-        BFieldSimpleRow removedItem = tableViewCreate.getItems().remove(selectedIndex);
-        int newIndex = selectedIndex + 1;
-        tableViewCreate.getItems().add(newIndex, removedItem);
-        tableViewCreate.getSelectionModel().clearAndSelect(newIndex);
-	}
-
 	public void storeSimpleData(){
 		File lastFile = Preferences.getLastLoadedFile();
 		if(lastFile != null)
 		{
 			/* Store data in temp file */
-			File tempFile = GUtils.getFileNewExtension(lastFile, "tmp");
+			File tempFile = Utils.getFileNewExtension(lastFile, "tmp");
 			if(!tempFile.exists()){
 				try {
 					tempFile.createNewFile();
@@ -606,7 +480,7 @@ public class MainWindowController implements Initializable{
 	}
 	public void loadBitFile(){
 		storeSimpleData();
-		File file = BProUtils.openBitFileForLoad(borderPaneMainWindow.getScene().getWindow());
+		File file = UtilsBPro.openLoadFile(borderPaneMainWindow.getScene().getWindow());
 		if(loadFile(file) == false){
 			curLoadedFile = null;
         	statusBar.setText("Operation Cancelled");
@@ -616,7 +490,7 @@ public class MainWindowController implements Initializable{
 	private boolean loadFile(File file){
         if (file != null) {
         	Preferences.setLastLoadedFile(file);
-        	File tmpFile = GUtils.getFileNewExtension(file, "tmp");
+        	File tmpFile = Utils.getFileNewExtension(file, "tmp");
         	if(tmpFile.exists())
         	{
         		try {
@@ -630,13 +504,13 @@ public class MainWindowController implements Initializable{
         	else{
         		txtLoadTabData.setText("0");
         	}
-    		Document xmlDoc = BProUtils.getDocument(file);
+    		Document xmlDoc = UtilsBPro.getW3cDomDoc(file);
     		if(xmlDoc == null)
     		{
     			statusBar.setText("Load Failed");
     			return true;
     		}
-        	if(LoadSimpleBPro.loadSimpleXML((Element)(xmlDoc.getElementsByTagName("simple").item(0)), txtLoadTabData, gpaneLoadTab, statusBar) == true)
+        	if(SProLoad.run((Element)(xmlDoc.getElementsByTagName("simple").item(0)), txtLoadTabData, gpaneLoadTab, statusBar) == true)
         	{
         		statusBar.setText("Load Success");
         	}
@@ -696,16 +570,16 @@ public class MainWindowController implements Initializable{
 	}
 
 	private void parseSimpleRegister(ActionEvent event) {
-		if(ParseSimpleRegister.parse(txtAreaParse, statusBar, tableViewCreate, txtBitProSimpleName, rbCreateView32bit) == true)
+		if(ParseRegMap.parse(txtAreaParse, statusBar, tViewSPro, txtSProName, rbSPro32bit) == true)
 		{
-			tabPaneMain.getSelectionModel().select(tabCreate);
+			tabPaneMain.getSelectionModel().select(tabSPro);
 			bSave.fireEvent(event);
 		}
 	}
 
 	private void genMacros(ActionEvent event){
 		if(curLoadedFile != null){
-			MacroView.display("Generated Macros", MacroGenerator.run(curLoadedFile, txtLoadViewPrefix.getText()));
+			TextViewer.display("Generated Macros", SProMacroGen.run(curLoadedFile, txtLoadViewPrefix.getText()));
 		}
 		else {
 			statusBar.setText("Operation Fail: No file loaded");
@@ -713,12 +587,12 @@ public class MainWindowController implements Initializable{
 	}
 
     private void utilsGenerateFn(ActionEvent event) {
-		MacroView.display("Generated Code", FSMGenerator.run(txtUtilsFnNamePrefix.getText(),
+		TextViewer.display("Generated Code", UtilsFSMGen.run(txtUtilsFnNamePrefix.getText(),
 				txtUtilsFnPrefix.getText(), txtUtilsFnPostFix.getText(), txtAreaUtil1StateNames, txtAreaUtil1EventNames));
 	}
 
 	private void utilsGenerateSwitchCase(ActionEvent event) {
-		MacroView.display("Generated Code", SwitchCaseGenerator.run(txtAreaUtilGen));
+		TextViewer.display("Generated Code", UtilsSwitchCaseGen.run(txtAreaUtilGen));
 	}
 
 }
