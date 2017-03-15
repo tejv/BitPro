@@ -126,7 +126,7 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="bSProAdd"
     private Button bSProAdd; // Value injected by FXMLLoader
 
-    @FXML
+    @FXML // fx:id="bSProModify"
     private Button bSProModify;
 
     @FXML // fx:id="bSProDelete"
@@ -156,20 +156,20 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="rbLoadViewHex"
     private RadioButton rbLoadViewHex; // Value injected by FXMLLoader
 
-    @FXML // fx:id="toggleGroupRadixSelect"
-    private ToggleGroup toggleGroupRadixSelect; // Value injected by FXMLLoader
+    @FXML // fx:id="tgLoadRadixSel"
+    private ToggleGroup tgLoadRadixSel; // Value injected by FXMLLoader
 
-    @FXML // fx:id="rbLoadViewDecimal"
-    private RadioButton rbLoadViewDecimal; // Value injected by FXMLLoader
+    @FXML // fx:id="rbLoadDecimal"
+    private RadioButton rbLoadDecimal; // Value injected by FXMLLoader
 
-    @FXML // fx:id="rbLoadViewBinary"
-    private RadioButton rbLoadViewBinary; // Value injected by FXMLLoader
+    @FXML // fx:id="rbLoadBinary"
+    private RadioButton rbLoadBinary; // Value injected by FXMLLoader
 
-    @FXML // fx:id="txtLoadTabData"
-    private TextField txtLoadTabData; // Value injected by FXMLLoader
+    @FXML // fx:id="txtLoadEnterData"
+    private TextField txtLoadEnterData; // Value injected by FXMLLoader
 
-    @FXML // fx:id="gpaneLoadView"
-    private GridPane gpaneLoadTab; // Value injected by FXMLLoader
+    @FXML // fx:id="gpaneLoad"
+    private GridPane gpaneLoad; // Value injected by FXMLLoader
 
     @FXML // fx:id="tabSolver"
     private Tab tabSolver; // Value injected by FXMLLoader
@@ -186,8 +186,8 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="txtSolveShowBinary"
     private TextField txtSolveShowBinary; // Value injected by FXMLLoader
 
-    @FXML // fx:id="gPaneXsolveTab"
-    private GridPane gPaneXsolveTab; // Value injected by FXMLLoader
+    @FXML // fx:id="gPaneXsolve"
+    private GridPane gPaneXsolve; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtAreaParse"
     private JFXTextArea txtAreaParse; // Value injected by FXMLLoader
@@ -198,32 +198,32 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="tabParse"
     private Tab tabParse; // Value injected by FXMLLoader
 
-    @FXML // fx:id="lbNameLoadView"
-    private Label lbNameLoadView; // Value injected by FXMLLoader
+    @FXML // fx:id="lbLoadName"
+    private Label lbLoadName; // Value injected by FXMLLoader
 
     @FXML // fx:id="aPaneMain"
     private AnchorPane aPaneMain; // Value injected by FXMLLoader
 
-    @FXML // fx:id="txtLoadViewPrefix"
-    private TextField txtLoadViewPrefix; // Value injected by FXMLLoader
+    @FXML // fx:id="txtLoadPrefix"
+    private TextField txtLoadPrefix; // Value injected by FXMLLoader
 
-    @FXML // fx:id="txtAreaUtil1StateNames"
-    private JFXTextArea txtAreaUtil1StateNames; // Value injected by FXMLLoader
+    @FXML // fx:id="txtAreaUtilFSMStateName"
+    private JFXTextArea txtAreaUtilFSMStateName; // Value injected by FXMLLoader
 
-    @FXML // fx:id="txtAreaUtil1EventNames"
-    private JFXTextArea txtAreaUtil1EventNames; // Value injected by FXMLLoader
+    @FXML // fx:id="txtAreaUtilFSMEventName"
+    private JFXTextArea txtAreaUtilFSMEventName; // Value injected by FXMLLoader
 
-    @FXML // fx:id="txtUtilsFnPrefix"
-    private TextField txtUtilsFnPrefix; // Value injected by FXMLLoader
+    @FXML // fx:id="txtUtilFSMFnPrefix"
+    private TextField txtUtilFSMFnPrefix; // Value injected by FXMLLoader
 
-    @FXML // fx:id="txtUtilsFnPostFix"
-    private TextField txtUtilsFnPostFix; // Value injected by FXMLLoader
+    @FXML // fx:id="txtUtilFSMFnPostFix"
+    private TextField txtUtilFSMFnPostFix; // Value injected by FXMLLoader
 
-    @FXML // fx:id="bUtilsGenerateFn"
-    private Button bUtilsGenerateFn; // Value injected by FXMLLoader
+    @FXML // fx:id="bUtilFSMGenFn"
+    private Button bUtilFSMGenFn; // Value injected by FXMLLoader
 
-    @FXML // fx:id="txtUtilsFnNamePrefix"
-    private TextField txtUtilsFnNamePrefix; // Value injected by FXMLLoader
+    @FXML // fx:id="txtUtilFSMFnNamePrefix"
+    private TextField txtUtilFSMFnNamePrefix; // Value injected by FXMLLoader
 
     @FXML // fx:id="tabUtils"
     private Tab tabUtils; // Value injected by FXMLLoader
@@ -234,9 +234,139 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="bUtilsGenSwitch"
     private Button bUtilsGenSwitch; // Value injected by FXMLLoader
 
-    private Stage myStage;
-    private File curLoadedFile = null;
+    @FXML // fx:id="bDProBrowse"
+    private TextField bDProBrowse; // Value injected by FXMLLoader
 
+    @FXML // fx:id="txtDProName"
+    private JFXTextField txtDProName; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtDProFieldName"
+    private TextField txtDProFieldName; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtDProFieldSize"
+    private TextField txtDProFieldSize; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtDProFieldRPath"
+    private TextField txtDProFieldRPath; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtDProFieldDesc"
+    private TextField txtDProFieldDesc; // Value injected by FXMLLoader
+
+    @FXML // fx:id="bDProAdd"
+    private Button bDProAdd; // Value injected by FXMLLoader
+
+    @FXML // fx:id="bDProDelete"
+    private Button bDProDelete; // Value injected by FXMLLoader
+
+    @FXML // fx:id="bDProModify"
+    private Button bDProModify; // Value injected by FXMLLoader
+
+    @FXML // fx:id="bDProUp"
+    private Button bDProUp; // Value injected by FXMLLoader
+
+    @FXML // fx:id="bDProDown"
+    private Button bDProDown; // Value injected by FXMLLoader
+
+    @FXML // fx:id="tViewDPro"
+    private TableView<DProRow> tViewDPro; // Value injected by FXMLLoader
+
+    @FXML // fx:id="tColDProTypeName"
+    private TableColumn<DProRow, String> tColDProTypeName; // Value injected by FXMLLoader
+
+    @FXML // fx:id="tColDProFname"
+    private TableColumn<DProRow, String> tColDProFname; // Value injected by FXMLLoader
+
+    @FXML // fx:id="tColDProFcount"
+    private TableColumn<DProRow, String> tColDProFsize; // Value injected by FXMLLoader
+
+    @FXML // fx:id="tColDProFdesc"
+    private TableColumn<DProRow, String> tColDProFdesc; // Value injected by FXMLLoader
+
+    @FXML // fx:id="tColDProFrelPath"
+    private TableColumn<DProRow, String> tColDProFrelPath; // Value injected by FXMLLoader
+
+    private Stage myStage;
+
+    private BProLoad bProLoad;
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+	    bProLoad = new BProLoad(txtLoadEnterData, txtLoadPrefix,
+	    		borderPaneMainWindow, statusBar, gpaneLoad, lbLoadName);
+		Preferences.loadPreferences();
+		txtLoadPrefix.setText(Preferences.getLoadViewPrefixValue());
+		txtUtilFSMFnNamePrefix.setText(Preferences.getUtilsFnNamePrefixString());
+		txtUtilFSMFnPrefix.setText(Preferences.getUtilsFnPrefixString());
+		txtUtilFSMFnPostFix.setText(Preferences.getUtilsFnPostfixString());
+		txtSolveEnter.setText(Preferences.getxSolveLastData());
+		solveExpression();
+		enDisTabButtons(Preferences.getLastOpenTabName());
+		bProLoad.loadFile(Preferences.getLastLoadedFile());
+		switch(Preferences.getLastOpenTabName())
+		{
+		case "tabLoad":
+			tabPaneMain.getSelectionModel().select(tabLoad);
+			break;
+		case "tabCreate":
+			tabPaneMain.getSelectionModel().select(tabSPro);
+			break;
+		case "tabCombine":
+			tabPaneMain.getSelectionModel().select(tabDPro);
+			break;
+		case "tabSolver":
+			tabPaneMain.getSelectionModel().select(tabSolver);
+			break;
+		case "tabParse":
+			tabPaneMain.getSelectionModel().select(tabParse);
+		case "tabUtils":
+			tabPaneMain.getSelectionModel().select(tabUtils);
+			break;
+		}
+		/* Link tViewSPro to Modal class SProRow */
+		tColSProFname.setCellValueFactory(new PropertyValueFactory<>("name"));
+		tColSProFsize.setCellValueFactory(new PropertyValueFactory<>("size"));
+		tColSProFdesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
+		tColSProFenum.setCellValueFactory(new PropertyValueFactory<>("enums"));
+		tViewSPro.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		tViewSPro.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+		    if (newSelection != null) {
+		    	SProRow x = tViewSPro.getSelectionModel().getSelectedItem();
+		    	txtSProFieldName.setText(x.getName());
+	    		txtSProFieldSize.setText(x.getSize().toString());
+	    		txtSProFieldDesc.setText(x.getDesc());
+	    		txtSProFieldEnum.setText(x.getEnums());
+		    }
+		});
+
+		/* Link tViewDPro to Modal class DProRow */
+		tColDProTypeName.setCellValueFactory(new PropertyValueFactory<>("type"));
+		tColDProFname.setCellValueFactory(new PropertyValueFactory<>("name"));
+		tColDProFsize.setCellValueFactory(new PropertyValueFactory<>("size"));
+		tColDProFdesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
+		tColDProFrelPath.setCellValueFactory(new PropertyValueFactory<>("rPath"));
+		tViewDPro.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		tViewDPro.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+		    if (newSelection != null) {
+		    	DProRow x = tViewDPro.getSelectionModel().getSelectedItem();
+		    	txtDProFieldName.setText(x.getName());
+	    		txtDProFieldSize.setText(x.getSize());
+	    		txtDProFieldDesc.setText(x.getDesc());
+	    		txtDProFieldRPath.setText(x.getrPath());
+		    }
+		});
+		/* Not using this pane for now */
+		splitPaneFileExplorer.getItems().remove(splitPaneFileExplorer.getItems().get(0));
+		tabPaneMain.getSelectionModel().selectedItemProperty().addListener(
+			    new ChangeListener<Tab>() {
+			        @Override
+			        public void changed(ObservableValue<? extends Tab> ov, Tab oldTab, Tab newTab) {
+			        	enDisTabButtons(newTab.getId());
+			        	Preferences.setLastOpenTabName(newTab.getId());
+			        }
+			    }
+			);
+	}
+	
     @FXML
     void exitApplication(ActionEvent event) {
     	closeProgram();
@@ -244,27 +374,7 @@ public class MainWindowController implements Initializable{
 
 	@FXML
     void setPreferences(ActionEvent event) {
-
-    }
-
-    @FXML
-    void openBitFile(ActionEvent event) {
-    	SProOpen.run(borderPaneMainWindow, txtSProFieldName,
-        		txtSProFieldSize, txtSProFieldDesc,
-        		txtSProFieldEnum, txtSProName,
-        		tgSProBitSel, tViewSPro, statusBar);
-    }
-
-    @FXML
-    void saveBitFile(ActionEvent event) {
-    	SProCreate.run(txtSProName, rbSPro8bit,
-        		rbSPro16bit,rbSPro64bit, borderPaneMainWindow,
-        		tViewSPro, statusBar);
-    }
-
-    @FXML
-    void loadBitField(ActionEvent event) {
-    	loadBitFile();
+		/* TODO: */
     }
 
     @FXML
@@ -297,6 +407,25 @@ public class MainWindowController implements Initializable{
     	UtilsTableView.moveUpSelItem(tViewSPro);
     }
 
+    @FXML
+    void openBitFile(ActionEvent event) {
+    	SProOpen.run(borderPaneMainWindow, txtSProFieldName,
+        		txtSProFieldSize, txtSProFieldDesc,
+        		txtSProFieldEnum, txtSProName,
+        		tgSProBitSel, tViewSPro, statusBar);
+    }
+
+    @FXML
+    void saveBitFile(ActionEvent event) {
+    	SProCreate.run(txtSProName, rbSPro8bit,
+        		rbSPro16bit,rbSPro64bit, borderPaneMainWindow,
+        		tViewSPro, statusBar);
+    }
+
+    @FXML
+    void loadBitFile(ActionEvent event) {
+    	bProLoad.load();
+    }
 
     @FXML
     void solveExpression(ActionEvent event) {
@@ -315,17 +444,17 @@ public class MainWindowController implements Initializable{
 
 	@FXML
     void displayBinaryLoadView(ActionEvent event) {
-    	if(rbLoadViewBinary.isSelected() == true){
+    	if(rbLoadBinary.isSelected() == true){
     		SProLoad.setRadix(Utils.Radix.RADIX_BINARY);
-    		txtLoadTabData.fireEvent(event);
+    		txtLoadEnterData.fireEvent(event);
     	}
     }
 
     @FXML
     void displayDecimalLoadView(ActionEvent event) {
-    	if(rbLoadViewDecimal.isSelected() == true){
+    	if(rbLoadDecimal.isSelected() == true){
     		SProLoad.setRadix(Utils.Radix.RADIX_DECIMAL);
-    		txtLoadTabData.fireEvent(event);
+    		txtLoadEnterData.fireEvent(event);
     	}
     }
 
@@ -333,7 +462,7 @@ public class MainWindowController implements Initializable{
     void displayHexLoadView(ActionEvent event) {
     	if(rbLoadViewHex.isSelected() == true){
     		SProLoad.setRadix(Utils.Radix.RADIX_HEX);
-    		txtLoadTabData.fireEvent(event);
+    		txtLoadEnterData.fireEvent(event);
     	}
     }
 
@@ -343,13 +472,43 @@ public class MainWindowController implements Initializable{
     }
 
     @FXML
+    void dproAddField(ActionEvent event) {
+
+    }
+
+    @FXML
+    void dproBrowse(ActionEvent event) {
+
+    }
+
+    @FXML
+    void dproDeleteField(ActionEvent event) {
+
+    }
+
+    @FXML
+    void dproModifyField(ActionEvent event) {
+
+    }
+
+    @FXML
+    void dproMoveFieldDown(ActionEvent event) {
+
+    }
+
+    @FXML
+    void dproMoveFieldUp(ActionEvent event) {
+
+    }
+
+    @FXML
     void generateMacros(ActionEvent event) {
-    	genMacros(event);
+    	bProLoad.genMacros();
     }
 
     @FXML
     void utilsGenFunction(ActionEvent event) {
-    	utilsGenerateFn(event);
+    	utilsFSMGenerateFn(event);
     }
 
     @FXML
@@ -365,65 +524,6 @@ public class MainWindowController implements Initializable{
 		      }
 		  });
     }
-
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		Preferences.loadPreferences();
-		txtLoadViewPrefix.setText(Preferences.getLoadViewPrefixValue());
-		txtUtilsFnNamePrefix.setText(Preferences.getUtilsFnNamePrefixString());
-		txtUtilsFnPrefix.setText(Preferences.getUtilsFnPrefixString());
-		txtUtilsFnPostFix.setText(Preferences.getUtilsFnPostfixString());
-		txtSolveEnter.setText(Preferences.getxSolveLastData());
-		solveExpression();
-		enDisTabButtons(Preferences.getLastOpenTabName());
-		loadFile(Preferences.getLastLoadedFile());
-		switch(Preferences.getLastOpenTabName())
-		{
-		case "tabLoad":
-			tabPaneMain.getSelectionModel().select(tabLoad);
-			break;
-		case "tabCreate":
-			tabPaneMain.getSelectionModel().select(tabSPro);
-			break;
-		case "tabCombine":
-			tabPaneMain.getSelectionModel().select(tabDPro);
-			break;
-		case "tabSolver":
-			tabPaneMain.getSelectionModel().select(tabSolver);
-			break;
-		case "tabParse":
-			tabPaneMain.getSelectionModel().select(tabParse);
-		case "tabUtils":
-			tabPaneMain.getSelectionModel().select(tabUtils);
-			break;
-		}
-		/* Link tableViewCreate to Modal class BitField */
-		tColSProFname.setCellValueFactory(new PropertyValueFactory<>("name"));
-		tColSProFsize.setCellValueFactory(new PropertyValueFactory<>("size"));
-		tColSProFdesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
-		tColSProFenum.setCellValueFactory(new PropertyValueFactory<>("enums"));
-		tViewSPro.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-		tViewSPro.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-		    if (newSelection != null) {
-		    	SProRow x = tViewSPro.getSelectionModel().getSelectedItem();
-		    	txtSProFieldName.setText(x.getName());
-	    		txtSProFieldSize.setText(x.getSize().toString());
-	    		txtSProFieldDesc.setText(x.getDesc());
-	    		txtSProFieldEnum.setText(x.getEnums());
-		    }
-		});
-		/* Not using this pane for now */
-		splitPaneFileExplorer.getItems().remove(splitPaneFileExplorer.getItems().get(0));
-		tabPaneMain.getSelectionModel().selectedItemProperty().addListener(
-			    new ChangeListener<Tab>() {
-			        @Override
-			        public void changed(ObservableValue<? extends Tab> ov, Tab oldTab, Tab newTab) {
-			        	enDisTabButtons(newTab.getId());
-			        	Preferences.setLastOpenTabName(newTab.getId());
-			        }
-			    }
-			);
-	}
 
 	private void enDisTabButtons(String tabId){
 		if(tabId.equals("tabLoad"))
@@ -455,86 +555,13 @@ public class MainWindowController implements Initializable{
 		}
 	}
 
-	public void storeSimpleData(){
-		File lastFile = Preferences.getLastLoadedFile();
-		if(lastFile != null)
-		{
-			/* Store data in temp file */
-			File tempFile = Utils.getFileNewExtension(lastFile, "tmp");
-			if(!tempFile.exists()){
-				try {
-					tempFile.createNewFile();
-				} catch (IOException e) {
-				}
-			}
-			if(tempFile.exists()){
-				try {
-					FileWriter x = new FileWriter(tempFile);
-					x.write(txtLoadTabData.getText());
-					x.close();
-				} catch (IOException e) {
-				}
-			}
-
-		}
-	}
-	public void loadBitFile(){
-		storeSimpleData();
-		File file = UtilsBPro.openLoadFile(borderPaneMainWindow.getScene().getWindow());
-		if(loadFile(file) == false){
-			curLoadedFile = null;
-        	statusBar.setText("Operation Cancelled");
-		}
-	}
-
-	private boolean loadFile(File file){
-        if (file != null) {
-        	Preferences.setLastLoadedFile(file);
-        	File tmpFile = Utils.getFileNewExtension(file, "tmp");
-        	if(tmpFile.exists())
-        	{
-        		try {
-					BufferedReader x = new BufferedReader(new FileReader(tmpFile));
-					txtLoadTabData.setText(x.readLine());
-					x.close();
-				} catch (FileNotFoundException e) {
-				} catch (IOException e) {
-				}
-        	}
-        	else{
-        		txtLoadTabData.setText("0");
-        	}
-    		Document xmlDoc = UtilsBPro.getW3cDomDoc(file);
-    		if(xmlDoc == null)
-    		{
-    			statusBar.setText("Load Failed");
-    			return true;
-    		}
-        	if(SProLoad.run((Element)(xmlDoc.getElementsByTagName("simple").item(0)), txtLoadTabData, gpaneLoadTab, statusBar) == true)
-        	{
-        		statusBar.setText("Load Success");
-        	}
-        	else
-        	{
-        		statusBar.setText("Load Failed");
-        	}
-        	lbNameLoadView.setText(file.getName());
-    		curLoadedFile = file;
-        	return true;
-        }
-        else
-        {
-        	return false;
-        }
-	}
-
 	public void storeDataBeforeClose(){
-		Preferences.setLoadViewPrefixValue(txtLoadViewPrefix.getText());
-		Preferences.setUtilsFnNamePrefixString(txtUtilsFnNamePrefix.getText());
-		Preferences.setUtilsFnPrefixString(txtUtilsFnPrefix.getText());
-		Preferences.setUtilsFnPostfixString(txtUtilsFnPostFix.getText());
+		Preferences.setLoadViewPrefixValue(txtLoadPrefix.getText());
+		Preferences.setUtilsFnNamePrefixString(txtUtilFSMFnNamePrefix.getText());
+		Preferences.setUtilsFnPrefixString(txtUtilFSMFnPrefix.getText());
+		Preferences.setUtilsFnPostfixString(txtUtilFSMFnPostFix.getText());
+    	bProLoad.saveLoadedData();
     	Preferences.storePreferences();
-    	storeSimpleData();
 	}
 
     private void closeProgram() {
@@ -544,8 +571,15 @@ public class MainWindowController implements Initializable{
 
     private void solveExpression() {
 		XpressionSolver x = new XpressionSolver();
-		x.solve(txtSolveEnter, txtSolveShowHex, txtSolveShowBinary, txtSolveShowDecimal, statusBar, gPaneXsolveTab);
+		x.solve(txtSolveEnter, txtSolveShowHex, txtSolveShowBinary, txtSolveShowDecimal, statusBar, gPaneXsolve);
 		Preferences.setxSolveLastData(txtSolveEnter.getText());
+	}
+
+    private void solveReverseXpression(ActionEvent event) {
+		XpressionSolver x = new XpressionSolver();
+		x.reverseSolve(txtSolveEnter, txtSolveShowHex, txtSolveShowBinary, txtSolveShowDecimal, statusBar, gPaneXsolve, event);
+		Preferences.setxSolveLastData(txtSolveEnter.getText());
+
 	}
 
 	private void displayAboutMe() {
@@ -555,18 +589,9 @@ public class MainWindowController implements Initializable{
 			input = getClass().getResource("/version.properties").openStream();
 			prop.load(input);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		String ver = prop.getProperty("MAJOR_VERSION") + "."+ prop.getProperty("MINOR_VERSION") + "." + prop.getProperty("BUILD_NO");
 		MsgBox.display("About Me", "BitPro\nVersion: "+ ver +"\nAuthor: Tejender Sheoran\nEmail: tejendersheoran@gmail.com\nCopyright(C) (2016-2017) Tejender Sheoran\nThis program is free software. You can redistribute it and/or modify it\nunder the terms of the GNU General Public License Ver 3.\n<http://www.gnu.org/licenses/>");
-	}
-
-    private void solveReverseXpression(ActionEvent event) {
-		XpressionSolver x = new XpressionSolver();
-		x.reverseSolve(txtSolveEnter, txtSolveShowHex, txtSolveShowBinary, txtSolveShowDecimal, statusBar, gPaneXsolveTab, event);
-		Preferences.setxSolveLastData(txtSolveEnter.getText());
-
 	}
 
 	private void parseSimpleRegister(ActionEvent event) {
@@ -577,18 +602,9 @@ public class MainWindowController implements Initializable{
 		}
 	}
 
-	private void genMacros(ActionEvent event){
-		if(curLoadedFile != null){
-			TextViewer.display("Generated Macros", SProMacroGen.run(curLoadedFile, txtLoadViewPrefix.getText()));
-		}
-		else {
-			statusBar.setText("Operation Fail: No file loaded");
-		}
-	}
-
-    private void utilsGenerateFn(ActionEvent event) {
-		TextViewer.display("Generated Code", UtilsFSMGen.run(txtUtilsFnNamePrefix.getText(),
-				txtUtilsFnPrefix.getText(), txtUtilsFnPostFix.getText(), txtAreaUtil1StateNames, txtAreaUtil1EventNames));
+    private void utilsFSMGenerateFn(ActionEvent event) {
+		TextViewer.display("Generated Code", UtilsFSMGen.run(txtUtilFSMFnNamePrefix.getText(),
+				txtUtilFSMFnPrefix.getText(), txtUtilFSMFnPostFix.getText(), txtAreaUtilFSMStateName, txtAreaUtilFSMEventName));
 	}
 
 	private void utilsGenerateSwitchCase(ActionEvent event) {

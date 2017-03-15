@@ -2,6 +2,8 @@
 # use combobox only if enum present otherwise use textboxes use object list and then match if combo or textbox
 # Add icon to application
 # Use extension to differentiate between file types. spro = simple, bpro = complex, dpro = design complex pro 
+# SPromacro generator need to provide seprate fn for macros enums structures generation so that complex file can
+align same categories object together.
 
 # file explorer 
 # Dpro name textfield

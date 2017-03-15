@@ -56,7 +56,7 @@
                <items>
                   <Button fx:id="bOpen" mnemonicParsing="false" onAction="#openBitFile" prefHeight="31.0" prefWidth="64.0" text="Open" />
                   <Button fx:id="bSave" mnemonicParsing="false" onAction="#saveBitFile" prefHeight="31.0" prefWidth="61.0" text="Save" />
-                  <Button fx:id="bLoad" mnemonicParsing="false" onAction="#loadBitField" prefHeight="31.0" prefWidth="64.0" text="Load" />
+                  <Button fx:id="bLoad" mnemonicParsing="false" onAction="#loadBitFile" prefHeight="31.0" prefWidth="64.0" text="Load" />
                   <Button fx:id="bGenMacros" mnemonicParsing="false" onAction="#generateMacros" prefHeight="31.0" prefWidth="133.0" text="Generate Macros" />
                </items>
             </ToolBar>
@@ -226,17 +226,108 @@
                               </content>
                             </Tab>
                             <Tab fx:id="tabDPro" text="DPro">
-                              <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <content>
+                                    <AnchorPane>
                                        <children>
-                                          <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                            <content>
-                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                                            </content>
-                                          </ScrollPane>
+                                          <SplitPane dividerPositions="0.2" prefHeight="371.0" prefWidth="775.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <items>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                                   <children>
+                                                      <VBox prefHeight="22.0" prefWidth="1021.0">
+                                                         <children>
+                                                            <ToolBar prefHeight="10.0" prefWidth="1021.0">
+                                                               <items>
+                                                                  <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="90.0" text="Browse" />
+                                                               </items>
+                                                            </ToolBar>
+                                                            <TextField fx:id="bDProBrowse" onAction="#dproBrowse" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </AnchorPane>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                                   <children>
+                                                      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <top>
+                                                            <VBox prefHeight="45.0" prefWidth="614.0" BorderPane.alignment="CENTER">
+                                                               <children>
+                                                                  <ToolBar prefHeight="6.0" prefWidth="662.0">
+                                                                     <items>
+                                                                        <Label text="Name">
+                                                                           <padding>
+                                                                              <Insets right="15.0" />
+                                                                           </padding>
+                                                                        </Label>
+                                                                        <JFXTextField fx:id="txtDProName" maxWidth="344.0" minWidth="344.0" prefHeight="31.0" prefWidth="344.0" />
+                                                                     </items>
+                                                                  </ToolBar>
+                                                               </children>
+                                                            </VBox>
+                                                         </top>
+                                                         <bottom>
+                                                            <VBox prefHeight="109.0" prefWidth="775.0" BorderPane.alignment="CENTER">
+                                                               <children>
+                                                                  <GridPane prefHeight="63.0" prefWidth="775.0">
+                                                                     <columnConstraints>
+                                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                                     </columnConstraints>
+                                                                     <rowConstraints>
+                                                                        <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                                                                        <RowConstraints maxHeight="33.0" minHeight="5.0" prefHeight="16.0" vgrow="SOMETIMES" />
+                                                                        <RowConstraints maxHeight="12.0" minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
+                                                                     </rowConstraints>
+                                                                     <children>
+                                                                        <TextField fx:id="txtDProFieldName" promptText="Field Name" />
+                                                                        <TextField fx:id="txtDProFieldSize" promptText="Field Size" GridPane.columnIndex="1" />
+                                                                        <TextField fx:id="txtDProFieldRPath" promptText="Relative Path" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                                        <TextField fx:id="txtDProFieldDesc" promptText="Description (Optional)" GridPane.rowIndex="1" />
+                                                                     </children>
+                                                                  </GridPane>
+                                                                  <ToolBar prefHeight="20.0" prefWidth="775.0">
+                                                                     <items>
+                                                                        <Button fx:id="bDProAdd" mnemonicParsing="false" onAction="#dproAddField" text="Add" />
+                                                                        <Button fx:id="bDProDelete" mnemonicParsing="false" onAction="#dproDeleteField" text="Delete" />
+                                                                        <Button fx:id="bDProModify" mnemonicParsing="false" onAction="#dproModifyField" text="Modify" />
+                                                                        <Button fx:id="bDProUp" mnemonicParsing="false" onAction="#dproMoveFieldUp" text="Up" />
+                                                                        <Button fx:id="bDProDown" mnemonicParsing="false" onAction="#dproMoveFieldDown" text="Down" />
+                                                                     </items>
+                                                                  </ToolBar>
+                                                               </children>
+                                                            </VBox>
+                                                         </bottom>
+                                                         <center>
+                                                            <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                                               <children>
+                                                                  <TableView fx:id="tViewDPro" editable="true" prefHeight="153.0" prefWidth="662.0" tableMenuButtonVisible="true">
+                                                                     <columns>
+                                                                        <TableColumn fx:id="tColDProTypeName" prefWidth="100.0" sortable="false" text="Type" />
+                                                                        <TableColumn fx:id="tColDProFname" sortable="false" text="Name" />
+                                                                        <TableColumn fx:id="tColDProFsize" prefWidth="105.0" sortable="false" text="Size" />
+                                                                        <TableColumn fx:id="tColDProFdesc" prefWidth="205.0" sortable="false" text="Description" />
+                                                                        <TableColumn fx:id="tColDProFrelPath" prefWidth="205.0" sortable="false" text="Relative Path" />
+                                                                     </columns>
+                                                                     <columnResizePolicy>
+                                                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                                     </columnResizePolicy>
+                                                                     <opaqueInsets>
+                                                                        <Insets />
+                                                                     </opaqueInsets>
+                                                                  </TableView>
+                                                               </children>
+                                                               <opaqueInsets>
+                                                                  <Insets />
+                                                               </opaqueInsets>
+                                                            </StackPane>
+                                                         </center>
+                                                      </BorderPane>
+                                                   </children>
+                                                </AnchorPane>
+                                             </items>
+                                          </SplitPane>
                                        </children>
                                     </AnchorPane>
-                              </content>
+                                 </content>
                             </Tab>
                               <Tab fx:id="tabLoad" text="Load">
                                  <content>
@@ -247,7 +338,7 @@
                                              <children>
                                                 <ToolBar prefHeight="37.0" prefWidth="593.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <items>
-                                                      <Label fx:id="lbNameLoadView" text="Name">
+                                                      <Label fx:id="lbLoadName" text="Name">
                                                          <font>
                                                             <Font name="System Bold" size="15.0" />
                                                          </font>
@@ -258,22 +349,22 @@
                                                    <items>
                                                       <RadioButton fx:id="rbLoadViewHex" mnemonicParsing="false" onAction="#displayHexLoadView" selected="true" text="Hex">
                                                          <toggleGroup>
-                                                            <ToggleGroup fx:id="toggleGroupRadixSelect" />
+                                                            <ToggleGroup fx:id="tgLoadRadixSel" />
                                                          </toggleGroup>
                                                       </RadioButton>
-                                                      <RadioButton fx:id="rbLoadViewDecimal" mnemonicParsing="false" onAction="#displayDecimalLoadView" text="Decimal" toggleGroup="$toggleGroupRadixSelect" />
-                                                      <RadioButton fx:id="rbLoadViewBinary" mnemonicParsing="false" onAction="#displayBinaryLoadView" text="Binary" toggleGroup="$toggleGroupRadixSelect" />
-                                                      <TextField fx:id="txtLoadViewPrefix" promptText="Macros Prefix" />
+                                                      <RadioButton fx:id="rbLoadDecimal" mnemonicParsing="false" onAction="#displayDecimalLoadView" text="Decimal" toggleGroup="$tgLoadRadixSel" />
+                                                      <RadioButton fx:id="rbLoadBinary" mnemonicParsing="false" onAction="#displayBinaryLoadView" text="Binary" toggleGroup="$tgLoadRadixSel" />
+                                                      <TextField fx:id="txtLoadPrefix" promptText="Macros Prefix" />
                                                    </items>
                                                 </ToolBar>
                                                 <VBox layoutY="89.0" prefHeight="95.0" prefWidth="616.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="89.0">
                                                    <children>
-                                                      <TextField fx:id="txtLoadTabData" prefHeight="42.0" prefWidth="616.0" promptText="Value" />
+                                                      <TextField fx:id="txtLoadEnterData" prefHeight="42.0" prefWidth="616.0" promptText="Value" />
                                                    </children>
                                                 </VBox>
                                                 <ScrollPane layoutY="130.0" pannable="true" prefHeight="293.0" prefWidth="616.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="130.0">
                                                    <content>
-                                                      <GridPane fx:id="gpaneLoadTab" hgap="20.0" prefWidth="593.0" vgap="10.0">
+                                                      <GridPane fx:id="gpaneLoad" hgap="20.0" prefWidth="593.0" vgap="10.0">
                                                         <columnConstraints>
                                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -316,7 +407,7 @@
                                                    <font>
                                                       <Font size="18.0" />
                                                    </font></TextField>
-                                                <GridPane fx:id="gPaneXsolveTab" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="773.0">
+                                                <GridPane fx:id="gPaneXsolve" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="773.0">
                                                   <columnConstraints>
                                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -574,12 +665,12 @@
                                                                            <items>
                                                                               <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="248.0" prefWidth="775.0">
                                                                                  <content>
-                                                                                    <JFXTextArea fx:id="txtAreaUtil1StateNames" maxHeight="1.7976931348623157E308" maxWidth="775.0" minWidth="775.0" prefHeight="321.0" prefWidth="775.0" promptText="Paste here list of states (One state in one line) Just the state name, Proper prefix will be automatically added" />
+                                                                                    <JFXTextArea fx:id="txtAreaUtilFSMStateName" maxHeight="1.7976931348623157E308" maxWidth="775.0" minWidth="775.0" prefHeight="321.0" prefWidth="775.0" promptText="Paste here list of states (One state in one line) Just the state name, Proper prefix will be automatically added" />
                                                                                  </content>
                                                                               </ScrollPane>
                                                                               <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="119.0" prefWidth="775.0">
                                                                                  <content>
-                                                                                    <JFXTextArea fx:id="txtAreaUtil1EventNames" maxWidth="775.0" minWidth="775.0" prefHeight="321.0" prefWidth="775.0" promptText="Paste here list of events(One event in one line) Just the event, Proper prefix will be automatically added" />
+                                                                                    <JFXTextArea fx:id="txtAreaUtilFSMEventName" maxWidth="775.0" minWidth="775.0" prefHeight="321.0" prefWidth="775.0" promptText="Paste here list of events(One event in one line) Just the event, Proper prefix will be automatically added" />
                                                                                  </content>
                                                                               </ScrollPane>
                                                                            </items>
@@ -593,16 +684,16 @@
                                                                         <ToolBar prefHeight="34.0" prefWidth="775.0">
                                                                            <items>
                                                                               <Label text="Name" />
-                                                                              <TextField fx:id="txtUtilsFnNamePrefix" promptText="FSM Name" />
+                                                                              <TextField fx:id="txtUtilFSMFnNamePrefix" promptText="FSM Name" />
                                                                               <Label text="Fn Prefix" />
-                                                                              <TextField fx:id="txtUtilsFnPrefix" promptText="Prefix" />
+                                                                              <TextField fx:id="txtUtilFSMFnPrefix" promptText="Prefix" />
                                                                               <Label text="Fn Prefix" />
-                                                                              <TextField fx:id="txtUtilsFnPostFix" promptText="Postfix" />
+                                                                              <TextField fx:id="txtUtilFSMFnPostFix" promptText="Postfix" />
                                                                            </items>
                                                                         </ToolBar>
                                                                         <ToolBar prefHeight="34.0" prefWidth="775.0">
                                                                            <items>
-                                                                              <Button fx:id="bUtilsGenerateFn" mnemonicParsing="false" onAction="#utilsGenFunction" text="FSM Func" />
+                                                                              <Button fx:id="bUtilFSMGenFn" mnemonicParsing="false" onAction="#utilsGenFunction" text="FSM Func" />
                                                                            </items>
                                                                         </ToolBar>
                                                                      </children>

@@ -29,7 +29,7 @@ public class SProMacroGen {
 		return xBuilder;
 	}
 
-	private static void addPreface(StringBuilder xBuilder){
+	public static void addPreface(StringBuilder xBuilder){
 		String prefaceString = "BitPro Auto Generated File ";
 		DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 		Date dateobj = new Date();
@@ -38,14 +38,15 @@ public class SProMacroGen {
 	}
 
 	private static void genMacrosSPRO(StringBuilder xBuilder, Element sElement, String prefix) {
-
+		xBuilder.append("\n/* Macros */\n");
 		genPosMaskSPRO(xBuilder,sElement, prefix);
+		xBuilder.append("\n/* Formation Macros */\n");		
 		genFormationMacroSPRO(xBuilder,sElement);
 		genEnumSPRO(xBuilder, sElement);
 		genStructSPRO(xBuilder, sElement);
 	}
 
-	private static void genStructSPRO(StringBuilder xBuilder, Element sElement) {
+	public static void genStructSPRO(StringBuilder xBuilder, Element sElement) {
 		String nameString = UtilsBPro.getSProName(sElement).toLowerCase();
 		xBuilder.append("/**\n");
 		xBuilder.append(" * @typedef " + nameString + "_t"+ "\n");
@@ -99,8 +100,7 @@ public class SProMacroGen {
 		}
 	}
 
-	private static void genPosMaskSPRO(StringBuilder xBuilder, Element sElement, String prefix) {
-		xBuilder.append("\n/* Macros */\n");
+	public static void genPosMaskSPRO(StringBuilder xBuilder, Element sElement, String prefix) {		
 		Integer len = UtilsBPro.getSProLength(sElement);
 		int maxStringSize = 0;
 		for(int i = 0; i < UtilsBPro.getSProFieldsCount(sElement); i++){
@@ -142,8 +142,7 @@ public class SProMacroGen {
 		}
 	}
 
-	private static void genFormationMacroSPRO(StringBuilder xBuilder, Element sElement) {
-		xBuilder.append("\n/* Formation Macros */\n");
+	public static void genFormationMacroSPRO(StringBuilder xBuilder, Element sElement) {
 		String name = "FORM_" + UtilsBPro.getSProName(sElement).toUpperCase();
 		String a = "#define " + name + "(";
 		int len1 = a.length();
@@ -187,7 +186,7 @@ public class SProMacroGen {
 		xBuilder.append("\n\n");
 	}
 
-	private static void genEnumSPRO(StringBuilder xBuilder, Element sElement) {
+	public static void genEnumSPRO(StringBuilder xBuilder, Element sElement) {
 
 		for(int i = 0; i < UtilsBPro.getSProFieldsCount(sElement); i++){
 

@@ -41,18 +41,18 @@ public class UtilsBPro {
 		return openBitFile(win, extensionFilters);
 	}
 
-	public static File openBProFile(Window win){
+	public static File openCProFile(Window win){
 		ObservableList<ExtensionFilter> extensionFilters = FXCollections.observableArrayList();
-		extensionFilters.add(new ExtensionFilter("BitPro Files(*.bpro)", "*.bpro"));
+		extensionFilters.add(new ExtensionFilter("BitPro Files(*.cpro)", "*.cpro"));
 		return openBitFile(win, extensionFilters);
 	}
 	
 	public static File openLoadFile(Window win){
 		
 		ObservableList<ExtensionFilter> extensionFilters = FXCollections.observableArrayList();
-		extensionFilters.add(new ExtensionFilter("BitPro Files(All Files)", "*.spro", "bpro", "*.bpro"));		
+		extensionFilters.add(new ExtensionFilter("BitPro Files(All Files)", "*.spro", "cpro", "*.cpro"));		
 		extensionFilters.add(new ExtensionFilter("BitPro Files(*.spro)", "*.spro"));
-		extensionFilters.add(new ExtensionFilter("BitPro Files(*.bpro)", "*.bpro"));		
+		extensionFilters.add(new ExtensionFilter("BitPro Files(*.cpro)", "*.cpro"));		
 		return openBitFile(win, extensionFilters);
 	}	
 	

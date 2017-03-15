@@ -49,7 +49,7 @@ public class SProCreate {
 		Element type = new Element("stype");
 		type.setText("simple");
 		head.addContent(type);
-
+		
 		Element size = new Element("slen");
 		size.setText(struct_size.toString());
 		head.addContent(size);
