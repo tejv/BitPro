@@ -18,13 +18,22 @@ import javafx.scene.control.Tab;
 public class Preferences {
 	private static File lastDirectory = null;
 	private static File lastLoadedFile = null;
-	private static String lastOpenTabName = "tabCreate";
+	private static String lastOpenTabName = "tabSPro";
 	private static String xSolveLastData = "0";
 	private static String loadViewPrefixValue = "";
 	private static String utilsFnNamePrefixString = "";
 	private static String utilsFnPrefixString = "";
 	private static String utilsFnPostfixString = "";
+	private static File dproLastBrowseDir = null;
 	
+	public static File getDproLastBrowseDir() {
+		return dproLastBrowseDir;
+	}
+
+	public static void setDproLastBrowseDir(File dproLastBrowseDir) {
+		Preferences.dproLastBrowseDir = dproLastBrowseDir;
+	}
+
 	public static String getUtilsFnNamePrefixString() {
 		return utilsFnNamePrefixString;
 	}
@@ -159,6 +168,13 @@ public class Preferences {
 			if(temp != null){
 				utilsFnPostfixString = temp;
 			}
+			
+			temp = prefDoc.getElementsByTagName("dproLastBrowseDir").item(0).getTextContent();
+			if(!temp.equals("null"))
+			{
+				dproLastBrowseDir = new File(temp);
+			}	
+			
 			return true;
 		} catch (Exception e) {
 			
@@ -212,6 +228,16 @@ public class Preferences {
 		Element fnPostfix = new Element("lastUtilsGen1FnPostfix");
 		fnPostfix.setText(utilsFnPostfixString);
 		theRoot.addContent(fnPostfix);
+		
+		
+		Element dproBrowseDir = new Element("dproLastBrowseDir");
+		if(dproLastBrowseDir != null){
+			dproBrowseDir.setText(dproLastBrowseDir.getAbsolutePath());
+		}
+		else{
+			dproBrowseDir.setText("null");
+		}
+		theRoot.addContent(dproBrowseDir);
 		
 		XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
 		try {

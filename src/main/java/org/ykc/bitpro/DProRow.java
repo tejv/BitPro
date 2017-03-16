@@ -5,11 +5,11 @@ public class DProRow {
 	private String name;
 	private String size;
 	private String desc;
-	private String rPath;
+	private String rpath;
 
-	public DProRow(String type, String name, String size, String desc, String rPath) throws Exception
+	public DProRow(String type, String name, String size, String desc, String rpath) throws Exception
 	{
-		if((name.trim().isEmpty()) || (rPath.isEmpty()) || (Utils.parseStringtoNumber(size) == 0))
+		if((type.trim().isEmpty()) ||(Utils.parseStringtoNumber(size) == 0))
 		{
 			throw new Exception("Invalid Parameters");
 		}		
@@ -17,7 +17,7 @@ public class DProRow {
 		this.name = name;
 		this.size = size;
 		this.desc = desc;
-		this.rPath = rPath;
+		this.rpath = rpath;
 	}
 
 	public String getType() {
@@ -44,10 +44,10 @@ public class DProRow {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	public String getrPath() {
-		return rPath;
+	public String getRpath() {
+		return rpath;
 	}
-	public void setrPath(String rPath) {
-		this.rPath = rPath;
+	public void setRpath(String rpath) {
+		this.rpath = rpath;
 	}
 }

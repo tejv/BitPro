@@ -237,12 +237,13 @@
                                                          <children>
                                                             <ToolBar prefHeight="10.0" prefWidth="1021.0">
                                                                <items>
-                                                                  <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="90.0" text="Browse" />
+                                                                  <Button fx:id="bDProBrowse" mnemonicParsing="false" onAction="#dproBrowse" prefHeight="31.0" prefWidth="72.0" text="Browse" />
                                                                </items>
                                                             </ToolBar>
-                                                            <TextField fx:id="bDProBrowse" onAction="#dproBrowse" />
+                                                            <TextField />
                                                          </children>
                                                       </VBox>
+                                                      <JFXListView fx:id="lViewDPro" layoutY="73.0" prefHeight="298.0" prefWidth="151.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="73.0" />
                                                    </children>
                                                 </AnchorPane>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -265,45 +266,47 @@
                                                             </VBox>
                                                          </top>
                                                          <bottom>
-                                                            <VBox prefHeight="109.0" prefWidth="775.0" BorderPane.alignment="CENTER">
+                                                            <VBox prefHeight="155.0" prefWidth="614.0" BorderPane.alignment="CENTER">
                                                                <children>
-                                                                  <GridPane prefHeight="63.0" prefWidth="775.0">
+                                                                  <GridPane prefHeight="122.0" prefWidth="614.0">
                                                                      <columnConstraints>
                                                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                                      </columnConstraints>
                                                                      <rowConstraints>
                                                                         <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
-                                                                        <RowConstraints maxHeight="33.0" minHeight="5.0" prefHeight="16.0" vgrow="SOMETIMES" />
-                                                                        <RowConstraints maxHeight="12.0" minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
+                                                                        <RowConstraints maxHeight="45.0" minHeight="5.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                                                        <RowConstraints maxHeight="42.0" minHeight="0.0" prefHeight="37.0" vgrow="SOMETIMES" />
                                                                      </rowConstraints>
                                                                      <children>
-                                                                        <TextField fx:id="txtDProFieldName" promptText="Field Name" />
-                                                                        <TextField fx:id="txtDProFieldSize" promptText="Field Size" GridPane.columnIndex="1" />
-                                                                        <TextField fx:id="txtDProFieldRPath" promptText="Relative Path" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                                                        <TextField fx:id="txtDProFieldDesc" promptText="Description (Optional)" GridPane.rowIndex="1" />
+                                                                        <TextField fx:id="txtDProFieldName" promptText="Field Name" GridPane.columnIndex="1" />
+                                                                        <TextField fx:id="txtDProFieldSize" promptText="Field Size" GridPane.rowIndex="1" />
+                                                                        <TextField fx:id="txtDProFieldRPath" promptText="Relative Path" GridPane.rowIndex="2" />
+                                                                        <TextField fx:id="txtDProFieldDesc" promptText="Description (Optional)" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                                        <TextField fx:id="txtDProTypeName" promptText="Type Name" />
                                                                      </children>
                                                                   </GridPane>
-                                                                  <ToolBar prefHeight="20.0" prefWidth="775.0">
+                                                                  <ToolBar prefHeight="24.0" prefWidth="614.0">
                                                                      <items>
                                                                         <Button fx:id="bDProAdd" mnemonicParsing="false" onAction="#dproAddField" text="Add" />
                                                                         <Button fx:id="bDProDelete" mnemonicParsing="false" onAction="#dproDeleteField" text="Delete" />
                                                                         <Button fx:id="bDProModify" mnemonicParsing="false" onAction="#dproModifyField" text="Modify" />
                                                                         <Button fx:id="bDProUp" mnemonicParsing="false" onAction="#dproMoveFieldUp" text="Up" />
                                                                         <Button fx:id="bDProDown" mnemonicParsing="false" onAction="#dproMoveFieldDown" text="Down" />
+                                                                        <Button fx:id="bDProGenCPro" mnemonicParsing="false" onAction="#dproGenCPro" text="Gen CPro" />
                                                                      </items>
                                                                   </ToolBar>
                                                                </children>
                                                             </VBox>
                                                          </bottom>
                                                          <center>
-                                                            <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                                            <StackPane prefHeight="177.0" prefWidth="614.0" BorderPane.alignment="CENTER">
                                                                <children>
                                                                   <TableView fx:id="tViewDPro" editable="true" prefHeight="153.0" prefWidth="662.0" tableMenuButtonVisible="true">
                                                                      <columns>
                                                                         <TableColumn fx:id="tColDProTypeName" prefWidth="100.0" sortable="false" text="Type" />
                                                                         <TableColumn fx:id="tColDProFname" sortable="false" text="Name" />
-                                                                        <TableColumn fx:id="tColDProFsize" prefWidth="105.0" sortable="false" text="Size" />
+                                                                        <TableColumn fx:id="tColDProFsize" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" sortable="false" text="Size" />
                                                                         <TableColumn fx:id="tColDProFdesc" prefWidth="205.0" sortable="false" text="Description" />
                                                                         <TableColumn fx:id="tColDProFrelPath" prefWidth="205.0" sortable="false" text="Relative Path" />
                                                                      </columns>

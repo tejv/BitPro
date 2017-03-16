@@ -21,6 +21,7 @@ import org.controlsfx.control.StatusBar;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.sun.glass.ui.Application;
@@ -48,6 +49,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -235,10 +237,13 @@ public class MainWindowController implements Initializable{
     private Button bUtilsGenSwitch; // Value injected by FXMLLoader
 
     @FXML // fx:id="bDProBrowse"
-    private TextField bDProBrowse; // Value injected by FXMLLoader
+    private Button bDProBrowse; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtDProName"
     private JFXTextField txtDProName; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtDProTypeName"
+    private TextField txtDProTypeName; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtDProFieldName"
     private TextField txtDProFieldName; // Value injected by FXMLLoader
@@ -267,8 +272,14 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="bDProDown"
     private Button bDProDown; // Value injected by FXMLLoader
 
+    @FXML // fx:id="bDProGenCPro"
+    private Button bDProGenCPro; // Value injected by FXMLLoader
+    
     @FXML // fx:id="tViewDPro"
     private TableView<DProRow> tViewDPro; // Value injected by FXMLLoader
+
+    @FXML // fx:id="lViewDPro"
+    private JFXListView<String> lViewDPro; // Value injected by FXMLLoader`
 
     @FXML // fx:id="tColDProTypeName"
     private TableColumn<DProRow, String> tColDProTypeName; // Value injected by FXMLLoader
@@ -289,11 +300,21 @@ public class MainWindowController implements Initializable{
 
     private BProLoad bProLoad;
 
+    private DProCreate dproCreate;
+    private DProOpen dproOpen;
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 	    bProLoad = new BProLoad(txtLoadEnterData, txtLoadPrefix,
 	    		borderPaneMainWindow, statusBar, gpaneLoad, lbLoadName);
+	    dproCreate = new DProCreate(myStage, lViewDPro, tViewDPro, txtDProName,
+	    		txtDProTypeName, txtDProFieldName, txtDProFieldSize,
+				txtDProFieldRPath, txtDProFieldDesc, statusBar, borderPaneMainWindow);
+	    dproOpen = new DProOpen(myStage, tViewDPro, txtDProName, txtDProTypeName,
+	    		txtDProFieldName, txtDProFieldSize, txtDProFieldRPath, txtDProFieldDesc,
+	    		borderPaneMainWindow, statusBar);
 		Preferences.loadPreferences();
+		dproCreate.browseDir(Preferences.getDproLastBrowseDir());
 		txtLoadPrefix.setText(Preferences.getLoadViewPrefixValue());
 		txtUtilFSMFnNamePrefix.setText(Preferences.getUtilsFnNamePrefixString());
 		txtUtilFSMFnPrefix.setText(Preferences.getUtilsFnPrefixString());
@@ -307,10 +328,10 @@ public class MainWindowController implements Initializable{
 		case "tabLoad":
 			tabPaneMain.getSelectionModel().select(tabLoad);
 			break;
-		case "tabCreate":
+		case "tabSPro":
 			tabPaneMain.getSelectionModel().select(tabSPro);
 			break;
-		case "tabCombine":
+		case "tabDPro":
 			tabPaneMain.getSelectionModel().select(tabDPro);
 			break;
 		case "tabSolver":
@@ -318,6 +339,7 @@ public class MainWindowController implements Initializable{
 			break;
 		case "tabParse":
 			tabPaneMain.getSelectionModel().select(tabParse);
+			break;
 		case "tabUtils":
 			tabPaneMain.getSelectionModel().select(tabUtils);
 			break;
@@ -343,17 +365,19 @@ public class MainWindowController implements Initializable{
 		tColDProFname.setCellValueFactory(new PropertyValueFactory<>("name"));
 		tColDProFsize.setCellValueFactory(new PropertyValueFactory<>("size"));
 		tColDProFdesc.setCellValueFactory(new PropertyValueFactory<>("desc"));
-		tColDProFrelPath.setCellValueFactory(new PropertyValueFactory<>("rPath"));
+		tColDProFrelPath.setCellValueFactory(new PropertyValueFactory<>("rpath"));
 		tViewDPro.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		tViewDPro.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 		    if (newSelection != null) {
 		    	DProRow x = tViewDPro.getSelectionModel().getSelectedItem();
+		    	txtDProTypeName.setText(x.getType());
 		    	txtDProFieldName.setText(x.getName());
 	    		txtDProFieldSize.setText(x.getSize());
 	    		txtDProFieldDesc.setText(x.getDesc());
-	    		txtDProFieldRPath.setText(x.getrPath());
+	    		txtDProFieldRPath.setText(x.getRpath());
 		    }
 		});
+
 		/* Not using this pane for now */
 		splitPaneFileExplorer.getItems().remove(splitPaneFileExplorer.getItems().get(0));
 		tabPaneMain.getSelectionModel().selectedItemProperty().addListener(
@@ -366,7 +390,7 @@ public class MainWindowController implements Initializable{
 			    }
 			);
 	}
-	
+
     @FXML
     void exitApplication(ActionEvent event) {
     	closeProgram();
@@ -409,17 +433,29 @@ public class MainWindowController implements Initializable{
 
     @FXML
     void openBitFile(ActionEvent event) {
-    	SProOpen.run(borderPaneMainWindow, txtSProFieldName,
+    	if(tabPaneMain.getSelectionModel().getSelectedItem().getId().equals("tabSPro"))
+    	{
+    		SProOpen.run(borderPaneMainWindow, txtSProFieldName,
         		txtSProFieldSize, txtSProFieldDesc,
         		txtSProFieldEnum, txtSProName,
         		tgSProBitSel, tViewSPro, statusBar);
+    	}
+    	else {
+			dproOpen.run();
+		}
     }
 
     @FXML
     void saveBitFile(ActionEvent event) {
-    	SProCreate.run(txtSProName, rbSPro8bit,
+    	if(tabPaneMain.getSelectionModel().getSelectedItem().getId().equals("tabSPro"))
+    	{    	
+    		SProCreate.run(txtSProName, rbSPro8bit,
         		rbSPro16bit,rbSPro64bit, borderPaneMainWindow,
         		tViewSPro, statusBar);
+    	}
+    	else {
+    		dproCreate.save();
+		}
     }
 
     @FXML
@@ -473,33 +509,38 @@ public class MainWindowController implements Initializable{
 
     @FXML
     void dproAddField(ActionEvent event) {
-
+    	dproCreate.addField();
     }
 
     @FXML
     void dproBrowse(ActionEvent event) {
-
+    	dproCreate.browse();
     }
 
     @FXML
     void dproDeleteField(ActionEvent event) {
-
+    	UtilsTableView.removeSelItem(tViewDPro);
     }
 
     @FXML
     void dproModifyField(ActionEvent event) {
-
+    	dproCreate.modifyField();
     }
 
     @FXML
     void dproMoveFieldDown(ActionEvent event) {
-
+    	UtilsTableView.moveDownSelItem(tViewDPro);
     }
 
     @FXML
     void dproMoveFieldUp(ActionEvent event) {
-
+    	UtilsTableView.moveUpSelItem(tViewDPro);
     }
+    
+    @FXML
+    void dproGenCPro(ActionEvent event) {
+
+    }    
 
     @FXML
     void generateMacros(ActionEvent event) {
