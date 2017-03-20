@@ -1,41 +1,19 @@
 # enum add in combo and read back
 # use combobox only if enum present otherwise use textboxes use object list and then match if combo or textbox
+    -----Above faeture removed for now. Only textfields in view. Enum if any are shown via tooltip          ------
+
 # Add icon to application
 # Use extension to differentiate between file types. spro = simple, cpro = complex, dpro = design complex pro 
-# SPromacro generator need to provide seprate fn for macros enums structures generation so that complex file can
-align same categories object together.
 
-# file explorer 
-# Dpro name textfield
-# Dpro tableview columns
-sproname_t  dfName  dfCount dfDesc dfRelativePath
 
-#Option to modify, up/down, delete entries
 
-#File explorer view
-Double click on entry to add to table. By default count = 1.
+
+
+
+
+
 
 # Save of a dpro file result in genration of 2 files -> .dpro(abstract info) and .bpro(full information for load view)
-# basepath need to be configurable
-# .dpro
-
-<design>
-    <head>
-    <name> </name>
-    <xxx>
-    </head>
-    <body>
-        <dfield>
-                  <dfsname></dfsname>        
-                  <dfname></dfname>
-                  <dfcount>1</dfcount>
-                  <dfdesc></dfdesc>
-                  <dfrelativepath></dfrelativepath>
-        </dfield>
-    
-    </body>
-
-</design>
 
 #bpro will have explorer of simple fields (if array then also need to see how to set)
 #temp file will have all information so that user can modify from tmp file itself. Use delimiters to provide all info.

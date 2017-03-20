@@ -739,6 +739,7 @@
                                                                         <ToolBar prefHeight="34.0" prefWidth="775.0">
                                                                            <items>
                                                                               <Button fx:id="bUtilsGenSwitch" mnemonicParsing="false" onAction="#utilsGenSwitchCase" text="Switch Case" />
+                                                                              <Button fx:id="bUtilsGenFns" mnemonicParsing="false" onAction="#utilsGenFunctions" text="Functions" />
                                                                            </items>
                                                                         </ToolBar>
                                                                      </children>

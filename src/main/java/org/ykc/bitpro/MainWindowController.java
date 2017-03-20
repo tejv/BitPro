@@ -48,6 +48,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -236,6 +237,9 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="bUtilsGenSwitch"
     private Button bUtilsGenSwitch; // Value injected by FXMLLoader
 
+    @FXML // fx:id="bUtilsGenFns"
+    private Button bUtilsGenFns; // Value injected by FXMLLoader
+
     @FXML // fx:id="bDProBrowse"
     private Button bDProBrowse; // Value injected by FXMLLoader
 
@@ -382,6 +386,9 @@ public class MainWindowController implements Initializable{
 	    		txtDProFieldRPath.setText(x.getRpath());
 		    }
 		});
+
+		bUtilsGenSwitch.setTooltip(new Tooltip("Generate Switch Case from enum entries"));
+		bUtilsGenFns.setTooltip(new Tooltip("Generate Function prototype's comments and\n Function body"));
 
 		/* Not using this pane for now */
 		splitPaneFileExplorer.getItems().remove(splitPaneFileExplorer.getItems().get(0));
@@ -561,6 +568,11 @@ public class MainWindowController implements Initializable{
     void utilsGenSwitchCase(ActionEvent event) {
     	utilsGenerateSwitchCase(event);
     }
+    
+    @FXML
+    void utilsGenFunctions(ActionEvent event) {
+    	utilsGenerateFunctions(event);
+    }    
 
 	public void setStage(Stage stage) {
         myStage = stage;
@@ -657,6 +669,9 @@ public class MainWindowController implements Initializable{
 	private void utilsGenerateSwitchCase(ActionEvent event) {
 		TextViewer.display("Generated Code", UtilsSwitchCaseGen.run(txtAreaUtilGen));
 	}
-
+	
+	private void utilsGenerateFunctions(ActionEvent event) {
+		TextViewer.display("Generated Code", UtilsFuncGen.run(txtAreaUtilGen));		
+	}
 }
 
