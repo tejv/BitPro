@@ -37,13 +37,15 @@ public class DProCreate {
     private TextField txtDProFieldSize;
     private TextField txtDProFieldRPath;
     private TextField txtDProFieldDesc;
+    private JFXTextField txtDProBPath;
     private StatusBar statusBar;
 	private ObservableList<String> rPathList = FXCollections.observableArrayList();
 	public static final String basePath = System.getProperty("user.home") + "/BitPro/";
 
 	public DProCreate(Stage primaryStage, JFXListView<String> lViewDPro, TableView<DProRow> tViewDPro,
 			JFXTextField txtDProName, TextField txtDProTypeName, TextField txtDProFieldName, TextField txtDProFieldSize,
-			TextField txtDProFieldRPath, TextField txtDProFieldDesc, StatusBar statusBar, BorderPane borderPaneMainWindow) {
+			TextField txtDProFieldRPath, TextField txtDProFieldDesc, StatusBar statusBar, BorderPane borderPaneMainWindow,
+			JFXTextField txtDProBPath) {
 		this.primaryStage = primaryStage;
 		this.lViewDPro = lViewDPro;
 		this.tViewDPro = tViewDPro;
@@ -55,6 +57,7 @@ public class DProCreate {
 		this.txtDProFieldDesc = txtDProFieldDesc;
 		this.statusBar = statusBar;
 		this.borderPaneMainWindow = borderPaneMainWindow;
+		this.txtDProBPath = txtDProBPath;
 
 		lViewDPro.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -72,7 +75,7 @@ public class DProCreate {
 	public void browse(){
 		DirectoryChooser chooser = new DirectoryChooser();
 		chooser.setTitle("BitPro Files");
-		File defaultDirectory = new File(basePath);
+		File defaultDirectory = new File(txtDProBPath.getText());
 		if(!defaultDirectory.exists())
 		{
 			defaultDirectory.mkdir();
@@ -95,7 +98,7 @@ public class DProCreate {
 				if((extension.equals("spro")) || (extension.equals("cpro")) )
 				{
 					String path = f.getAbsolutePath();
-					String relative = new File(basePath).toURI().relativize(new File(path).toURI()).getPath();
+					String relative = new File(txtDProBPath.getText() + "/").toURI().relativize(new File(path).toURI()).getPath();
 					rPathList.add(relative);
 					lViewDPro.getItems().add(FilenameUtils.getBaseName(f.getName()) + "_t");
 				}
@@ -206,7 +209,7 @@ public class DProCreate {
 		head.addContent(type);
 
 		Element basePath = new Element("dBasePath");
-		basePath.setText("Dummy");
+		basePath.setText(txtDProBPath.getText());
 		head.addContent(basePath);
 
 		for(DProRow row: tViewDPro.getItems())

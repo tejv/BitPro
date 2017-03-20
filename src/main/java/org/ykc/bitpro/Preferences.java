@@ -25,7 +25,8 @@ public class Preferences {
 	private static String utilsFnPrefixString = "";
 	private static String utilsFnPostfixString = "";
 	private static File dproLastBrowseDir = null;
-	
+	private static File dproBasePath = new File(System.getProperty("user.home") + "/BitPro");
+
 	public static File getDproLastBrowseDir() {
 		return dproLastBrowseDir;
 	}
@@ -86,22 +87,22 @@ public class Preferences {
 	{
 		return lastDirectory;
 	}
-	
+
 	public static void setLastDirectory(File dir)
 	{
 		lastDirectory = dir;
 	}
-	
+
 	public static File getLastLoadedFile()
 	{
 		return lastLoadedFile;
 	}
-	
+
 	public static void setLastLoadedFile(File file)
 	{
 		lastLoadedFile = file;
-	}	
-	
+	}
+
 	public static boolean storePreferences()
 	{
 	    try {
@@ -115,13 +116,13 @@ public class Preferences {
 			}
 			return createPreferences(prefFile);
 		} catch (Exception e) {
-			
+
 		}
 		return false;
 	}
-	
+
 	public static boolean loadPreferences(){
-		
+
 	    try {
 			File prefFile = new File(System.getProperty("user.home"), "BitPro/preferences/app.xml");
 			if (! prefFile.exists()) {
@@ -136,14 +137,14 @@ public class Preferences {
 			if(!lastDir.equals("null"))
 			{
 				lastDirectory = new File(lastDir);
-			}	
-			lastOpenTabName = prefDoc.getElementsByTagName("lastOpenTab").item(0).getTextContent();		
+			}
+			lastOpenTabName = prefDoc.getElementsByTagName("lastOpenTab").item(0).getTextContent();
 			String fileName = prefDoc.getElementsByTagName("lastLoadFile").item(0).getTextContent();
 			if(!fileName.equals("null"))
 			{
 				lastLoadedFile = new File(fileName);
-			}	
-			
+			}
+
 			String xSolveDat = prefDoc.getElementsByTagName("xSolveLastData").item(0).getTextContent();
 			if(xSolveDat != null)
 			{
@@ -153,35 +154,49 @@ public class Preferences {
 			if(temp != null){
 				loadViewPrefixValue = temp;
 			}
-			
+
 			temp = prefDoc.getElementsByTagName("lastUtilsGen1FnNamePrefix").item(0).getTextContent();
 			if(temp != null){
 				utilsFnNamePrefixString = temp;
 			}
-			
+
 			temp = prefDoc.getElementsByTagName("lastUtilsGen1FnPrefix").item(0).getTextContent();
 			if(temp != null){
 				utilsFnPrefixString = temp;
 			}
-			
+
 			temp = prefDoc.getElementsByTagName("lastUtilsGen1FnPostfix").item(0).getTextContent();
 			if(temp != null){
 				utilsFnPostfixString = temp;
 			}
-			
+
 			temp = prefDoc.getElementsByTagName("dproLastBrowseDir").item(0).getTextContent();
 			if(!temp.equals("null"))
 			{
 				dproLastBrowseDir = new File(temp);
-			}	
-			
+			}
+
+			temp = prefDoc.getElementsByTagName("dproBasePath").item(0).getTextContent();
+			File file = new File(temp);
+			if(file.exists())
+			{
+				dproBasePath = file;
+			}
 			return true;
 		} catch (Exception e) {
-			
+
 		}
 		return false;
 	}
-	
+
+	public static File getDproBasePath() {
+		return dproBasePath;
+	}
+
+	public static void setDproBasePath(File dproBasePath) {
+		Preferences.dproBasePath = dproBasePath;
+	}
+
 	private static boolean createPreferences(File preFile){
 		Document doc = new Document();
 		Element theRoot = new Element("preferences");
@@ -195,7 +210,7 @@ public class Preferences {
 			lastDir.setText("null");
 		}
 		theRoot.addContent(lastDir);
-		
+
 		Element lastTab = new Element("lastOpenTab");
 		lastTab.setText(lastOpenTabName);
 		theRoot.addContent(lastTab);
@@ -208,28 +223,28 @@ public class Preferences {
 			lastLoadFile.setText("null");
 		}
 		theRoot.addContent(lastLoadFile);
-		
+
 		Element xsolveDat = new Element("xSolveLastData");
 		xsolveDat.setText(xSolveLastData);
 		theRoot.addContent(xsolveDat);
-		
+
 		Element loadPrefix = new Element("lastLoadViewPrefix");
 		loadPrefix.setText(loadViewPrefixValue);
 		theRoot.addContent(loadPrefix);
-		
+
 		Element fnNamePrefix = new Element("lastUtilsGen1FnNamePrefix");
 		fnNamePrefix.setText(utilsFnNamePrefixString);
-		theRoot.addContent(fnNamePrefix);	
-		
+		theRoot.addContent(fnNamePrefix);
+
 		Element fnPrefix = new Element("lastUtilsGen1FnPrefix");
 		fnPrefix.setText(utilsFnPrefixString);
 		theRoot.addContent(fnPrefix);
-		
+
 		Element fnPostfix = new Element("lastUtilsGen1FnPostfix");
 		fnPostfix.setText(utilsFnPostfixString);
 		theRoot.addContent(fnPostfix);
-		
-		
+
+
 		Element dproBrowseDir = new Element("dproLastBrowseDir");
 		if(dproLastBrowseDir != null){
 			dproBrowseDir.setText(dproLastBrowseDir.getAbsolutePath());
@@ -238,7 +253,11 @@ public class Preferences {
 			dproBrowseDir.setText("null");
 		}
 		theRoot.addContent(dproBrowseDir);
-		
+
+		Element dproBasePathElement = new Element("dproBasePath");
+		dproBasePathElement.setText(dproBasePath.getAbsolutePath());
+		theRoot.addContent(dproBasePathElement);
+
 		XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
 		try {
 			FileOutputStream x = new FileOutputStream(preFile);

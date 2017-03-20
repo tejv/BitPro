@@ -121,7 +121,7 @@ public class Utils {
 			x = Long.toString(value);
 			break;
 		default:
-			x = "0x" + Long.toHexString(value);
+			x = "0x" + Long.toHexString(value).toUpperCase();
 			break;
 		}
 		return x;

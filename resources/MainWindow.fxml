@@ -29,7 +29,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.StatusBar?>
 
-<BorderPane fx:id="borderPaneMainWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="522.0" prefWidth="868.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ykc.bitpro.MainWindowController">
+<BorderPane fx:id="borderPaneMainWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="561.0" prefWidth="907.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ykc.bitpro.MainWindowController">
    <top>
       <VBox prefHeight="65.0" prefWidth="1021.0" BorderPane.alignment="CENTER">
          <children>
@@ -259,7 +259,13 @@
                                                                               <Insets right="15.0" />
                                                                            </padding>
                                                                         </Label>
-                                                                        <JFXTextField fx:id="txtDProName" maxWidth="344.0" minWidth="344.0" prefHeight="31.0" prefWidth="344.0" />
+                                                                        <JFXTextField fx:id="txtDProName" maxWidth="344.0" minWidth="41.0" prefHeight="37.0" prefWidth="242.0" />
+                                                                        <Label text="BPath">
+                                                                           <padding>
+                                                                              <Insets right="15.0" />
+                                                                           </padding>
+                                                                        </Label>
+                                                                        <JFXTextField fx:id="txtDProBPath" maxWidth="344.0" minWidth="192.0" prefHeight="37.0" prefWidth="253.0" />
                                                                      </items>
                                                                   </ToolBar>
                                                                </children>
@@ -362,7 +368,10 @@
                                                 </ToolBar>
                                                 <VBox layoutY="89.0" prefHeight="95.0" prefWidth="616.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="89.0">
                                                    <children>
-                                                      <TextField fx:id="txtLoadEnterData" prefHeight="42.0" prefWidth="616.0" promptText="Value" />
+                                                      <TextField fx:id="txtLoadEnterData" prefHeight="42.0" prefWidth="616.0" promptText="Value">
+                                                         <font>
+                                                            <Font size="18.0" />
+                                                         </font></TextField>
                                                    </children>
                                                 </VBox>
                                                 <ScrollPane layoutY="130.0" pannable="true" prefHeight="293.0" prefWidth="616.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="130.0">

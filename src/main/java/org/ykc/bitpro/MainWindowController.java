@@ -242,6 +242,9 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="txtDProName"
     private JFXTextField txtDProName; // Value injected by FXMLLoader
 
+    @FXML // fx:id="txtDProBPath"
+    private JFXTextField txtDProBPath; // Value injected by FXMLLoader
+
     @FXML // fx:id="txtDProTypeName"
     private TextField txtDProTypeName; // Value injected by FXMLLoader
 
@@ -274,7 +277,7 @@ public class MainWindowController implements Initializable{
 
     @FXML // fx:id="bDProGenCPro"
     private Button bDProGenCPro; // Value injected by FXMLLoader
-    
+
     @FXML // fx:id="tViewDPro"
     private TableView<DProRow> tViewDPro; // Value injected by FXMLLoader
 
@@ -309,11 +312,13 @@ public class MainWindowController implements Initializable{
 	    		borderPaneMainWindow, statusBar, gpaneLoad, lbLoadName);
 	    dproCreate = new DProCreate(myStage, lViewDPro, tViewDPro, txtDProName,
 	    		txtDProTypeName, txtDProFieldName, txtDProFieldSize,
-				txtDProFieldRPath, txtDProFieldDesc, statusBar, borderPaneMainWindow);
+				txtDProFieldRPath, txtDProFieldDesc, statusBar, borderPaneMainWindow,
+				txtDProBPath);
 	    dproOpen = new DProOpen(myStage, tViewDPro, txtDProName, txtDProTypeName,
 	    		txtDProFieldName, txtDProFieldSize, txtDProFieldRPath, txtDProFieldDesc,
-	    		borderPaneMainWindow, statusBar);
+	    		borderPaneMainWindow, statusBar, txtDProBPath);
 		Preferences.loadPreferences();
+		txtDProBPath.setText(Preferences.getDproBasePath().getAbsolutePath());
 		dproCreate.browseDir(Preferences.getDproLastBrowseDir());
 		txtLoadPrefix.setText(Preferences.getLoadViewPrefixValue());
 		txtUtilFSMFnNamePrefix.setText(Preferences.getUtilsFnNamePrefixString());
@@ -448,7 +453,7 @@ public class MainWindowController implements Initializable{
     @FXML
     void saveBitFile(ActionEvent event) {
     	if(tabPaneMain.getSelectionModel().getSelectedItem().getId().equals("tabSPro"))
-    	{    	
+    	{
     		SProCreate.run(txtSProName, rbSPro8bit,
         		rbSPro16bit,rbSPro64bit, borderPaneMainWindow,
         		tViewSPro, statusBar);
@@ -536,11 +541,11 @@ public class MainWindowController implements Initializable{
     void dproMoveFieldUp(ActionEvent event) {
     	UtilsTableView.moveUpSelItem(tViewDPro);
     }
-    
+
     @FXML
     void dproGenCPro(ActionEvent event) {
 
-    }    
+    }
 
     @FXML
     void generateMacros(ActionEvent event) {
@@ -601,6 +606,7 @@ public class MainWindowController implements Initializable{
 		Preferences.setUtilsFnNamePrefixString(txtUtilFSMFnNamePrefix.getText());
 		Preferences.setUtilsFnPrefixString(txtUtilFSMFnPrefix.getText());
 		Preferences.setUtilsFnPostfixString(txtUtilFSMFnPostFix.getText());
+		Preferences.setDproBasePath(new File(txtDProBPath.getText()));
     	bProLoad.saveLoadedData();
     	Preferences.storePreferences();
 	}

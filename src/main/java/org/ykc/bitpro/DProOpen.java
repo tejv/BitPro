@@ -28,11 +28,12 @@ public class DProOpen {
     private TextField txtDProFieldRPath;
     private TextField txtDProFieldDesc;
     private StatusBar statusBar;
+    private JFXTextField txtDProBPath;
     
 	public DProOpen(Stage primaryStage, TableView<DProRow> tViewDPro, JFXTextField txtDProName,
 			TextField txtDProTypeName, TextField txtDProFieldName, TextField txtDProFieldSize,
 			TextField txtDProFieldRPath, TextField txtDProFieldDesc, BorderPane borderPaneMainWindow,
-			StatusBar statusBar) {
+			StatusBar statusBar,JFXTextField txtDProBPath) {
 		this.primaryStage = primaryStage;
 		this.tViewDPro = tViewDPro;
 		this.txtDProName = txtDProName;
@@ -43,6 +44,7 @@ public class DProOpen {
 		this.txtDProFieldDesc = txtDProFieldDesc;
 		this.borderPaneMainWindow = borderPaneMainWindow;
 		this.statusBar = statusBar;
+		this.txtDProBPath = txtDProBPath;
 	}
 
 	public void run() {
@@ -78,6 +80,9 @@ public class DProOpen {
 			return false;
 		}
 		txtDProName.setText(xmlDoc.getElementsByTagName("dname").item(0).getTextContent());
+		String valString = xmlDoc.getElementsByTagName("dBasePath").item(0).getTextContent();
+		File file = new File(valString);
+		txtDProBPath.setText(file.getAbsolutePath());
 		NodeList listOfFields = xmlDoc.getElementsByTagName("field");
 		for(int i=0; i < listOfFields.getLength(); i++){
 			Node fieldNode = listOfFields.item(i);
