@@ -705,6 +705,7 @@
                                                                         </ToolBar>
                                                                         <ToolBar prefHeight="34.0" prefWidth="775.0">
                                                                            <items>
+                                                                              <RadioButton fx:id="rbUtilsFSMIf" mnemonicParsing="false" text="if" />
                                                                               <Button fx:id="bUtilFSMGenFn" mnemonicParsing="false" onAction="#utilsGenFunction" text="FSM Func" />
                                                                            </items>
                                                                         </ToolBar>

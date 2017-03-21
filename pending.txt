@@ -2,7 +2,6 @@
 # use combobox only if enum present otherwise use textboxes use object list and then match if combo or textbox
     -----Above faeture removed for now. Only textfields in view. Enum if any are shown via tooltip          ------
 
-# Add icon to application
 # Use extension to differentiate between file types. spro = simple, cpro = complex, dpro = design complex pro 
 
 
@@ -21,10 +20,7 @@
 #cpro what about structure inside a structure. i.e cpro inside a cpro.
 
 
-#utils function body from prototype. just copy entire .h file and generate function definitions
-#utils auto add #define just take  name and value and create macros
-#utils auto add comments to function prototypes based on params. Very handy
-#utils auto create enums just take enum strings. comment section and typedef auto added.
-#utils in fsm generator add option to generate switch case or if else.
+#utils auto add #define , prefix , just take  name and value and create macros with proper alignment.
+#auto matic generate word file for all function prototypes with tabular view. Or just use doxygen.
 
 

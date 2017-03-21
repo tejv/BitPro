@@ -222,6 +222,9 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="txtUtilFSMFnPostFix"
     private TextField txtUtilFSMFnPostFix; // Value injected by FXMLLoader
 
+    @FXML
+    private RadioButton rbUtilsFSMIf;
+    
     @FXML // fx:id="bUtilFSMGenFn"
     private Button bUtilFSMGenFn; // Value injected by FXMLLoader
 
@@ -663,7 +666,8 @@ public class MainWindowController implements Initializable{
 
     private void utilsFSMGenerateFn(ActionEvent event) {
 		TextViewer.display("Generated Code", UtilsFSMGen.run(txtUtilFSMFnNamePrefix.getText(),
-				txtUtilFSMFnPrefix.getText(), txtUtilFSMFnPostFix.getText(), txtAreaUtilFSMStateName, txtAreaUtilFSMEventName));
+				txtUtilFSMFnPrefix.getText(), txtUtilFSMFnPostFix.getText(),
+				txtAreaUtilFSMStateName, txtAreaUtilFSMEventName, rbUtilsFSMIf));
 	}
 
 	private void utilsGenerateSwitchCase(ActionEvent event) {

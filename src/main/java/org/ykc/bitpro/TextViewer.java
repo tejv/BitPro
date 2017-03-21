@@ -13,7 +13,7 @@ public class TextViewer {
         Stage window = new Stage();
 
         //Block events to other windows
-        window.initModality(Modality.APPLICATION_MODAL);
+        window.initModality(Modality.NONE);
         window.setTitle(title);
         window.setMinWidth(250);
 

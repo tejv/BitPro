@@ -24,7 +24,7 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("BitPro");
-			primaryStage.getIcons().add(new Image("file:/main_app_icon.png"));
+			primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/main_app_icon.png")));
 			primaryStage.show();
 
 		} catch(Exception e) {

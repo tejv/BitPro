@@ -6,11 +6,12 @@ import java.util.Date;
 
 import com.jfoenix.controls.JFXTextArea;
 
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 
 public class UtilsFSMGen {
 	public static StringBuilder run(String namePrefix, String prefix, String postfix,
-			JFXTextArea txtAreaStateNames, JFXTextArea txtAreaEventNames){
+			JFXTextArea txtAreaStateNames, JFXTextArea txtAreaEventNames, RadioButton rbUtilsFSMIf){
 		StringBuilder xBuilder = new StringBuilder();
 		addPreface(xBuilder);
 		addEvtMacros(namePrefix, txtAreaEventNames, xBuilder);
@@ -18,18 +19,18 @@ public class UtilsFSMGen {
 		addStateEnum(namePrefix, txtAreaStateNames, xBuilder);
 		addFnPrototypes(namePrefix, prefix, postfix, txtAreaStateNames, xBuilder);
 		addStateTable(namePrefix, prefix, postfix, txtAreaStateNames, xBuilder);
-		addFnDefinitions(namePrefix, prefix, postfix, txtAreaStateNames, txtAreaEventNames, xBuilder);
+		addFnDefinitions(namePrefix, prefix, postfix, txtAreaStateNames, txtAreaEventNames, xBuilder, rbUtilsFSMIf);
 		return xBuilder;
 	}
-	
+
 	private static void addPreface(StringBuilder xBuilder){
 		String prefaceString = "BitPro Auto Generated File ";
 		DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 		Date dateobj = new Date();
 		prefaceString += df.format(dateobj) + "\n\n";
 		xBuilder.append(prefaceString);
-	}	
-	
+	}
+
 	private static void addEvtMacros(String namePrefix, JFXTextArea txtAreaEventNames, StringBuilder xBuilder) {
 		String[] x = txtAreaEventNames.getText().split("\\n");
 		int maxStringSize = 0;
@@ -39,11 +40,11 @@ public class UtilsFSMGen {
 				maxStringSize = size;
 			}
 		}
-		
+
 		if("ALL_MASK".length() > maxStringSize){
 			maxStringSize = "ALL_MASK".length();
 		}
-		
+
 		String fnNamePrefix = "";
 		String fnNamePrefixRaw = namePrefix.trim();
 		if(!fnNamePrefixRaw.isEmpty()){
@@ -73,8 +74,8 @@ public class UtilsFSMGen {
 			xBuilder.append("(0xffffffffu)\n\n");
 		} catch (Exception e) {
 			xBuilder.append("\n\nParsing Failed");
-		}	
-	}		
+		}
+	}
 
 	private static void addEvtEnum(String namePrefix, JFXTextArea txtAreaEventNames, StringBuilder xBuilder) {
 		String fnNamePrefix = "";
@@ -107,9 +108,9 @@ public class UtilsFSMGen {
 			xBuilder.append("}" + enumName + "_t;\n\n");
 		} catch (Exception e) {
 			xBuilder.append("\n\nParsing Failed");
-		}	
+		}
 	}
-	
+
 	private static void addStateEnum(String namePrefix,
 			 JFXTextArea txtAreaStateNames, StringBuilder xBuilder) {
 		String fnNamePrefix = "";
@@ -202,7 +203,7 @@ public class UtilsFSMGen {
 	}
 
 	private static void addFnDefinitions(String namePrefix, String prefix, String postfix,
-			JFXTextArea txtAreaStateNames, JFXTextArea txtAreaEventNames, StringBuilder xBuilder) {
+			JFXTextArea txtAreaStateNames, JFXTextArea txtAreaEventNames, StringBuilder xBuilder, RadioButton rbUtilsFSMIf) {
 		String fnNamePrefix = "";
 		String fnNamePrefixRaw = namePrefix.trim();
 		if(!fnNamePrefixRaw.isEmpty()){
@@ -210,7 +211,13 @@ public class UtilsFSMGen {
 		}
 		String fnProtPrefix = prefix.trim();
 		String fnProtPostfix = postfix.trim();
-		String switchString = getEvtSwitchCase(namePrefix, txtAreaEventNames);
+		String switchString;
+		if(rbUtilsFSMIf.isSelected() == true){
+			switchString = getEvtIfElse(namePrefix, txtAreaEventNames);
+		}
+		else{
+			switchString = getEvtSwitchCase(namePrefix, txtAreaEventNames);
+		}
 		xBuilder.append("/* Function Definitions */\n");
 
 		try {
@@ -231,7 +238,7 @@ public class UtilsFSMGen {
 			xBuilder.append("\n\nParsing Failed");
 		}
 	}
-	
+
 	private static String getEvtSwitchCase(String namePrefix, JFXTextArea txtAreaEventNames) {
 		String result="";
 		String fnNamePrefix = "";
@@ -241,7 +248,7 @@ public class UtilsFSMGen {
 		}
 		result = "    switch(evt)\n";
 		result += "    {\n";
-		
+
 		try {
 			for (String line : txtAreaEventNames.getText().split("\\n"))
 			{
@@ -255,11 +262,45 @@ public class UtilsFSMGen {
 			}
 			result += "        default:\n";
 			result += "            \n";
-			result += "            break;\n";			
+			result += "            break;\n";
 			result += "    }\n\n";
 			return result;
 		} catch (Exception e) {
 			return "Parsing Failed";
-		}	
-	}	
+		}
+	}
+
+	private static String getEvtIfElse(String namePrefix, JFXTextArea txtAreaEventNames) {
+		String result="";
+		String fnNamePrefix = "";
+		String fnNamePrefixRaw = namePrefix.trim();
+		if(!fnNamePrefixRaw.isEmpty()){
+			fnNamePrefix = fnNamePrefixRaw + "_FSM_EVT_";
+		}
+		int i = 0;
+		try {
+			for (String line : txtAreaEventNames.getText().split("\\n"))
+			{
+				line = line.trim();
+				line = line.toUpperCase();
+
+				line = fnNamePrefix.toUpperCase() + line;
+				if(i == 0)
+				{
+					result += "    if(evt == " + line + ")\n";
+				}
+				else {
+					result += "    else if(evt == " + line + ")\n";
+				}
+				result += "    {\n";
+				result += "        \n";
+				result += "    }\n";
+				i++;
+			}
+			result += "\n";
+			return result;
+		} catch (Exception e) {
+			return "Parsing Failed";
+		}
+	}
 }
