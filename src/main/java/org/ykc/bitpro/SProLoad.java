@@ -10,6 +10,8 @@ import java.io.IOException;
 import org.controlsfx.control.StatusBar;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.ykc.bitpro.Utils.Radix;
+
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
@@ -28,6 +30,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.util.StringConverter;
 
 public class SProLoad {
 	private static Utils.Radix radix = Utils.Radix.RADIX_HEX;
@@ -54,7 +57,8 @@ public class SProLoad {
 		
 		Integer maxFields = UtilsBPro.getSProFieldsCount(curElement);
 		ObservableList<JFXTextField> txtList = FXCollections.observableArrayList();
-		ObservableList<Label> labelList = FXCollections.observableArrayList();		
+		ObservableList<Label> labelList = FXCollections.observableArrayList();
+		ObservableList<JFXComboBox> comboList = FXCollections.observableArrayList();
 		
 		for (Integer i = 0; i < maxFields; i++) {
 			Integer offset = UtilsBPro.getSProFieldOffset(curElement, i);
@@ -70,64 +74,108 @@ public class SProLoad {
 
 			Label label = new Label(name);
 			JFXTextField tbox = new JFXTextField();
+			JFXComboBox cBox = new JFXComboBox();
 			Integer ecount = UtilsBPro.getSProFieldEnumCount(curElement, i);
-			if(ecount != 0)
-			{
-				String help = "";
-				Element enumElement = UtilsBPro.getSProFieldEnumElement(curElement, i);
-				for(int j = 0; j < ecount; j++)
-				{
-					help += UtilsBPro.getSProEnumName(enumElement, j) + " : ";
-					help += UtilsBPro.getSProEnumValueString(enumElement, j) + "\n";
-				}
-				label.setTooltip(new Tooltip(help));
-			}
+
 			tbox.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {			
-					Platform.runLater(() -> updateMainText(txtList, event));
+					Platform.runLater(() -> updateMainText(txtList, comboList, event));
 				}
 			});
 
 			label.setOnMouseEntered(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent e) {
-					updateDescStatus(e, labelList);
+					updateDescStatus(e, labelList, txtList, comboList);
 				}
 			});
 			tbox.setEditable(true);
 			txtList.add(tbox);
+			comboList.add(cBox);
 			labelList.add(label);
 			gPane.add(label, 0, i);
-			gPane.add(tbox, 1, i);
+			gPane.add(tbox, 2, i);
+			if(ecount != 0)
+			{
+				String help = "";
+				Element enumElement = UtilsBPro.getSProFieldEnumElement(curElement, i);
+				for(int j = 0; j < ecount; j++)
+				{
+					String nameString = UtilsBPro.getSProEnumName(enumElement, j); 
+					String valString = UtilsBPro.getSProEnumValueString(enumElement, j);
+					cBox.getItems().add(nameString);
+					help += nameString + " : ";
+					help += valString + "\n";
+				}
+				
+				cBox.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					for(int i = 0; i < txtList.size(); i++)
+					{
+						if(event.getSource().equals(comboList.get(i)))
+						{
+							int idx = comboList.get(i).getSelectionModel().getSelectedIndex();
+							Element enumElement = UtilsBPro.getSProFieldEnumElement(curElement, i);
+							txtList.get(i).setText(UtilsBPro.getSProEnumValueString(enumElement, idx));
+						}
+					}
+					Platform.runLater(() -> updateMainText(txtList, comboList, event));
+				}
+			});				
+				label.setTooltip(new Tooltip(help));						
+				gPane.add(cBox, 1, i);
+			}			
 		}
 
-		updateFieldText(txtList);
+		updateFieldText(txtList, comboList);
 		txtData.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				updateFieldText(txtList);
+				updateFieldText(txtList, comboList);
 			}
 		});
 		return true;
 	}
 
-	public static void updateDescStatus(MouseEvent e, ObservableList<Label> labelList) {
+	public static void updateDescStatus(MouseEvent e, ObservableList<Label> labelList,
+			ObservableList<JFXTextField> txtList, ObservableList<JFXComboBox> comboList) {
 		for (int i = 0; i < labelList.size(); i++) {
 			if (e.getSource().equals(labelList.get(i))) {
 				Integer offset = UtilsBPro.getSProFieldOffset(curElement, i);
+				String x = UtilsBPro.getSProFieldName(curElement, i) + "( ";
 				Integer fsize = UtilsBPro.getSProFieldSize(curElement, i);
 				Long mask = Utils.get32bitMask(fsize);
-				String x = "Mask: 0x" + Long.toHexString(mask << offset);
-				x += ", Max: (0x" + Long.toHexString(mask) + ", " + mask.toString() + ", 0b"
-						+ Long.toBinaryString(mask) + ")";
-				x += ", Description: " + UtilsBPro.getSProFieldDesc(curElement, i);
+				if (fsize != 1) {
+					x += ((Integer) (fsize + offset - 1)).toString() + ".";
+				}
+
+				x += offset.toString();
+				x += " )";							
+				x += ", Value: ";
+				Long value = Utils.parseStringtoNumber(txtList.get(i).getText());
+				x += Utils.longToString(value, Radix.RADIX_DECIMAL);
+				x += ", " + Utils.longToString(value, Radix.RADIX_HEX);
+				x += ", " + Utils.longToString(value, Radix.RADIX_BINARY);
+				
+				Integer ecount = UtilsBPro.getSProFieldEnumCount(curElement, i);
+				if(ecount != 0)
+				{
+					x += ", " +comboList.get(i).getSelectionModel().getSelectedItem().toString();	
+				}				
+				
+				x += ", Mask: 0x" + Long.toHexString(mask << offset);
+				x += ", Max: ( " + mask.toString() + ", 0x" + Long.toHexString(mask) + ", 0b"
+						+ Long.toBinaryString(mask) + " )";	
+				
+				x += ", Description: " + UtilsBPro.getSProFieldDesc(curElement, i);				
 				status.setText(x);
 			}
 		}
 	}
 
-	public static void updateMainText(ObservableList<JFXTextField> txtList, ActionEvent event) {
+	public static void updateMainText(ObservableList<JFXTextField> txtList, ObservableList<JFXComboBox> comboList, ActionEvent event) {
 		Long value = 0L;
 		for (Integer i = 0; i < txtList.size(); i++) {
 			Integer offset = UtilsBPro.getSProFieldOffset(curElement, i);
@@ -139,19 +187,60 @@ public class SProLoad {
 			String xString = Utils.longToString(result, radix);
 			x.setText(xString);
 			x.positionCaret(xString.length());
+			Integer ecount = UtilsBPro.getSProFieldEnumCount(curElement, i);
+			if(ecount != 0)
+			{
+				Element enumElement = UtilsBPro.getSProFieldEnumElement(curElement, i);
+				int j;
+				for(j = 0; j < ecount; j++)
+				{
+					String nameString = UtilsBPro.getSProEnumName(enumElement, j); 
+					Long val = Utils.parseStringtoNumber(UtilsBPro.getSProEnumValueString(enumElement, j));
+					if(val == result)
+					{
+						comboList.get(i).getSelectionModel().select(j);
+						break;
+					}
+				}
+				if(j == ecount)
+				{
+					comboList.get(i).getSelectionModel().clearSelection();;
+				}
+			}			
 		}
 		txtMain.setText(Utils.longToString(value, radix));
 	}
 
-	private static void updateFieldText(ObservableList<JFXTextField> txtList) {
+	private static void updateFieldText(ObservableList<JFXTextField> txtList, ObservableList<JFXComboBox> comboList) {
 		Long value = Utils.parseStringtoNumber(txtMain.getText());
 		for (Integer i = 0; i < txtList.size(); i++) {
 			Integer offset = UtilsBPro.getSProFieldOffset(curElement, i);
 			Integer size = UtilsBPro.getSProFieldSize(curElement, i);
 			TextField x = txtList.get(i);
-			String xString = Utils.longToString(Utils.getMaskValue(value, offset, size), radix);
+			Long fvalue = Utils.getMaskValue(value, offset, size);
+			String xString = Utils.longToString(fvalue, radix);
 			x.setText(xString);
 			x.positionCaret(xString.length());
+			Integer ecount = UtilsBPro.getSProFieldEnumCount(curElement, i);
+			if(ecount != 0)
+			{
+				Element enumElement = UtilsBPro.getSProFieldEnumElement(curElement, i);
+				int j;
+				for(j = 0; j < ecount; j++)
+				{
+					String nameString = UtilsBPro.getSProEnumName(enumElement, j); 
+					Long val = Utils.parseStringtoNumber(UtilsBPro.getSProEnumValueString(enumElement, j));
+					if(val == fvalue)
+					{
+						comboList.get(i).getSelectionModel().select(j);
+						break;
+					}
+				}
+				if(j == ecount)
+				{
+					comboList.get(i).getSelectionModel().clearSelection();;
+				}
+			}
 		}
 		txtMain.setText(Utils.longToString(value, radix));
 	}	
