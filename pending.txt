@@ -1,16 +1,5 @@
-# enum add in combo and read back
-# use combobox only if enum present otherwise use textboxes use object list and then match if combo or textbox
-    -----Above faeture removed for now. Only textfields in view. Enum if any are shown via tooltip          ------
 
 # Use extension to differentiate between file types. spro = simple, cpro = complex, dpro = design complex pro 
-
-
-
-
-
-
-
-
 
 # Save of a dpro file result in genration of 2 files -> .dpro(abstract info) and .bpro(full information for load view)
 
