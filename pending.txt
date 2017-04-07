@@ -1,3 +1,4 @@
+BitPro
 
 # Use extension to differentiate between file types. spro = simple, cpro = complex, dpro = design complex pro 
 
@@ -11,5 +12,17 @@
 
 #utils auto add #define , prefix , just take  name and value and create macros with proper alignment.
 #auto matic generate word file for all function prototypes with tabular view. Or just use doxygen.
+
+#loading a cpro make sure each field has unique ID
+# adress of each field need to be shown, offset also - address/offset.
+#@ID to load address of a field.
+
+#Whenever dpro is saved make sure to generate corresponding cpro as well is updated.
+
+#Now for loading and chnaging values -> Its better that every simple element has a "user_val" field by default = 0
+On load create a copy of original cpro file into .cprotmp. Then load a treeview with all relavant info.
+Each time a simple field is changed just change the user value. 
+Same cprotmp file can be used to generate final cyacd or config.c. 
+
 
 

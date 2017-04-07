@@ -224,7 +224,7 @@ public class MainWindowController implements Initializable{
 
     @FXML
     private RadioButton rbUtilsFSMIf;
-    
+
     @FXML // fx:id="bUtilFSMGenFn"
     private Button bUtilFSMGenFn; // Value injected by FXMLLoader
 
@@ -332,6 +332,7 @@ public class MainWindowController implements Initializable{
 		txtUtilFSMFnPrefix.setText(Preferences.getUtilsFnPrefixString());
 		txtUtilFSMFnPostFix.setText(Preferences.getUtilsFnPostfixString());
 		txtSolveEnter.setText(Preferences.getxSolveLastData());
+		dproOpen.open(Preferences.getLastDesignFile());
 		solveExpression();
 		enDisTabButtons(Preferences.getLastOpenTabName());
 		bProLoad.loadFile(Preferences.getLastLoadedFile());
@@ -554,6 +555,17 @@ public class MainWindowController implements Initializable{
 
     @FXML
     void dproGenCPro(ActionEvent event) {
+    	File dproFile = Preferences.getLastDesignFile();
+    	if((dproFile == null) || (!dproFile.exists())){
+    		statusBar.setText("Operation Failed: No design file(.dpro) opened");
+    	}
+
+    	if(DProGenCPro.run(dproFile) == true){
+    		statusBar.setText("CPro file successfully created!!");
+    	}
+    	else{
+    		statusBar.setText("CPro file generation failed: Please check all dependencies are present");
+    	}
 
     }
 
@@ -571,11 +583,11 @@ public class MainWindowController implements Initializable{
     void utilsGenSwitchCase(ActionEvent event) {
     	utilsGenerateSwitchCase(event);
     }
-    
+
     @FXML
     void utilsGenFunctions(ActionEvent event) {
     	utilsGenerateFunctions(event);
-    }    
+    }
 
 	public void setStage(Stage stage) {
         myStage = stage;
@@ -673,9 +685,9 @@ public class MainWindowController implements Initializable{
 	private void utilsGenerateSwitchCase(ActionEvent event) {
 		TextViewer.display("Generated Code", UtilsSwitchCaseGen.run(txtAreaUtilGen));
 	}
-	
+
 	private void utilsGenerateFunctions(ActionEvent event) {
-		TextViewer.display("Generated Code", UtilsFuncGen.run(txtAreaUtilGen));		
+		TextViewer.display("Generated Code", UtilsFuncGen.run(txtAreaUtilGen));
 	}
 }
 

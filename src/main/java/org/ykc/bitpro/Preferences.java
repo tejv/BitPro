@@ -26,9 +26,18 @@ public class Preferences {
 	private static String utilsFnPostfixString = "";
 	private static File dproLastBrowseDir = null;
 	private static File dproBasePath = new File(System.getProperty("user.home") + "/BitPro");
+	private static File lastDPROFile = null;
 
 	public static File getDproLastBrowseDir() {
 		return dproLastBrowseDir;
+	}
+
+	public static File getLastDesignFile() {
+		return lastDPROFile;
+	}
+
+	public static void setLastDesignFile(File lastDesignFile) {
+		Preferences.lastDPROFile = lastDesignFile;
 	}
 
 	public static void setDproLastBrowseDir(File dproLastBrowseDir) {
@@ -182,6 +191,12 @@ public class Preferences {
 			{
 				dproBasePath = file;
 			}
+			
+			String lastdpro = prefDoc.getElementsByTagName("lastDPROFile").item(0).getTextContent();
+			if(!lastdpro.equals("null"))
+			{
+				lastDPROFile = new File(lastdpro);
+			}
 			return true;
 		} catch (Exception e) {
 
@@ -258,6 +273,15 @@ public class Preferences {
 		dproBasePathElement.setText(dproBasePath.getAbsolutePath());
 		theRoot.addContent(dproBasePathElement);
 
+		Element lastDProElement = new Element("lastDPROFile");
+		if(lastDPROFile != null){
+			lastDProElement.setText(lastDPROFile.getAbsolutePath());
+		}
+		else{
+			lastDProElement.setText("null");
+		}
+		theRoot.addContent(lastDProElement);		
+		
 		XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
 		try {
 			FileOutputStream x = new FileOutputStream(preFile);

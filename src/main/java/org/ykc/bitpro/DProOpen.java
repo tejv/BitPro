@@ -58,6 +58,7 @@ public class DProOpen {
     		txtDProFieldRPath.clear();
         	if(open(file) == true)
         	{
+        		Preferences.setLastDesignFile(file);
         		statusBar.setText("Open Success");
         	}
         	else
@@ -72,7 +73,7 @@ public class DProOpen {
 		
 	}
 	
-	private boolean open(File fileName){
+	public boolean open(File fileName){
 		tViewDPro.getItems().clear();
 		Document xmlDoc = UtilsBPro.getW3cDomDoc(fileName);
 		if((xmlDoc == null) || (!xmlDoc.getElementsByTagName("dtype").item(0).getTextContent().matches("design")))

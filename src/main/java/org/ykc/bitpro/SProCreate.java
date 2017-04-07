@@ -22,7 +22,7 @@ import javafx.scene.layout.BorderPane;
 
 public class SProCreate {
 	private static StatusBar status;
-	private static boolean create(File fileName, String name, 
+	private static boolean create(File fileName, String name,
 			Integer struct_size, TableView<SProRow> table, StatusBar statusBar)
 	{
 		status = statusBar;
@@ -49,7 +49,7 @@ public class SProCreate {
 		Element type = new Element("stype");
 		type.setText("simple");
 		head.addContent(type);
-		
+
 		Element size = new Element("slen");
 		size.setText(struct_size.toString());
 		head.addContent(size);
@@ -69,6 +69,10 @@ public class SProCreate {
 			}
 			offset += row.getLen();
 		}
+
+		Element userVal = new Element("sVal");
+		userVal.setText("0x0");
+		head.addContent(userVal);
 
 		XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
 		try {
@@ -121,7 +125,7 @@ public class SProCreate {
 		else {
 			enumList = parseEnumString(enumString);
 		}
-		
+
 		if(enumList.isEmpty())
 		{
 			return true;
@@ -174,7 +178,7 @@ public class SProCreate {
 		}
 		return enumList;
 	}
-	
+
 	public static boolean addField(TableView<SProRow> tView,
 			String name, String size, String desc, String enums, StatusBar statusBar)
 	{
@@ -212,7 +216,7 @@ public class SProCreate {
 		statusBar.setText("Row Updated");
 		return true;
 	}
-	
+
     public static void run(JFXTextField txtSProName, RadioButton rbSPro8bit,
     		RadioButton rbSPro16bit, RadioButton rbSPro64bit,
     		BorderPane borderPaneMainWindow, TableView<SProRow> tViewSPro, StatusBar statusBar) {
@@ -247,5 +251,5 @@ public class SProCreate {
         	statusBar.setText("Operation Cancelled");
         }
 
-    }	
+    }
 }
