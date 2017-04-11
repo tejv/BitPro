@@ -49,7 +49,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -77,6 +81,9 @@ public class MainWindowController implements Initializable{
 
     @FXML
     private Button bGenMacros;
+
+    @FXML // fx:id="bGenBinary"
+    private Button bGenBinary; // Value injected by FXMLLoader
 
     @FXML // fx:id="statusBar"
     private StatusBar statusBar; // Value injected by FXMLLoader
@@ -306,6 +313,33 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="tColDProFrelPath"
     private TableColumn<DProRow, String> tColDProFrelPath; // Value injected by FXMLLoader
 
+    @FXML // fx:id="ttViewCProLoad"
+    private TreeTableView<CProRow> ttViewCProLoad; // Value injected by FXMLLoader
+
+    @FXML // fx:id="ttColCProType"
+    private TreeTableColumn<CProRow, String> ttColCProType; // Value injected by FXMLLoader
+
+    @FXML // fx:id="ttColCProName"
+    private TreeTableColumn<CProRow, String> ttColCProName; // Value injected by FXMLLoader
+
+    @FXML // fx:id="ttColCProCount"
+    private TreeTableColumn<CProRow, String> ttColCProCount; // Value injected by FXMLLoader
+
+    @FXML // fx:id="ttColCProOffset"
+    private TreeTableColumn<CProRow, String> ttColCProOffset; // Value injected by FXMLLoader
+
+    @FXML // fx:id="ttColCProTotalBytes"
+    private TreeTableColumn<CProRow, String> ttColCProTotalBytes; // Value injected by FXMLLoader
+
+    @FXML // fx:id="ttColCProDesc"
+    private TreeTableColumn<CProRow, String> ttColCProDesc; // Value injected by FXMLLoader
+
+    @FXML // fx:id="ttColCProValue"
+    private TreeTableColumn<CProRow, String> ttColCProValue; // Value injected by FXMLLoader
+
+    @FXML // fx:id="lbLoadTotalBytes"
+    private Label lbLoadTotalBytes; // Value injected by FXMLLoader
+
     private Stage myStage;
 
     private BProLoad bProLoad;
@@ -316,7 +350,7 @@ public class MainWindowController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 	    bProLoad = new BProLoad(txtLoadEnterData, txtLoadPrefix,
-	    		borderPaneMainWindow, statusBar, gpaneLoad, lbLoadName);
+	    		borderPaneMainWindow, statusBar, gpaneLoad, lbLoadName, ttViewCProLoad, lbLoadTotalBytes);
 	    dproCreate = new DProCreate(myStage, lViewDPro, tViewDPro, txtDProName,
 	    		txtDProTypeName, txtDProFieldName, txtDProFieldSize,
 				txtDProFieldRPath, txtDProFieldDesc, statusBar, borderPaneMainWindow,
@@ -324,6 +358,7 @@ public class MainWindowController implements Initializable{
 	    dproOpen = new DProOpen(myStage, tViewDPro, txtDProName, txtDProTypeName,
 	    		txtDProFieldName, txtDProFieldSize, txtDProFieldRPath, txtDProFieldDesc,
 	    		borderPaneMainWindow, statusBar, txtDProBPath);
+
 		Preferences.loadPreferences();
 		txtDProBPath.setText(Preferences.getDproBasePath().getAbsolutePath());
 		dproCreate.browseDir(Preferences.getDproLastBrowseDir());
@@ -335,6 +370,19 @@ public class MainWindowController implements Initializable{
 		dproOpen.open(Preferences.getLastDesignFile());
 		solveExpression();
 		enDisTabButtons(Preferences.getLastOpenTabName());
+
+		/* Link CProLoad tableview to modal class */
+		ttColCProType.setCellValueFactory(new TreeItemPropertyValueFactory<CProRow, String>("type"));
+		ttColCProName.setCellValueFactory(new TreeItemPropertyValueFactory<CProRow, String>("name"));
+		ttColCProCount.setCellValueFactory(new TreeItemPropertyValueFactory<CProRow, String>("count"));
+		ttColCProOffset.setCellValueFactory(new TreeItemPropertyValueFactory<CProRow, String>("offset"));
+		ttColCProTotalBytes.setCellValueFactory(new TreeItemPropertyValueFactory<CProRow, String>("totalbytes"));
+		ttColCProDesc.setCellValueFactory(new TreeItemPropertyValueFactory<CProRow, String>("desc"));
+		ttColCProValue.setCellValueFactory(new TreeItemPropertyValueFactory<CProRow, String>("value"));
+	    TreeItem<CProRow> rootItem = new TreeItem<CProRow> ();
+	    ttViewCProLoad.setRoot(rootItem);
+
+
 		bProLoad.loadFile(Preferences.getLastLoadedFile());
 		switch(Preferences.getLastOpenTabName())
 		{
@@ -470,13 +518,23 @@ public class MainWindowController implements Initializable{
         		tViewSPro, statusBar);
     	}
     	else {
-    		dproCreate.save();
+    		File file = dproCreate.save();
+    		if(file != null){
+    			/* Generate CPro on save */
+    			DProGenCPro.run(file);
+    		}
 		}
     }
 
     @FXML
     void loadBitFile(ActionEvent event) {
     	bProLoad.load();
+    }
+
+
+    @FXML
+    void generateBinary(ActionEvent event) {
+    	bProLoad.generateBinary();
     }
 
     @FXML
@@ -605,12 +663,14 @@ public class MainWindowController implements Initializable{
 			bSave.setDisable(true);
 			bLoad.setDisable(false);
 			bGenMacros.setDisable(false);
+			bGenBinary.setDisable(false);
 		}
 		else if( (tabId.equals("tabSolver") )|| (tabId.equals("tabUtils")) ){
 			bOpen.setDisable(true);
 			bSave.setDisable(true);
 			bLoad.setDisable(true);
 			bGenMacros.setDisable(true);
+			bGenBinary.setDisable(true);
 		}
 		else if(tabId.equals("tabParse"))
 		{
@@ -618,6 +678,7 @@ public class MainWindowController implements Initializable{
 			bSave.setDisable(true);
 			bLoad.setDisable(true);
 			bGenMacros.setDisable(true);
+			bGenBinary.setDisable(true);
 		}
 		else
 		{
@@ -625,6 +686,7 @@ public class MainWindowController implements Initializable{
 			bSave.setDisable(false);
 			bLoad.setDisable(true);
 			bGenMacros.setDisable(true);
+			bGenBinary.setDisable(true);
 		}
 	}
 

@@ -7,8 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.io.FilenameUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.jdom2.Document;
+import org.jdom2.Element;
+
 
 public class SProMacroGen {
 	public static StringBuilder run(File file, String prefix){
@@ -17,13 +18,13 @@ public class SProMacroGen {
 
 		if(Utils.getFileExtension(file).equals("spro"))
 		{
-    		Document xmlDoc = UtilsBPro.getW3cDomDoc(file);
+    		Document xmlDoc = UtilsBPro.getJDOM2Doc(file);
     		if(xmlDoc == null)
     		{
     			xBuilder.append("Macro Generation Failed: File Load failed");
     			return xBuilder;
     		}
-    		Element sElement = (Element)(xmlDoc.getElementsByTagName("simple").item(0));
+    		Element sElement = xmlDoc.getRootElement();
 			genMacrosSPRO(xBuilder, sElement, prefix);
 		}
 		return xBuilder;
@@ -191,9 +192,9 @@ public class SProMacroGen {
 		for(int i = 0; i < UtilsBPro.getSProFieldsCount(sElement); i++){
 
 			Element xElement = UtilsBPro.getSProFieldEnumElement(sElement, i);
-			if(xElement.hasAttribute("at_ename"))
+			if(xElement.getAttribute("at_ename") != null)
 			{
-				String nameString = xElement.getAttribute("at_ename");
+				String nameString = xElement.getAttribute("at_ename").getValue();
 
 				xBuilder.append("/**\n");
 				xBuilder.append(" * @typedef " + nameString + "_t"+ "\n");

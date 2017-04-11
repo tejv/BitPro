@@ -14,31 +14,37 @@ import org.w3c.dom.Element;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeTableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
 public class BProLoad {
 	private TextField txtLoadEnterData;
-	private TextField txtLoadPrefix;	
+	private TextField txtLoadPrefix;
 	private BorderPane borderPaneMainWindow;
 	private StatusBar statusBar;
 	private GridPane gpaneLoad;
 	private Label lbLoadName;
+	private TreeTableView<CProRow> ttViewCProLoad;
 	private boolean isLoaded = false;
 	private String fileType = "";
 	private Integer rowIdx = 0;
 	private Integer colIdx = 0;
-	
-	
+	private CProLoad cproLoad;
+	private Label lbLoadTotalBytes;
+
+
 	public BProLoad(TextField txtLoadEnterData, TextField txtLoadPrefix, BorderPane borderPaneMainWindow, StatusBar statusBar,
-			GridPane gpaneLoad, Label lbLoadName) {
+			GridPane gpaneLoad, Label lbLoadName, TreeTableView<CProRow> ttViewCProLoad, Label lbLoadTotalBytes) {
 		this.txtLoadEnterData = txtLoadEnterData;
 		this.txtLoadPrefix = txtLoadPrefix;
 		this.borderPaneMainWindow = borderPaneMainWindow;
 		this.statusBar = statusBar;
 		this.gpaneLoad = gpaneLoad;
 		this.lbLoadName = lbLoadName;
-		
+		this.ttViewCProLoad = ttViewCProLoad;
+		this.lbLoadTotalBytes = lbLoadTotalBytes;
+	    cproLoad = new CProLoad(txtLoadEnterData, gpaneLoad, statusBar, ttViewCProLoad);
 	}
 
 	public void load(){
@@ -47,7 +53,7 @@ public class BProLoad {
 		loadFile(file);
 
 	}
-	
+
 	public void loadFile(File file){
         if (file != null) {
         	Preferences.setLastLoadedFile(file);
@@ -59,19 +65,21 @@ public class BProLoad {
     		else if(extension.equals("spro"))
     		{
     			fileType = "spro";
-    		}        	
+    		}
         	retrieveSavedData(file);
 
-    		Document xmlDoc = UtilsBPro.getW3cDomDoc(file);
+    		org.jdom2.Document xmlDoc = UtilsBPro.getJDOM2Doc(file);
     		if(xmlDoc == null)
     		{
     			statusBar.setText("Load Failed: Not an XML file");
     			return;
     		}
-    		
+    		Integer totalBytes = 0;
     		if(fileType.equals("spro"))
     		{
-            	if(SProLoad.run((Element)(xmlDoc.getElementsByTagName("simple").item(0)), txtLoadEnterData, gpaneLoad, statusBar) == true)
+    			totalBytes = Integer.parseInt(xmlDoc.getRootElement().getChild("head").getChildText("slen"))/8;
+    			ttViewCProLoad.getRoot().getChildren().clear();
+            	if(SProLoad.run(xmlDoc.getRootElement(), txtLoadEnterData, gpaneLoad, statusBar) == true)
             	{
             		statusBar.setText("Load Success");
             	}
@@ -81,18 +89,24 @@ public class BProLoad {
             	}
     		}else if(fileType.equals("cpro"))
     		{
-    			/* TODO : Load simple elements and list of simple elements and set events to update simple elements as well */
+    			totalBytes = Integer.parseInt(xmlDoc.getRootElement().getChild("head").getChildText("cTotalBytes"));
+    			if(cproLoad.run(file) == true){
+    				statusBar.setText("Load Success");
+    			}
+    			else{
+    				statusBar.setText("Load Failed");
+    			}
     		}
-
+    		lbLoadTotalBytes.setText("Total Bytes: " + totalBytes.toString());
         	lbLoadName.setText(file.getName());
         	isLoaded = true;
         }
         else
         {
         	statusBar.setText("Load Failed: File not found");
-        }		
+        }
 	}
-	
+
 
 	private void retrieveSavedData(File file){
     	File tmpFile = Utils.getFileNewExtension(file, "tmp");
@@ -107,8 +121,9 @@ public class BProLoad {
 				else if(fileType.equals("cpro"))
 				{
 					/* TODO: Either retrieve all data in RAM or just retrive only current row-col */
-				}				
-				
+					cproLoad.updateValueList(tmpFile);
+				}
+
 				x.close();
 			} catch (FileNotFoundException e) {
 			} catch (IOException e) {
@@ -119,10 +134,10 @@ public class BProLoad {
     		if(fileType.equals("cpro"))
 			{
 				/* TODO: Need to initialize temp storage to 0 */
-			}	    		
-    	}		
+			}
+    	}
 	}
-	
+
 	public void saveLoadedData(){
 		if(isLoaded == false)
 		{
@@ -140,11 +155,11 @@ public class BProLoad {
 				}
 			}
 			if(tempFile.exists()){
-				writeSavedData(tempFile);	
+				writeSavedData(tempFile);
 			}
 		}
 	}
-	
+
 	private void writeSavedData(File file)
 	{
 		try {
@@ -157,15 +172,16 @@ public class BProLoad {
 			{
 				/* TODO: Based on rowIdx and colIdx modify existing file with correct data */
 				/* Also update row type (8 bit 16 bit or 32 bit )*/
+				cproLoad.storeData(x);
 			}
-			
+
 			x.close();
 		} catch (IOException e) {
-		}		
+		}
 	}
-	
 
-	
+
+
 	public void genMacros(){
 		File curLoadedFile = Preferences.getLastLoadedFile();
 		String prefix ="";
@@ -177,15 +193,26 @@ public class BProLoad {
 			String extension = Utils.getFileExtension(curLoadedFile);
 			if(extension.equals("cpro"))
 			{
-				CProMacroGen.run(curLoadedFile, prefix);
+				TextViewer.display("Generated Macros", CProMacroGen.run(curLoadedFile, prefix));
 			}
 			else if(extension.equals("spro"))
 			{
-				TextViewer.display("Generated Macros", SProMacroGen.run(curLoadedFile, prefix));				
+				TextViewer.display("Generated Macros", SProMacroGen.run(curLoadedFile, prefix));
 			}
 		}
 		else {
 			statusBar.setText("Operation Fail: No file loaded");
 		}
+	}
+
+	public void generateBinary() {
+		File curLoadedFile = Preferences.getLastLoadedFile();
+		if(Utils.getFileExtension(curLoadedFile).equals("cpro")){
+			TextViewer.display("Generated Binary", CProBinaryGen.run(ttViewCProLoad));
+		}
+		else{
+			statusBar.setText("Invalid Operation: Only meant for .cpro file");
+		}
+
 	}
 }

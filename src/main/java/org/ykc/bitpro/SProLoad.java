@@ -8,8 +8,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import org.controlsfx.control.StatusBar;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.jdom2.Element;
+import org.jdom2.contrib.xpath.xalan.JDOM2DTM;
+import org.jdom2.output.JDOMLocator;
 import org.ykc.bitpro.Utils.Radix;
 
 import com.jfoenix.controls.JFXComboBox;
@@ -46,12 +47,12 @@ public class SProLoad {
 	public static boolean isLoaded(){
 		return isLoaded;
 	}
-	public static boolean run(Element simpleElement, TextField txtData, GridPane gPane,
+	public static boolean run(org.jdom2.Element element, TextField txtData, GridPane gPane,
 			StatusBar statusBar) {
 		isLoaded = true;
 		gPane.getChildren().clear();
 		
-		curElement = simpleElement;
+		curElement = element;
 		txtMain = txtData;
 		status = statusBar;
 		

@@ -2,7 +2,9 @@ package org.ykc.bitpro;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import com.jfoenix.controls.JFXTextField;
@@ -148,13 +150,13 @@ public class Utils {
 
 		getFileNewExtension(new File(System.getProperty("user.home"), "BitPro/preferences/app.xml"), "temp");
 	}
-	
+
 	public static String fixedLengthStringRightAlign(String string, int length) {
 	    return String.format("%1$"+length+ "s", string);
 	}
 	public static String fixedLengthStringLeftAlign(String string, int length) {
 		int appendLen = length -string.length();
-		
+
 		if(appendLen > 0){
 			for(int i = 0; i < appendLen; i++ ){
 				string += " ";
@@ -162,7 +164,7 @@ public class Utils {
 		}
 		return string;
 	}
-	
+
 	public static String intToHexWithPadding(Integer input, Integer max_size){
 		if(max_size <= 8){
 			return String.format("%02x", input);
@@ -172,6 +174,12 @@ public class Utils {
 		else{
 			return String.format("%08x", input);
 		}
+	}
+
+	public static File getNewFileCopy(File file, String newExtension) throws IOException{
+		File newFile = getFileNewExtension(file, newExtension);
+		FileUtils.copyFile(file, newFile);
+		return newFile;
 	}
 
 }

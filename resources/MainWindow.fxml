@@ -19,6 +19,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -57,7 +59,8 @@
                   <Button fx:id="bOpen" mnemonicParsing="false" onAction="#openBitFile" prefHeight="31.0" prefWidth="64.0" text="Open" />
                   <Button fx:id="bSave" mnemonicParsing="false" onAction="#saveBitFile" prefHeight="31.0" prefWidth="61.0" text="Save" />
                   <Button fx:id="bLoad" mnemonicParsing="false" onAction="#loadBitFile" prefHeight="31.0" prefWidth="64.0" text="Load" />
-                  <Button fx:id="bGenMacros" mnemonicParsing="false" onAction="#generateMacros" prefHeight="31.0" prefWidth="133.0" text="Generate Macros" />
+                  <Button fx:id="bGenMacros" mnemonicParsing="false" onAction="#generateMacros" prefHeight="31.0" prefWidth="163.0" text="Generate Macros" />
+                  <Button fx:id="bGenBinary" mnemonicParsing="false" onAction="#generateBinary" prefHeight="31.0" prefWidth="163.0" text="Generate Binary" />
                </items>
             </ToolBar>
          </children>
@@ -340,14 +343,18 @@
                             </Tab>
                               <Tab fx:id="tabLoad" text="Load">
                                  <content>
-                                    <SplitPane dividerPositions="0.10102156640181612" prefHeight="160.0" prefWidth="200.0">
+                                    <SplitPane dividerPositions="0.5391600454029511" prefHeight="160.0" prefWidth="200.0">
                                       <items>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                              <children>
                                                 <ToolBar prefHeight="37.0" prefWidth="593.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <items>
                                                       <Label fx:id="lbLoadName" text="Name">
+                                                         <font>
+                                                            <Font name="System Bold" size="15.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label fx:id="lbLoadTotalBytes" text="Total Bytes">
                                                          <font>
                                                             <Font name="System Bold" size="15.0" />
                                                          </font>
@@ -394,6 +401,24 @@
                                                    </content>
                                                 </ScrollPane>
                                              </children></AnchorPane>
+                                          <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="492.0" prefWidth="311.0">
+                                             <content>
+                                                <TreeTableView fx:id="ttViewCProLoad" editable="true" prefHeight="542.0" prefWidth="985.0" showRoot="false" tableMenuButtonVisible="true">
+                                                   <columns>
+                                                      <TreeTableColumn fx:id="ttColCProType" editable="false" prefWidth="75.0" sortable="false" text="Type" />
+                                                      <TreeTableColumn fx:id="ttColCProName" editable="false" prefWidth="75.0" sortable="false" text="Name" />
+                                                      <TreeTableColumn fx:id="ttColCProValue" prefWidth="75.0" sortable="false" text="Value" />
+                                                      <TreeTableColumn fx:id="ttColCProCount" editable="false" prefWidth="75.0" sortable="false" text="Count" />
+                                                      <TreeTableColumn fx:id="ttColCProOffset" editable="false" prefWidth="75.0" sortable="false" text="Offset" />
+                                                      <TreeTableColumn fx:id="ttColCProTotalBytes" editable="false" prefWidth="75.0" sortable="false" text="Total Bytes" />
+                                                      <TreeTableColumn fx:id="ttColCProDesc" editable="false" prefWidth="75.0" sortable="false" text="Desc" visible="false" />
+                                                   </columns>
+                                                   <columnResizePolicy>
+                                                      <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                   </columnResizePolicy>
+                                                </TreeTableView>
+                                             </content>
+                                          </ScrollPane>
                                       </items>
                                     </SplitPane>
                                  </content>

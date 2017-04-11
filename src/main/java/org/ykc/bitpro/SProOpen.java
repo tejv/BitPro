@@ -3,10 +3,8 @@ package org.ykc.bitpro;
 import java.io.File;
 
 import org.controlsfx.control.StatusBar;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.jdom2.Document;
+import org.jdom2.Element;
 
 import com.jfoenix.controls.JFXTextField;
 
@@ -20,13 +18,13 @@ public class SProOpen {
 	
 	public static boolean open(File fileName, JFXTextField name, ToggleGroup toggleGroup, TableView<SProRow> table){
 		table.getItems().clear();
-		Document xmlDoc = UtilsBPro.getW3cDomDoc(fileName);
-		if((xmlDoc == null) || (!xmlDoc.getElementsByTagName("stype").item(0).getTextContent().matches("simple")))
+		Document xmlDoc = UtilsBPro.getJDOM2Doc(fileName);
+		if((xmlDoc == null) || (!xmlDoc.getRootElement().getChild("head").getChildText("stype").matches("simple")))
 		{
 			return false;
 		}
-		name.setText(xmlDoc.getElementsByTagName("sname").item(0).getTextContent());
-		String slen = xmlDoc.getElementsByTagName("slen").item(0).getTextContent();
+		name.setText(xmlDoc.getRootElement().getChild("head").getChildText("sname"));
+		String slen = xmlDoc.getRootElement().getChild("head").getChildText("slen");
 		switch(slen)
 		{
 		case "8":
@@ -47,44 +45,38 @@ public class SProOpen {
 
 	private static boolean openRows(Document xmlDoc, TableView<SProRow> table)
 	{
-		NodeList listOfFields = xmlDoc.getElementsByTagName("field");
-		for(int i=0; i < listOfFields.getLength(); i++){
-			Node fieldNode = listOfFields.item(i);
-			openRow(fieldNode, table);
+		Element simplElement = xmlDoc.getRootElement();
+		int listOfFields = UtilsBPro.getSProFieldsCount(simplElement);
+		for(int i= 0; i < listOfFields; i++){
+			SProRow x;
+			try {
+				x = new SProRow("Error","1","","");
+			} catch (Exception e) {
+				return false;
+			}
+			Element fieldElement = UtilsBPro.getSProFieldElement(simplElement, i);
+			x.setName(fieldElement.getChildText("fname"));
+			x.setSize(fieldElement.getChildText("fsize"));
+			x.setDesc(fieldElement.getChildText("fdesc"));
+			x.setEnums(openEnums(fieldElement.getChild("fenum")));
+			table.getItems().add(x);
 		}
 		return true;
 	}
 
-	private static boolean openRow(Node node, TableView<SProRow> table)
-	{
-		SProRow x;
-		try {
-			x = new SProRow("Error","1","","");
-		} catch (Exception e) {
-			return false;
-		}
-		x.setName(((Element)node).getElementsByTagName("fname").item(0).getTextContent());
-		x.setSize(((Element)node).getElementsByTagName("fsize").item(0).getTextContent());
-		x.setDesc(((Element)node).getElementsByTagName("fdesc").item(0).getTextContent());
-		x.setEnums(openEnums((Element)(((Element)node).getElementsByTagName("fenum").item(0))));
-		table.getItems().add(x);
-		return true;
-	}
-
-	private static String openEnums(Element element)
+	private static String openEnums(Element eElement)
 	{
 		String eString = "";
-		NodeList listOfEnums = element.getElementsByTagName("enum");
-		if(listOfEnums.getLength() != 0)
-		{
-			if(element.hasAttribute("at_ename"))
+		if(eElement.getChild("enum") != null){
+
+			if(eElement.getAttribute("at_ename") != null)
 			{
-				eString += element.getAttribute("at_ename") + ":";
+				eString += eElement.getAttribute("at_ename").getValue() + ":";
 			}
-		}
-		for(int i=0; i < listOfEnums.getLength(); i++){
-			Element eNode = (Element)listOfEnums.item(i);
-			eString += eNode.getElementsByTagName("ename").item(0).getTextContent() + "=" + eNode.getElementsByTagName("evalue").item(0).getTextContent() + ",";
+			
+			for(int i = 0; i < UtilsBPro.getSProFieldEnumsCount(eElement); i++){
+				eString += UtilsBPro.getSProEnumName(eElement, i) + "=" + UtilsBPro.getSProEnumValueString(eElement, i) + ",";
+			}
 		}
 		return eString;
 	}

@@ -10,9 +10,6 @@ import org.jdom2.Element;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import javafx.scene.control.Tab;
 
 public class Preferences {
@@ -137,62 +134,63 @@ public class Preferences {
 			if (! prefFile.exists()) {
 				return false;
 			}
-			org.w3c.dom.Document prefDoc = UtilsBPro.getW3cDomDoc(prefFile);
+			Document prefDoc = UtilsBPro.getJDOM2Doc(prefFile);
 			if(prefDoc == null)
 			{
 				return false;
 			}
-			String lastDir = prefDoc.getElementsByTagName("lastDirectory").item(0).getTextContent();
+			Element prefElement = prefDoc.getRootElement();
+			String lastDir = prefElement.getChildText("lastDirectory");
 			if(!lastDir.equals("null"))
 			{
 				lastDirectory = new File(lastDir);
 			}
-			lastOpenTabName = prefDoc.getElementsByTagName("lastOpenTab").item(0).getTextContent();
-			String fileName = prefDoc.getElementsByTagName("lastLoadFile").item(0).getTextContent();
+			lastOpenTabName = prefElement.getChildText("lastOpenTab"); 
+			String fileName = prefElement.getChildText("lastLoadFile");
 			if(!fileName.equals("null"))
 			{
 				lastLoadedFile = new File(fileName);
 			}
 
-			String xSolveDat = prefDoc.getElementsByTagName("xSolveLastData").item(0).getTextContent();
+			String xSolveDat = prefElement.getChildText("xSolveLastData");
 			if(xSolveDat != null)
 			{
 				xSolveLastData = xSolveDat;
 			}
-			String temp = prefDoc.getElementsByTagName("lastLoadViewPrefix").item(0).getTextContent();
+			String temp = prefElement.getChildText("lastLoadViewPrefix");
 			if(temp != null){
 				loadViewPrefixValue = temp;
 			}
 
-			temp = prefDoc.getElementsByTagName("lastUtilsGen1FnNamePrefix").item(0).getTextContent();
+			temp = prefElement.getChildText("lastUtilsGen1FnNamePrefix");
 			if(temp != null){
 				utilsFnNamePrefixString = temp;
 			}
 
-			temp = prefDoc.getElementsByTagName("lastUtilsGen1FnPrefix").item(0).getTextContent();
+			temp = prefElement.getChildText("lastUtilsGen1FnPrefix");
 			if(temp != null){
 				utilsFnPrefixString = temp;
 			}
 
-			temp = prefDoc.getElementsByTagName("lastUtilsGen1FnPostfix").item(0).getTextContent();
+			temp = prefElement.getChildText("lastUtilsGen1FnPostfix");
 			if(temp != null){
 				utilsFnPostfixString = temp;
 			}
 
-			temp = prefDoc.getElementsByTagName("dproLastBrowseDir").item(0).getTextContent();
+			temp = prefElement.getChildText("dproLastBrowseDir");
 			if(!temp.equals("null"))
 			{
 				dproLastBrowseDir = new File(temp);
 			}
 
-			temp = prefDoc.getElementsByTagName("dproBasePath").item(0).getTextContent();
+			temp = prefElement.getChildText("dproBasePath");
 			File file = new File(temp);
 			if(file.exists())
 			{
 				dproBasePath = file;
 			}
 			
-			String lastdpro = prefDoc.getElementsByTagName("lastDPROFile").item(0).getTextContent();
+			String lastdpro = prefElement.getChildText("lastDPROFile");
 			if(!lastdpro.equals("null"))
 			{
 				lastDPROFile = new File(lastdpro);

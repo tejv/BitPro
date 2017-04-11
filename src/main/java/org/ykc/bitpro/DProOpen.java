@@ -3,10 +3,8 @@ package org.ykc.bitpro;
 import java.io.File;
 
 import org.controlsfx.control.StatusBar;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.jdom2.Document;
+import org.jdom2.Element;
 
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
@@ -75,37 +73,33 @@ public class DProOpen {
 	
 	public boolean open(File fileName){
 		tViewDPro.getItems().clear();
-		Document xmlDoc = UtilsBPro.getW3cDomDoc(fileName);
-		if((xmlDoc == null) || (!xmlDoc.getElementsByTagName("dtype").item(0).getTextContent().matches("design")))
+		Document xmlDoc = UtilsBPro.getJDOM2Doc(fileName);
+		if((xmlDoc == null) || (!xmlDoc.getRootElement().getChild("head").getChildText("dtype").matches("design")))
 		{
 			return false;
 		}
-		txtDProName.setText(xmlDoc.getElementsByTagName("dname").item(0).getTextContent());
-		String valString = xmlDoc.getElementsByTagName("dBasePath").item(0).getTextContent();
+		txtDProName.setText(xmlDoc.getRootElement().getChild("head").getChildText("dname"));
+		String valString = xmlDoc.getRootElement().getChild("head").getChildText("dBasePath");
 		File file = new File(valString);
 		txtDProBPath.setText(file.getAbsolutePath());
-		NodeList listOfFields = xmlDoc.getElementsByTagName("field");
-		for(int i=0; i < listOfFields.getLength(); i++){
-			Node fieldNode = listOfFields.item(i);
-			openRow(fieldNode);
+		Element designElement = xmlDoc.getRootElement();
+		int listOfFields = UtilsBPro.getDProFieldsCount(designElement);
+		for(int i = 0; i < listOfFields; i++){
+			DProRow x;
+			try {
+				x = new DProRow("Error","Error","1","","Error");
+			} catch (Exception e) {
+				return false;
+			}
+			x.setType(UtilsBPro.getDProFieldType(designElement, i));		
+			x.setName(UtilsBPro.getDProFieldName(designElement, i));
+			x.setSize(UtilsBPro.getDProFieldSize(designElement, i).toString());
+			x.setDesc(UtilsBPro.getDProFieldDesc(designElement, i));
+			x.setRpath(UtilsBPro.getDProFieldPath(designElement, i));
+			tViewDPro.getItems().add(x);
 		}
 		return true;
 	}
 
-	private boolean openRow(Node node)
-	{
-		DProRow x;
-		try {
-			x = new DProRow("Error","Error","1","","Error");
-		} catch (Exception e) {
-			return false;
-		}
-		x.setType(((Element)node).getElementsByTagName("ftype").item(0).getTextContent());		
-		x.setName(((Element)node).getElementsByTagName("fname").item(0).getTextContent());
-		x.setSize(((Element)node).getElementsByTagName("fsize").item(0).getTextContent());
-		x.setDesc(((Element)node).getElementsByTagName("fdesc").item(0).getTextContent());
-		x.setRpath(((Element)node).getElementsByTagName("frpath").item(0).getTextContent());
-		tViewDPro.getItems().add(x);
-		return true;
-	}
+
 }

@@ -17,9 +17,9 @@ public class DProGenCPro {
 
 	private static boolean create(File cproFile, File dproFile)
 	{
-		org.w3c.dom.Document dproDoc = UtilsBPro.getW3cDomDoc(dproFile);
+		Document dproDoc = UtilsBPro.getJDOM2Doc(dproFile);
 		if((dproDoc == null) ||
-		  (!dproDoc.getElementsByTagName("dtype").item(0).getTextContent().matches("design")))
+		  (!dproDoc.getRootElement().getChild("head").getChildText("dtype").matches("design")))
 		{
 			return false;
 		}
@@ -44,7 +44,7 @@ public class DProGenCPro {
 	}
 
 
-	private static boolean populateXML(Document cproDoc, org.w3c.dom.Document dproDoc){
+	private static boolean populateXML(Document cproDoc, Document dproDoc){
 		Element theRoot = new Element("complex");
 		cproDoc.setRootElement(theRoot);
 
@@ -55,7 +55,7 @@ public class DProGenCPro {
 		theRoot.addContent(body);
 
 		Element cname = new Element("cname");
-		cname.setText(dproDoc.getElementsByTagName("dname").item(0).getTextContent());
+		cname.setText(dproDoc.getRootElement().getChild("head").getChildText("dname"));
 		head.addContent(cname);
 
 		Element type = new Element("ctype");
@@ -66,7 +66,7 @@ public class DProGenCPro {
 		count.setText("0");
 		head.addContent(count);		
 
-		org.w3c.dom.Element designElement = (org.w3c.dom.Element)(dproDoc.getElementsByTagName("design").item(0));
+		Element designElement = dproDoc.getRootElement();
 		Integer fields = UtilsBPro.getDProFieldsCount(designElement);
 		Integer offset = 0;
 		for(int i = 0 ; i < fields; i++ )
@@ -81,7 +81,7 @@ public class DProGenCPro {
 		return true;
 	}
 
-	private static int addField(Element body, int i, org.w3c.dom.Element designElement, int offset) {
+	private static int addField(Element body, int i, Element designElement, int offset) {
 		Integer count = UtilsBPro.getDProFieldSize(designElement, i);
 		Integer size = 1;
 		Element x =
@@ -94,7 +94,6 @@ public class DProGenCPro {
 		File file = new File(UtilsBPro.getDProBasePath(designElement) + "/"+ UtilsBPro.getDProFieldPath(designElement, i));
 		if(file.exists()){
 			Document doc = UtilsBPro.getJDOM2Doc(file);
-			org.w3c.dom.Document w3cdoc = UtilsBPro.getW3cDomDoc(file);
 			if(doc != null)
 			{
 				Element core;
@@ -102,7 +101,7 @@ public class DProGenCPro {
 	    		String extension = Utils.getFileExtension(file);
 	    		if(extension.equals("cpro"))
 	    		{
-	    			size = Integer.parseInt(w3cdoc.getElementsByTagName("cTotalBytes").item(0).getTextContent());
+	    			size = Integer.parseInt(doc.getRootElement().getChild("head").getChildText("cTotalBytes"));
 	    			Element cTotalBytes = new Element("cTotalBytes");
 	    			cTotalBytes.setText(Integer.toString(size));
 	    			x.addContent(cTotalBytes);	
@@ -114,7 +113,7 @@ public class DProGenCPro {
 	    		}
 	    		else
 	    		{					
-	    			size = Integer.parseInt(w3cdoc.getElementsByTagName("slen").item(0).getTextContent()) /8;
+	    			size = Integer.parseInt(doc.getRootElement().getChild("head").getChildText("slen")) /8;
 	    			Element cTotalBytes = new Element("cTotalBytes");
 	    			cTotalBytes.setText(Integer.toString(size));
 	    			x.addContent(cTotalBytes);

@@ -157,11 +157,11 @@ public class DProCreate {
 		return true;
 	}
 
-	public void save() {
+	public File save() {
     	if(txtDProName.getText().trim().isEmpty() == true)
     	{
     		statusBar.setText("Please provide a name");
-    		return;
+    		return null;
     	}
 
     	File file = UtilsBPro.saveDProFile(borderPaneMainWindow.getScene().getWindow(), txtDProName.getText().trim());
@@ -170,13 +170,14 @@ public class DProCreate {
         	if(create(file) == true)
         	{
         		statusBar.setText("Save Success");
+        		return file;
         	}
         }
         else
         {
         	statusBar.setText("Operation Cancelled");
         }
-
+        return null;
 	}
 
 	private boolean create(File fileName)

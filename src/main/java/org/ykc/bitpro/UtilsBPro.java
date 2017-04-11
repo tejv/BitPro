@@ -5,8 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.controlsfx.control.StatusBar;
+import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
-import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 
 import javafx.collections.FXCollections;
@@ -94,23 +94,6 @@ public class UtilsBPro {
 	public static File saveDProFile(Window win, String initialName){
 		return saveFile(win, initialName, "BitPro Files(*.dpro)", "*.dpro");
 	}
-
-	public static Document getW3cDomDoc(File input) {
-		try {
-
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			factory.setIgnoringComments(true);
-			factory.setIgnoringElementContentWhitespace(true);
-			//factory.setValidating(true);
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			return builder.parse(new InputSource(input.getAbsolutePath()));
-
-		}
-		catch(Exception ex){
-
-		}
-		return null;
-	}
 	
 	public static org.jdom2.Document getJDOM2Doc(File input) {
 		try {
@@ -125,109 +108,86 @@ public class UtilsBPro {
 	}	
 
 	public static String getSProName(Element simpleElement){
-		return simpleElement.getElementsByTagName("sname").item(0).getTextContent();
+		return simpleElement.getChild("head").getChildText("sname");
 	}
 
 	public static Integer getSProLength(Element simpleElement){
-		return Integer.parseInt(simpleElement.getElementsByTagName("slen").item(0).getTextContent());
+		return Integer.parseInt(simpleElement.getChild("head").getChildText("slen"));
 	}
 
 	public static Integer getSProFieldsCount(Element simpleElement){
-		return simpleElement.getElementsByTagName("field").getLength();
+		return simpleElement.getChild("body").getChildren("field").size();
 	}
+	
+	public static Element getSProFieldElement(Element simpleElement, int index){
+		return simpleElement.getChild("body").getChildren("field").get(index);
+	}	
 
 	public static Integer getDProFieldsCount(Element designElement){
-		return designElement.getElementsByTagName("field").getLength();
+		return designElement.getChild("body").getChildren("field").size();
 	}
 	
 	public static String getDProBasePath(Element designElement){
-		return designElement.getElementsByTagName("dBasePath").item(0).getTextContent();		
+		return designElement.getChild("head").getChildText("dBasePath");
 	}	
 
 	public static String getDProFieldName(Element designElement, Integer index){
-		NodeList listOfFields = designElement.getElementsByTagName("field");
-		Node node = listOfFields.item(index);
-		return ((Element)node).getElementsByTagName("fname").item(0).getTextContent();
+		return designElement.getChild("body").getChildren("field").get(index).getChildText("fname");
 	}
 
 	public static String getDProFieldType(Element designElement, Integer index){
-		NodeList listOfFields = designElement.getElementsByTagName("field");
-		Node node = listOfFields.item(index);
-		return ((Element)node).getElementsByTagName("ftype").item(0).getTextContent();
+		return designElement.getChild("body").getChildren("field").get(index).getChildText("ftype");
 	}
 
 	public static Integer getDProFieldSize(Element designElement, Integer index){
-		NodeList listOfFields = designElement.getElementsByTagName("field");
-		Node node = listOfFields.item(index);
-		return Integer.parseInt(((Element)node).getElementsByTagName("fsize").item(0).getTextContent());
+		return Integer.parseInt(designElement.getChild("body").getChildren("field").get(index).getChildText("fsize"));
 	}
 
 	public static String getDProFieldDesc(Element designElement, Integer index){
-		NodeList listOfFields = designElement.getElementsByTagName("field");
-		Node node = listOfFields.item(index);
-		return ((Element)node).getElementsByTagName("fdesc").item(0).getTextContent();
+		return designElement.getChild("body").getChildren("field").get(index).getChildText("fdesc");
 	}
 
 	public static String getDProFieldPath(Element designElement, Integer index){
-		NodeList listOfFields = designElement.getElementsByTagName("field");
-		Node node = listOfFields.item(index);
-		return ((Element)node).getElementsByTagName("frpath").item(0).getTextContent();
+		return designElement.getChild("body").getChildren("field").get(index).getChildText("frpath");		
 	}
 
 	public static Integer getSProFieldOffset(Element simpleElement,Integer index){
-		NodeList listOfFields = simpleElement.getElementsByTagName("field");
-		Node node = listOfFields.item(index);
-		return Integer.parseInt(((Element)node).getElementsByTagName("foffset").item(0).getTextContent());
+		return Integer.parseInt(simpleElement.getChild("body").getChildren("field").get(index).getChildText("foffset"));
 	}
 
 	public static Integer getSProFieldSize(Element simpleElement,Integer index){
-		NodeList listOfFields = simpleElement.getElementsByTagName("field");
-		Node node = listOfFields.item(index);
-		return Integer.parseInt(((Element)node).getElementsByTagName("fsize").item(0).getTextContent());
+		return Integer.parseInt(simpleElement.getChild("body").getChildren("field").get(index).getChildText("fsize"));
 	}
 
 	public static String getSProFieldName(Element simpleElement, Integer index){
-		NodeList listOfFields = simpleElement.getElementsByTagName("field");
-		Node node = listOfFields.item(index);
-		return ((Element)node).getElementsByTagName("fname").item(0).getTextContent();
+		return simpleElement.getChild("body").getChildren("field").get(index).getChildText("fname");
 	}
 
 	public static String getSProFieldDesc(Element simpleElement, Integer index){
-		NodeList listOfFields = simpleElement.getElementsByTagName("field");
-		Node node = listOfFields.item(index);
-		return ((Element)node).getElementsByTagName("fdesc").item(0).getTextContent();
+		return simpleElement.getChild("body").getChildren("field").get(index).getChildText("fdesc");
 	}
 
 	public static Integer getSProFieldEnumCount(Element simpleElement,Integer index){
-		NodeList listOfFields = simpleElement.getElementsByTagName("field");
-		Node node = listOfFields.item(index);
-		Element enumElement = (Element)((Element)node).getElementsByTagName("fenum").item(0);
-
-		return enumElement.getElementsByTagName("enum").getLength();
+		return simpleElement.getChild("body").getChildren("field").get(index).getChild("fenum").getChildren().size();
 	}
 
 	public static Element getSProFieldEnumElement(Element simpleElement,Integer index){
-		NodeList listOfFields = simpleElement.getElementsByTagName("field");
-		Node node = listOfFields.item(index);
-		Element enumElement = (Element)((Element)node).getElementsByTagName("fenum").item(0);
-		return enumElement;
+		return simpleElement.getChild("body").getChildren("field").get(index).getChild("fenum");
+	}
+	
+	public static int getSProFieldEnumsCount(Element enumElement){
+		return enumElement.getChildren("enum").size();
 	}
 
 	public static String getSProEnumName(Element enumElement,Integer index){
-		NodeList listOfEnames = enumElement.getElementsByTagName("enum");
-		Node node = listOfEnames.item(index);
-		return ((Element)node).getElementsByTagName("ename").item(0).getTextContent();
+		return enumElement.getChildren("enum").get(index).getChildText("ename");
 	}
 
 	public static Long getSProEnumValue(Element enumElement,Integer index){
-		NodeList listOfEnames = enumElement.getElementsByTagName("enum");
-		Node node = listOfEnames.item(index);
-		return Utils.parseStringtoNumber(((Element)node).getElementsByTagName("evalue").item(0).getTextContent());
+		return Utils.parseStringtoNumber(enumElement.getChildren("enum").get(index).getChildText("evalue"));
 	}
 
 	public static String getSProEnumValueString(Element enumElement,Integer index){
-		NodeList listOfEnames = enumElement.getElementsByTagName("enum");
-		Node node = listOfEnames.item(index);
-		return ((Element)node).getElementsByTagName("evalue").item(0).getTextContent();
+		return enumElement.getChildren("enum").get(index).getChildText("evalue");
 	}
 }
