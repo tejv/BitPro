@@ -9,7 +9,6 @@ import java.io.IOException;
 
 import org.controlsfx.control.StatusBar;
 import org.jdom2.Element;
-import org.jdom2.contrib.xpath.xalan.JDOM2DTM;
 import org.jdom2.output.JDOMLocator;
 import org.ykc.bitpro.Utils.Radix;
 
@@ -43,7 +42,7 @@ public class SProLoad {
 	public static void setRadix(Utils.Radix value) {
 		radix = value;
 	}
-	
+
 	public static boolean isLoaded(){
 		return isLoaded;
 	}
@@ -51,16 +50,16 @@ public class SProLoad {
 			StatusBar statusBar) {
 		isLoaded = true;
 		gPane.getChildren().clear();
-		
+
 		curElement = element;
 		txtMain = txtData;
 		status = statusBar;
-		
+
 		Integer maxFields = UtilsBPro.getSProFieldsCount(curElement);
 		ObservableList<JFXTextField> txtList = FXCollections.observableArrayList();
 		ObservableList<Label> labelList = FXCollections.observableArrayList();
 		ObservableList<JFXComboBox> comboList = FXCollections.observableArrayList();
-		
+
 		for (Integer i = 0; i < maxFields; i++) {
 			Integer offset = UtilsBPro.getSProFieldOffset(curElement, i);
 			String name = UtilsBPro.getSProFieldName(curElement, i) + "( ";
@@ -80,7 +79,7 @@ public class SProLoad {
 
 			tbox.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
-				public void handle(ActionEvent event) {			
+				public void handle(ActionEvent event) {
 					Platform.runLater(() -> updateMainText(txtList, comboList, event));
 				}
 			});
@@ -103,13 +102,13 @@ public class SProLoad {
 				Element enumElement = UtilsBPro.getSProFieldEnumElement(curElement, i);
 				for(int j = 0; j < ecount; j++)
 				{
-					String nameString = UtilsBPro.getSProEnumName(enumElement, j); 
+					String nameString = UtilsBPro.getSProEnumName(enumElement, j);
 					String valString = UtilsBPro.getSProEnumValueString(enumElement, j);
 					cBox.getItems().add(nameString);
 					help += nameString + " : ";
 					help += valString + "\n";
 				}
-				
+
 				cBox.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
@@ -124,10 +123,10 @@ public class SProLoad {
 					}
 					Platform.runLater(() -> updateMainText(txtList, comboList, event));
 				}
-			});				
-				label.setTooltip(new Tooltip(help));						
+			});
+				label.setTooltip(new Tooltip(help));
 				gPane.add(cBox, 1, i);
-			}			
+			}
 		}
 
 		updateFieldText(txtList, comboList);
@@ -153,24 +152,24 @@ public class SProLoad {
 				}
 
 				x += offset.toString();
-				x += " )";							
+				x += " )";
 				x += ", Value: ";
 				Long value = Utils.parseStringtoNumber(txtList.get(i).getText());
 				x += Utils.longToString(value, Radix.RADIX_DECIMAL);
 				x += ", " + Utils.longToString(value, Radix.RADIX_HEX);
 				x += ", " + Utils.longToString(value, Radix.RADIX_BINARY);
-				
+
 				Integer ecount = UtilsBPro.getSProFieldEnumCount(curElement, i);
 				if(ecount != 0)
 				{
-					x += ", " +comboList.get(i).getSelectionModel().getSelectedItem().toString();	
-				}				
-				
+					x += ", " +comboList.get(i).getSelectionModel().getSelectedItem().toString();
+				}
+
 				x += ", Mask: 0x" + Long.toHexString(mask << offset);
 				x += ", Max: ( " + mask.toString() + ", 0x" + Long.toHexString(mask) + ", 0b"
-						+ Long.toBinaryString(mask) + " )";	
-				
-				x += ", Description: " + UtilsBPro.getSProFieldDesc(curElement, i);				
+						+ Long.toBinaryString(mask) + " )";
+
+				x += ", Description: " + UtilsBPro.getSProFieldDesc(curElement, i);
 				status.setText(x);
 			}
 		}
@@ -195,7 +194,7 @@ public class SProLoad {
 				int j;
 				for(j = 0; j < ecount; j++)
 				{
-					String nameString = UtilsBPro.getSProEnumName(enumElement, j); 
+					String nameString = UtilsBPro.getSProEnumName(enumElement, j);
 					Long val = Utils.parseStringtoNumber(UtilsBPro.getSProEnumValueString(enumElement, j));
 					if(val == result)
 					{
@@ -207,7 +206,7 @@ public class SProLoad {
 				{
 					comboList.get(i).getSelectionModel().clearSelection();;
 				}
-			}			
+			}
 		}
 		txtMain.setText(Utils.longToString(value, radix));
 	}
@@ -229,7 +228,7 @@ public class SProLoad {
 				int j;
 				for(j = 0; j < ecount; j++)
 				{
-					String nameString = UtilsBPro.getSProEnumName(enumElement, j); 
+					String nameString = UtilsBPro.getSProEnumName(enumElement, j);
 					Long val = Utils.parseStringtoNumber(UtilsBPro.getSProEnumValueString(enumElement, j));
 					if(val == fvalue)
 					{
@@ -244,5 +243,5 @@ public class SProLoad {
 			}
 		}
 		txtMain.setText(Utils.longToString(value, radix));
-	}	
+	}
 }
