@@ -37,6 +37,9 @@ public class UtilsFuncGen {
 			{
 				ObservableList<String> paramList = FXCollections.observableArrayList();
 				line = line.trim();
+				if(!line.contains(";")){
+					line += ";";
+				}
 				int start = line.indexOf('(');
 				int end = line.indexOf(')');
 				String paramString = line.substring(start+1, end);
@@ -80,8 +83,10 @@ public class UtilsFuncGen {
 			{
 				ObservableList<String> paramList = FXCollections.observableArrayList();
 				line = line.trim();
-				int semiColonidx = line.indexOf(';');
-				line = line.substring(0, semiColonidx);
+				if(line.contains(";")){
+					int semiColonidx = line.indexOf(';');
+					line = line.substring(0, semiColonidx);
+				}
 				line = line.trim();
 				xBuilder.append(line + "\n");
 				xBuilder.append("{\n");
