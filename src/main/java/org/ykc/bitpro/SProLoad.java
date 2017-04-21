@@ -209,6 +209,7 @@ public class SProLoad {
 			}
 		}
 		txtMain.setText(Utils.longToString(value, radix));
+		txtMain.positionCaret(txtMain.getText().length());
 	}
 
 	private static void updateFieldText(ObservableList<JFXTextField> txtList, ObservableList<JFXComboBox> comboList) {
@@ -243,5 +244,6 @@ public class SProLoad {
 			}
 		}
 		txtMain.setText(Utils.longToString(value, radix));
+		txtMain.positionCaret(txtMain.getText().length());
 	}
 }

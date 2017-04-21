@@ -64,10 +64,12 @@ public class CProLoad {
 		});
 
 		txtData.addEventHandler(ActionEvent.ACTION, event -> {
-			ttViewCProLoad.getTreeItem(selectedIdx).getValue().setValue(Utils.longToString(Utils.parseStringtoNumber(txtData.getText()),Radix.RADIX_HEX));
-			/* Workaround for tableview update issue */
-			ttViewCProLoad.getColumns().get(0).setVisible(false);
-			ttViewCProLoad.getColumns().get(0).setVisible(true);
+			if(ttViewCProLoad.getTreeItem(selectedIdx) != null){
+				ttViewCProLoad.getTreeItem(selectedIdx).getValue().setValue(Utils.longToString(Utils.parseStringtoNumber(txtData.getText()),Radix.RADIX_HEX));
+				/* Workaround for tableview update issue */
+				ttViewCProLoad.getColumns().get(0).setVisible(false);
+				ttViewCProLoad.getColumns().get(0).setVisible(true);
+			}
 	    });
 
 	}
