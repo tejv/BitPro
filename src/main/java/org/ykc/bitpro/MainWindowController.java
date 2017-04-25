@@ -205,6 +205,9 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="bParseRegMap"
     private Button bParseRegMap; // Value injected by FXMLLoader
 
+    @FXML // fx:id="bParsePDSpec"
+    private Button bParsePDSpec; // Value injected by FXMLLoader
+
     @FXML // fx:id="tabParse"
     private Tab tabParse; // Value injected by FXMLLoader
 
@@ -441,6 +444,7 @@ public class MainWindowController implements Initializable{
 
 		bUtilsGenSwitch.setTooltip(new Tooltip("Generate Switch Case from enum entries"));
 		bUtilsGenFns.setTooltip(new Tooltip("Generate Function prototype's comments and\n Function body"));
+		bParsePDSpec.setTooltip(new Tooltip("Make sure \"Name\" is provided and clean up numbers/special char at start(in name of field ) in lines starting with B"));
 
 		/* Not using this pane for now */
 		splitPaneFileExplorer.getItems().remove(splitPaneFileExplorer.getItems().get(0));
@@ -582,6 +586,11 @@ public class MainWindowController implements Initializable{
     }
 
     @FXML
+    void parsePDSpec(ActionEvent event) {
+    	parseUSBPDSpec(event);
+    }
+
+	@FXML
     void dproAddField(ActionEvent event) {
     	dproCreate.addField();
     }
@@ -732,6 +741,14 @@ public class MainWindowController implements Initializable{
 
 	private void parseSimpleRegister(ActionEvent event) {
 		if(ParseRegMap.parse(txtAreaParse, statusBar, tViewSPro, txtSProName, rbSPro32bit) == true)
+		{
+			tabPaneMain.getSelectionModel().select(tabSPro);
+			bSave.fireEvent(event);
+		}
+	}
+
+    private void parseUSBPDSpec(ActionEvent event) {
+		if(ParsePDSpec.parse(txtAreaParse, statusBar, tViewSPro, txtSProName, rbSPro32bit) == true)
 		{
 			tabPaneMain.getSelectionModel().select(tabSPro);
 			bSave.fireEvent(event);

@@ -218,6 +218,7 @@
                                                       <ToolBar prefHeight="34.0" prefWidth="775.0">
                                                         <items>
                                                           <Button fx:id="bParseRegMap" mnemonicParsing="false" onAction="#parseSimpleRegmap" text="Parse Regmap" />
+                                                            <Button fx:id="bParsePDSpec" mnemonicParsing="false" onAction="#parsePDSpec" text="Parse PD Spec" />
                                                         </items>
                                                       </ToolBar>
                                                    </children>
