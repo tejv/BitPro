@@ -208,7 +208,7 @@
                                              <center>
                                                 <ScrollPane fitToHeight="true" fitToWidth="true">
                                                    <content>
-                                                      <JFXTextArea fx:id="txtAreaParse" maxWidth="775.0" minWidth="775.0" prefHeight="321.0" prefWidth="775.0" promptText="Paste here" />
+                                                      <JFXTextArea fx:id="txtAreaParse" maxWidth="879.0" minWidth="775.0" prefHeight="439.0" prefWidth="879.0" promptText="Paste here" />
                                                    </content>
                                                 </ScrollPane>
                                              </center>

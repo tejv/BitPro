@@ -6,5 +6,9 @@ BitPro
 #option in spro or a different extension iwthout braking existing code to multiple definitions of a union.
 #How to handle a scratch pad case.
 
+#ALL description fields can ne multiline.
+# Provide better way to shoe description may be popup on highlight or click on label.
+#description field can be a paragraph. For macro creation just take first line. Others just copy entire spec.
+#or have a one multiline field per spro that describes file or just copy info fro, source.
 
 
