@@ -13,7 +13,7 @@ import org.jdom2.output.XMLOutputter;
 import javafx.scene.control.Tab;
 
 public class Preferences {
-	private static File lastDirectory = null;
+	private static File lastDirectory = new File(System.getProperty("user.home"));
 	private static File lastLoadedFile = null;
 	private static String lastOpenTabName = "tabSPro";
 	private static String xSolveLastData = "0";
@@ -21,9 +21,27 @@ public class Preferences {
 	private static String utilsFnNamePrefixString = "";
 	private static String utilsFnPrefixString = "";
 	private static String utilsFnPostfixString = "";
-	private static File dproLastBrowseDir = null;
+	private static File dproLastBrowseDir = new File(System.getProperty("user.home"));
 	private static File dproBasePath = new File(System.getProperty("user.home") + "/BitPro");
 	private static File lastDPROFile = null;
+	private static File fxLastDirectory = new File(System.getProperty("user.home"));
+	private static File fxLastLoadedFile = null;
+
+	public static File getFxLastLoadedFile() {
+		return fxLastLoadedFile;
+	}
+
+	public static void setFxLastLoadedFile(File fxLastLoadedFile) {
+		Preferences.fxLastLoadedFile = fxLastLoadedFile;
+	}
+
+	public static File getFxLastDirectory() {
+		return fxLastDirectory;
+	}
+
+	public static void setFxLastDirectory(File fxLastDirectory) {
+		Preferences.fxLastDirectory = fxLastDirectory;
+	}
 
 	public static File getDproLastBrowseDir() {
 		return dproLastBrowseDir;
@@ -141,11 +159,11 @@ public class Preferences {
 			}
 			Element prefElement = prefDoc.getRootElement();
 			String lastDir = prefElement.getChildText("lastDirectory");
-			if(!lastDir.equals("null"))
+			if((!lastDir.equals("null")) && (new File(lastDir).exists()))
 			{
 				lastDirectory = new File(lastDir);
 			}
-			lastOpenTabName = prefElement.getChildText("lastOpenTab"); 
+			lastOpenTabName = prefElement.getChildText("lastOpenTab");
 			String fileName = prefElement.getChildText("lastLoadFile");
 			if(!fileName.equals("null"))
 			{
@@ -178,7 +196,7 @@ public class Preferences {
 			}
 
 			temp = prefElement.getChildText("dproLastBrowseDir");
-			if(!temp.equals("null"))
+			if((!temp.equals("null")) && (new File(temp).exists()))
 			{
 				dproLastBrowseDir = new File(temp);
 			}
@@ -189,11 +207,23 @@ public class Preferences {
 			{
 				dproBasePath = file;
 			}
-			
+
 			String lastdpro = prefElement.getChildText("lastDPROFile");
 			if(!lastdpro.equals("null"))
 			{
 				lastDPROFile = new File(lastdpro);
+			}
+
+			temp = prefElement.getChildText("fxLastDirectory");
+			if((!temp.equals("null")) && (new File(temp).exists()))
+			{
+				fxLastDirectory = new File(temp);
+			}
+
+			fileName = prefElement.getChildText("fxLastLoadedFile");
+			if(!fileName.equals("null"))
+			{
+				fxLastLoadedFile = new File(fileName);
 			}
 			return true;
 		} catch (Exception e) {
@@ -278,8 +308,21 @@ public class Preferences {
 		else{
 			lastDProElement.setText("null");
 		}
-		theRoot.addContent(lastDProElement);		
-		
+		theRoot.addContent(lastDProElement);
+
+		Element fxLastDirectoryElement = new Element("fxLastDirectory");
+		fxLastDirectoryElement.setText(fxLastDirectory.getAbsolutePath());
+		theRoot.addContent(fxLastDirectoryElement);
+
+		Element fxlastLoadFileElement = new Element("fxLastLoadedFile");
+		if(fxLastLoadedFile != null){
+			fxlastLoadFileElement.setText(fxLastLoadedFile.getAbsolutePath());
+		}
+		else{
+			fxlastLoadFileElement.setText("null");
+		}
+		theRoot.addContent(fxlastLoadFileElement);
+
 		XMLOutputter xmlOutput = new XMLOutputter(Format.getPrettyFormat());
 		try {
 			FileOutputStream x = new FileOutputStream(preFile);
@@ -290,4 +333,6 @@ public class Preferences {
 		}
 		return false;
 	}
+
+
 }

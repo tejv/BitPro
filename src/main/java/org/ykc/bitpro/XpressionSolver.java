@@ -202,6 +202,18 @@ public class XpressionSolver {
     		decimal.setText(result);
     	}
     }
+    
+    public void solveSimple(String input, JFXTextField resBox)
+    {
+    	if(x_solve(input, 0) == true)
+    	{
+    		Integer output= Integer.parseUnsignedInt(result);
+    		resBox.setText(output + " : 0x" + Integer.toHexString(output).toUpperCase() + " : 0b" + Integer.toBinaryString(output));
+    	}
+    	else{
+    		resBox.setText(result);
+    	}    	
+    }
 
     private boolean x_solve(String input, Integer index)
     {

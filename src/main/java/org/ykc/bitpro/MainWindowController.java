@@ -343,12 +343,43 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="lbLoadTotalBytes"
     private Label lbLoadTotalBytes; // Value injected by FXMLLoader
 
+    @FXML // fx:id="lViewFX"
+    private JFXListView<String> lViewFX; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtFxName"
+    private JFXTextField txtFxName; // Value injected by FXMLLoader
+
+    @FXML // fx:id="gPaneFxLoad"
+    private GridPane gPaneFxLoad; // Value injected by FXMLLoader
+
+    @FXML // fx:id="tabFormula"
+    private Tab tabFormula; // Value injected by FXMLLoader
+
+    @FXML // fx:id="tabPaneFX"
+    private TabPane tabPaneFX; // Value injected by FXMLLoader
+
+    @FXML // fx:id="tabFXLoad"
+    private Tab tabFXLoad; // Value injected by FXMLLoader
+
+    @FXML // fx:id="txtFxResult"
+    private JFXTextField txtFxResult; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="txtAreaFxDesc"
+    private JFXTextArea txtAreaFxDesc; // Value injected by FXMLLoader
+    
+    @FXML
+    private JFXTextArea txtAreaFxFormula;
+
+    @FXML
+    private TextField txtFxCreateName;
+
     private Stage myStage;
 
     private BProLoad bProLoad;
-
     private DProCreate dproCreate;
     private DProOpen dproOpen;
+    private FXLoad fxLoad;
+    private FXCreate fxCreate;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -361,10 +392,14 @@ public class MainWindowController implements Initializable{
 	    dproOpen = new DProOpen(myStage, tViewDPro, txtDProName, txtDProTypeName,
 	    		txtDProFieldName, txtDProFieldSize, txtDProFieldRPath, txtDProFieldDesc,
 	    		borderPaneMainWindow, statusBar, txtDProBPath);
+	    fxLoad = new FXLoad(myStage, lViewFX, txtFxName, gPaneFxLoad, txtFxResult, txtAreaFxDesc, statusBar);
+	    fxCreate = new FXCreate(txtFxCreateName, txtAreaFxFormula, borderPaneMainWindow, statusBar);
 
 		Preferences.loadPreferences();
 		txtDProBPath.setText(Preferences.getDproBasePath().getAbsolutePath());
 		dproCreate.browseDir(Preferences.getDproLastBrowseDir());
+		fxLoad.browseDir(Preferences.getFxLastDirectory());
+		fxLoad.load(Preferences.getFxLastLoadedFile());
 		txtLoadPrefix.setText(Preferences.getLoadViewPrefixValue());
 		txtUtilFSMFnNamePrefix.setText(Preferences.getUtilsFnNamePrefixString());
 		txtUtilFSMFnPrefix.setText(Preferences.getUtilsFnPrefixString());
@@ -407,7 +442,12 @@ public class MainWindowController implements Initializable{
 		case "tabUtils":
 			tabPaneMain.getSelectionModel().select(tabUtils);
 			break;
+		case "tabFormula":
+			tabPaneMain.getSelectionModel().select(tabFormula);
+			break;
 		}
+		tabPaneFX.getSelectionModel().select(tabFXLoad);
+
 		/* Link tViewSPro to Modal class SProRow */
 		tColSProFname.setCellValueFactory(new PropertyValueFactory<>("name"));
 		tColSProFsize.setCellValueFactory(new PropertyValueFactory<>("size"));
@@ -457,6 +497,26 @@ public class MainWindowController implements Initializable{
 			        }
 			    }
 			);
+		tabPaneFX.getSelectionModel().selectedItemProperty().addListener(
+			    new ChangeListener<Tab>() {
+			        @Override
+			        public void changed(ObservableValue<? extends Tab> ov, Tab oldTab, Tab newTab) {
+			    		if("tabFXLoad".equals(newTab.getId()))
+			    		{
+			    			bOpen.setDisable(true);
+			    			bSave.setDisable(true);
+			    			bLoad.setDisable(true);
+			    			bGenMacros.setDisable(true);
+			    			bGenBinary.setDisable(true);
+			    		}
+			    		else {
+			    			bOpen.setDisable(false);
+			    			bSave.setDisable(false);
+						}
+			        }
+			    }
+			);
+
 	}
 
     @FXML
@@ -501,33 +561,41 @@ public class MainWindowController implements Initializable{
 
     @FXML
     void openBitFile(ActionEvent event) {
-    	if(tabPaneMain.getSelectionModel().getSelectedItem().getId().equals("tabSPro"))
+    	String tabName = tabPaneMain.getSelectionModel().getSelectedItem().getId();
+    	if(tabName.equals("tabSPro"))
     	{
     		SProOpen.run(borderPaneMainWindow, txtSProFieldName,
         		txtSProFieldSize, txtSProFieldDesc,
         		txtSProFieldEnum, txtSProName,
         		tgSProBitSel, tViewSPro, statusBar);
     	}
-    	else {
+    	else if(tabName.equals("tabDPro")){
 			dproOpen.run();
+		}
+    	else {
+			fxCreate.open();
 		}
     }
 
     @FXML
     void saveBitFile(ActionEvent event) {
-    	if(tabPaneMain.getSelectionModel().getSelectedItem().getId().equals("tabSPro"))
+    	String tabName = tabPaneMain.getSelectionModel().getSelectedItem().getId();
+    	if(tabName.equals("tabSPro"))
     	{
     		SProCreate.run(txtSProName, rbSPro8bit,
         		rbSPro16bit,rbSPro64bit, borderPaneMainWindow,
         		tViewSPro, statusBar);
     	}
-    	else {
+    	else if(tabName.equals("tabDPro")){
     		File file = dproCreate.save();
     		if(file != null){
     			/* Generate CPro on save */
     			DProGenCPro.run(file);
     		}
 		}
+    	else{
+    		fxCreate.save();
+    	}
     }
 
     @FXML
@@ -642,6 +710,11 @@ public class MainWindowController implements Initializable{
     }
 
     @FXML
+    void fxBrowse(ActionEvent event) {
+    	fxLoad.browse();
+    }
+
+    @FXML
     void utilsGenFunction(ActionEvent event) {
     	utilsFSMGenerateFn(event);
     }
@@ -689,6 +762,14 @@ public class MainWindowController implements Initializable{
 			bGenMacros.setDisable(true);
 			bGenBinary.setDisable(true);
 		}
+		else if(tabId.equals("tabFormula"))
+		{
+			bOpen.setDisable(true);
+			bSave.setDisable(true);
+			bLoad.setDisable(true);
+			bGenMacros.setDisable(true);
+			bGenBinary.setDisable(true);
+		}
 		else
 		{
 			bOpen.setDisable(false);
@@ -705,6 +786,7 @@ public class MainWindowController implements Initializable{
 		Preferences.setUtilsFnPrefixString(txtUtilFSMFnPrefix.getText());
 		Preferences.setUtilsFnPostfixString(txtUtilFSMFnPostFix.getText());
 		Preferences.setDproBasePath(new File(txtDProBPath.getText()));
+		fxLoad.saveOldData();
     	bProLoad.saveLoadedData();
     	Preferences.storePreferences();
 	}

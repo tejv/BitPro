@@ -62,6 +62,25 @@ public class UtilsBPro {
 		extensionFilters.add(new ExtensionFilter("BitPro Files(*.dpro)", "*.dpro"));
 		return openBitFile(win, extensionFilters);
 	}
+	
+	public static File openEQFile(Window win){
+		ObservableList<ExtensionFilter> extensionFilters = FXCollections.observableArrayList();
+		extensionFilters.add(new ExtensionFilter("F(x) Files(*.eq)", "*.eq"));
+		FileChooser fileChooser = new FileChooser();
+	    fileChooser.setTitle("Open F(x) File");
+
+	    if(Preferences.getFxLastDirectory() != null)
+	    {
+	    	fileChooser.setInitialDirectory(Preferences.getFxLastDirectory());
+	    }
+
+	    fileChooser.getExtensionFilters().addAll(extensionFilters);
+	    File file = fileChooser.showOpenDialog(win);
+	    if (file != null) {
+	    	Preferences.setFxLastDirectory(file.getParentFile());
+	    }
+	    return file;
+	}
 
 	private static File saveFile(Window win, String initialName, String typeString1, String typeString2){
 		FileChooser fileChooser = new FileChooser();
@@ -94,6 +113,27 @@ public class UtilsBPro {
 	public static File saveDProFile(Window win, String initialName){
 		return saveFile(win, initialName, "BitPro Files(*.dpro)", "*.dpro");
 	}
+	
+	public static File saveEQFile(Window win, String initialName) {
+		FileChooser fileChooser = new FileChooser();
+	    fileChooser.setTitle("Save EQ File");
+
+	    if(Preferences.getFxLastDirectory() != null)
+	    {
+	    	fileChooser.setInitialDirectory(Preferences.getFxLastDirectory());
+	    }
+
+	    fileChooser.getExtensionFilters().addAll(
+	            new FileChooser.ExtensionFilter("F(x) Files(*.eq)", "*.eq")
+	        );
+	    fileChooser.setInitialFileName(initialName);
+
+	    File file = fileChooser.showSaveDialog(win);
+        if (file != null) {
+        	Preferences.setFxLastDirectory(file.getParentFile());
+        }
+	    return file;		
+	}	
 	
 	public static org.jdom2.Document getJDOM2Doc(File input) {
 		try {
@@ -190,4 +230,6 @@ public class UtilsBPro {
 	public static String getSProEnumValueString(Element enumElement,Integer index){
 		return enumElement.getChildren("enum").get(index).getChildText("evalue");
 	}
+
+
 }
