@@ -208,6 +208,12 @@ public class MainWindowController implements Initializable{
     @FXML // fx:id="bParsePDSpec"
     private Button bParsePDSpec; // Value injected by FXMLLoader
 
+    @FXML
+    private Button bParseUnion;
+    
+    @FXML
+    private Button bParseEZSpro;  
+    
     @FXML // fx:id="tabParse"
     private Tab tabParse; // Value injected by FXMLLoader
 
@@ -485,6 +491,8 @@ public class MainWindowController implements Initializable{
 		bUtilsGenSwitch.setTooltip(new Tooltip("Generate Switch Case from enum entries"));
 		bUtilsGenFns.setTooltip(new Tooltip("Generate Function prototype's comments and\n Function body"));
 		bParsePDSpec.setTooltip(new Tooltip("Make sure \"Name\" is provided and clean up numbers/special char at start(in name of field ) in lines starting with B"));
+		bParseEZSpro.setTooltip(new Tooltip("First line ->Name <name>. On each line <fieldname> <space> <size>"));
+		bParseUnion.setTooltip(new Tooltip("First line ->Name <name>. Copy only the field lines along with semicolon after that"));
 
 		/* Not using this pane for now */
 		splitPaneFileExplorer.getItems().remove(splitPaneFileExplorer.getItems().get(0));
@@ -657,6 +665,16 @@ public class MainWindowController implements Initializable{
     void parsePDSpec(ActionEvent event) {
     	parseUSBPDSpec(event);
     }
+    
+    @FXML
+    void parseEZSpro(ActionEvent event) {
+    	parseEZSproCreate(event);
+    }
+    
+	@FXML
+    void parseUnion(ActionEvent event) {
+    	parseUnionStruct(event);
+    }    
 
 	@FXML
     void dproAddField(ActionEvent event) {
@@ -836,6 +854,23 @@ public class MainWindowController implements Initializable{
 			bSave.fireEvent(event);
 		}
 	}
+    
+	private void parseUnionStruct(ActionEvent event) {
+		if(ParseUnion.parse(txtAreaParse, statusBar, tViewSPro, txtSProName, rbSPro32bit) == true)
+		{
+			tabPaneMain.getSelectionModel().select(tabSPro);
+			bSave.fireEvent(event);
+		}
+	} 
+	
+    private void parseEZSproCreate(ActionEvent event) {
+		if(ParseEZSPro.parse(txtAreaParse, statusBar, tViewSPro, txtSProName, rbSPro32bit) == true)
+		{
+			tabPaneMain.getSelectionModel().select(tabSPro);
+			bSave.fireEvent(event);
+		}
+		
+	}	
 
     private void utilsFSMGenerateFn(ActionEvent event) {
 		TextViewer.display("Generated Code", UtilsFSMGen.run(txtUtilFSMFnNamePrefix.getText(),

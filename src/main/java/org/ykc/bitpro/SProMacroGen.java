@@ -121,17 +121,23 @@ public class SProMacroGen {
 			String a1 = a + "_MASK";
 			String a2 = a + "_POS";
 			String a3 = a + "_POS_MASK";
+			String a4 = "#define " + "GET_" + name + "(input)";
 			Integer size = UtilsBPro.getSProFieldSize(sElement, i);
 			Integer offset = UtilsBPro.getSProFieldOffset(sElement, i);
 			Integer mask = (int) (Utils.get32bitMask(size) << offset);
 			Integer pos_mask = (int) (1 << offset);
 
-			String b1 = "(0x" + Utils.intToHexWithPadding(mask, len) + ")";
-			String b2 = "(" + offset.toString() + ")";
+			String mString = "0x" + Utils.intToHexWithPadding(mask, len);
+			String pString = offset.toString();
+			String b1 = "(" + mString + ")";
+			String b2 = "(" + pString + ")";
 			String b3 = "(0x" + Utils.intToHexWithPadding(pos_mask, len) + ")";
+			String b4 = "(((input) & " + mString + ") >> " + pString + ")";
 			a1 = Utils.fixedLengthStringLeftAlign(a1, (maxStringSize + 30));
 			a2 = Utils.fixedLengthStringLeftAlign(a2, (maxStringSize + 30));
 			a3 = Utils.fixedLengthStringLeftAlign(a3, (maxStringSize + 30));
+			a4 = Utils.fixedLengthStringLeftAlign(a4, (maxStringSize + 30));
+			
 			xBuilder.append(a1 + b1);
 			xBuilder.append("\n");
 			xBuilder.append(a2 + b2);
@@ -139,6 +145,8 @@ public class SProMacroGen {
 				xBuilder.append("\n");
 				xBuilder.append(a3 + b3);
 			}
+			xBuilder.append("\n");
+			xBuilder.append(a4 + b4);			
 			xBuilder.append("\n\n");
 		}
 	}

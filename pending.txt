@@ -12,6 +12,7 @@ BitPro
 #or have a one multiline field per spro that describes file or just copy info fro, source.
 
 
-#New feature to the point calculations list say current fb calculations, Voltage drop cal.
-Feed the value and get result. Option to create new calculations and run existing calculations in integer
+#New feature  Option to create new calculations and run existing calculations in integer
 or float both option. 
+
+

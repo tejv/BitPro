@@ -217,8 +217,10 @@
                                                    <children>
                                                       <ToolBar prefHeight="34.0" prefWidth="775.0">
                                                         <items>
-                                                          <Button fx:id="bParseRegMap" mnemonicParsing="false" onAction="#parseSimpleRegmap" text="Parse Regmap" />
-                                                            <Button fx:id="bParsePDSpec" mnemonicParsing="false" onAction="#parsePDSpec" text="Parse PD Spec" />
+                                                            <Button fx:id="bParseEZSpro" mnemonicParsing="false" onAction="#parseEZSpro" text="EZCreate" />
+                                                          <Button fx:id="bParseRegMap" mnemonicParsing="false" onAction="#parseSimpleRegmap" text="Regmap" />
+                                                            <Button fx:id="bParsePDSpec" mnemonicParsing="false" onAction="#parsePDSpec" text="PD Spec" />
+                                                            <Button fx:id="bParseUnion" mnemonicParsing="false" onAction="#parseUnion" text="Union" />
                                                         </items>
                                                       </ToolBar>
                                                    </children>
