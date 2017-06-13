@@ -491,7 +491,7 @@ public class MainWindowController implements Initializable{
 		bUtilsGenSwitch.setTooltip(new Tooltip("Generate Switch Case from enum entries"));
 		bUtilsGenFns.setTooltip(new Tooltip("Generate Function prototype's comments and\n Function body"));
 		bParsePDSpec.setTooltip(new Tooltip("Make sure \"Name\" is provided and clean up numbers/special char at start(in name of field ) in lines starting with B"));
-		bParseEZSpro.setTooltip(new Tooltip("First line ->Name <name>. On each line <fieldname> <space> <size>"));
+		bParseEZSpro.setTooltip(new Tooltip("First line ->Name <name>. On each line <fieldname> <space> <size> <space> <Optional Desc>"));
 		bParseUnion.setTooltip(new Tooltip("First line ->Name <name>. Copy only the field lines along with semicolon after that"));
 
 		/* Not using this pane for now */

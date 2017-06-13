@@ -25,13 +25,16 @@ public class ParseEZSPro {
 					else{
 						Integer fSize = 1;
 						String fName = "Err";
-						String[] Strings = line.split("\\s+");
-						fName = Strings[0].trim().toLowerCase();				
-						fSize = Integer.parseInt(Strings[1].trim());
-						
+						String fDesc = "";
+						String[] strings = line.split("\\s+");
+						fName = strings[0].trim().toLowerCase();				
+						fSize = Integer.parseInt(strings[1].trim());
+						if(strings.length >= 3){
+							fDesc = strings[2].trim();
+						}
 						SProRow bField;
 						try {
-							bField = new SProRow(fName, fSize.toString(), "", "");
+							bField = new SProRow(fName, fSize.toString(), fDesc, "");
 						} catch (Exception e) {
 							statusBar.setText("Parsing Failed");
 							return false;
