@@ -110,7 +110,7 @@
                                        <children>
                                           <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <top>
-                                                <VBox prefHeight="81.0" prefWidth="651.0" BorderPane.alignment="CENTER">
+                                                <VBox prefHeight="72.0" prefWidth="881.0" BorderPane.alignment="CENTER">
                                                    <children>
                                                       <ToolBar prefHeight="6.0" prefWidth="662.0">
                                                          <items>
@@ -118,10 +118,10 @@
                                                                <padding>
                                                                   <Insets right="15.0" />
                                                                </padding></Label>
-                                                            <JFXTextField fx:id="txtSProName" maxWidth="344.0" minWidth="344.0" prefHeight="31.0" prefWidth="344.0" />
+                                                            <JFXTextField fx:id="txtSProName" maxWidth="453.0" minWidth="344.0" prefHeight="24.0" prefWidth="453.0" />
                                                          </items>
                                                       </ToolBar>
-                                                      <ToolBar prefHeight="55.0" prefWidth="662.0">
+                                                      <ToolBar prefHeight="40.0" prefWidth="881.0">
                                                          <items>
                                                             <Label text="Max Size">
                                                                <padding>
@@ -173,9 +173,9 @@
                                                 </VBox>
                                              </bottom>
                                              <center>
-                                                <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                                <StackPane prefHeight="323.0" prefWidth="881.0" BorderPane.alignment="CENTER">
                                                    <children>
-                                                      <TableView fx:id="tViewSPro" editable="true" prefHeight="153.0" prefWidth="662.0" tableMenuButtonVisible="true">
+                                                      <TableView fx:id="tViewSPro" editable="true" prefHeight="312.0" prefWidth="881.0" tableMenuButtonVisible="true">
                                                          <columns>
                                                             <TableColumn fx:id="tColSProFname" prefWidth="100.0" sortable="false" text="Field Name" />
                                                             <TableColumn fx:id="tColSProFsize" sortable="false" text="Bit Size" />
@@ -208,7 +208,7 @@
                                              <center>
                                                 <ScrollPane fitToHeight="true" fitToWidth="true">
                                                    <content>
-                                                      <JFXTextArea fx:id="txtAreaParse" maxWidth="879.0" minWidth="775.0" prefHeight="439.0" prefWidth="879.0" promptText="Paste here" />
+                                                      <JFXTextArea fx:id="txtAreaParse" promptText="Paste here" />
                                                    </content>
                                                 </ScrollPane>
                                              </center>
@@ -271,7 +271,7 @@
                                                                               <Insets right="15.0" />
                                                                            </padding>
                                                                         </Label>
-                                                                        <JFXTextField fx:id="txtDProBPath" maxWidth="344.0" minWidth="192.0" prefHeight="37.0" prefWidth="253.0" />
+                                                                        <JFXTextField fx:id="txtDProBPath" maxWidth="344.0" minWidth="192.0" prefHeight="37.0" prefWidth="316.0" />
                                                                      </items>
                                                                   </ToolBar>
                                                                </children>
@@ -373,7 +373,7 @@
                                                       </RadioButton>
                                                       <RadioButton fx:id="rbLoadDecimal" mnemonicParsing="false" onAction="#displayDecimalLoadView" text="Decimal" toggleGroup="$tgLoadRadixSel" />
                                                       <RadioButton fx:id="rbLoadBinary" mnemonicParsing="false" onAction="#displayBinaryLoadView" text="Binary" toggleGroup="$tgLoadRadixSel" />
-                                                      <TextField fx:id="txtLoadPrefix" promptText="Macros Prefix" />
+                                                      <TextField fx:id="txtLoadPrefix" prefHeight="31.0" prefWidth="229.0" promptText="Macros Prefix" />
                                                    </items>
                                                 </ToolBar>
                                                 <VBox layoutY="89.0" prefHeight="95.0" prefWidth="616.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="89.0">
@@ -448,7 +448,7 @@
                                                    <font>
                                                       <Font size="18.0" />
                                                    </font></TextField>
-                                                <GridPane fx:id="gPaneXsolve" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="773.0">
+                                                <GridPane fx:id="gPaneXsolve" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="136.0" prefWidth="773.0" vgap="10.0">
                                                   <columnConstraints>
                                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -529,19 +529,19 @@
                                                             <Font name="System Bold" size="15.0" />
                                                          </font>
                                                       </Label>
-                                                      <TextField onAction="#solveReverseExpression" prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.rowIndex="1">
+                                                      <TextField onAction="#solveReverseExpression" prefHeight="31.0" prefWidth="75.0" text="0000" GridPane.rowIndex="1">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
                                                          <GridPane.margin>
-                                                            <Insets left="20.0" right="25.0" />
+                                                            <Insets left="15.0" right="15.0" />
                                                          </GridPane.margin></TextField>
                                                       <TextField onAction="#solveReverseExpression" prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                                          <opaqueInsets>
                                                             <Insets />
                                                          </opaqueInsets>
                                                          <GridPane.margin>
-                                                            <Insets left="20.0" right="25.0" />
+                                                            <Insets left="15.0" right="15.0" />
                                                          </GridPane.margin>
                                                       </TextField>
                                                       <TextField onAction="#solveReverseExpression" prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="2" GridPane.rowIndex="1">
@@ -549,7 +549,7 @@
                                                             <Insets />
                                                          </opaqueInsets>
                                                          <GridPane.margin>
-                                                            <Insets left="20.0" right="25.0" />
+                                                            <Insets left="15.0" right="15.0" />
                                                          </GridPane.margin>
                                                       </TextField>
                                                       <TextField onAction="#solveReverseExpression" prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="3" GridPane.rowIndex="1">
@@ -557,7 +557,7 @@
                                                             <Insets />
                                                          </opaqueInsets>
                                                          <GridPane.margin>
-                                                            <Insets left="20.0" right="25.0" />
+                                                            <Insets left="15.0" right="15.0" />
                                                          </GridPane.margin>
                                                       </TextField>
                                                       <TextField onAction="#solveReverseExpression" prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="4" GridPane.rowIndex="1">
@@ -565,7 +565,7 @@
                                                             <Insets />
                                                          </opaqueInsets>
                                                          <GridPane.margin>
-                                                            <Insets left="20.0" right="25.0" />
+                                                            <Insets left="15.0" right="15.0" />
                                                          </GridPane.margin>
                                                       </TextField>
                                                       <TextField onAction="#solveReverseExpression" prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="5" GridPane.rowIndex="1">
@@ -573,7 +573,7 @@
                                                             <Insets />
                                                          </opaqueInsets>
                                                          <GridPane.margin>
-                                                            <Insets left="20.0" right="25.0" />
+                                                            <Insets left="15.0" right="15.0" />
                                                          </GridPane.margin>
                                                       </TextField>
                                                       <TextField onAction="#solveReverseExpression" prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="6" GridPane.rowIndex="1">
@@ -581,7 +581,7 @@
                                                             <Insets />
                                                          </opaqueInsets>
                                                          <GridPane.margin>
-                                                            <Insets left="20.0" right="25.0" />
+                                                            <Insets left="15.0" right="15.0" />
                                                          </GridPane.margin>
                                                       </TextField>
                                                       <TextField onAction="#solveReverseExpression" prefHeight="31.0" prefWidth="40.0" text="0000" GridPane.columnIndex="7" GridPane.rowIndex="1">
@@ -589,7 +589,7 @@
                                                             <Insets />
                                                          </opaqueInsets>
                                                          <GridPane.margin>
-                                                            <Insets left="20.0" right="25.0" />
+                                                            <Insets left="15.0" right="15.0" />
                                                          </GridPane.margin>
                                                       </TextField>
                                                       <TextField prefHeight="31.0" prefWidth="40.0" text="0" GridPane.rowIndex="2">
@@ -704,7 +704,7 @@
                                                                      <children>
                                                                         <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="248.0" prefWidth="775.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                            <content>
-                                                                              <JFXTextArea fx:id="txtAreaFxFormula" maxHeight="1.7976931348623157E308" maxWidth="879.0" minWidth="775.0" prefHeight="361.0" prefWidth="841.0" promptText="Define formula" />
+                                                                              <JFXTextArea fx:id="txtAreaFxFormula" promptText="Define formula" />
                                                                            </content>
                                                                         </ScrollPane>
                                                                      </children>
@@ -771,7 +771,7 @@
                                                                                                             <Insets right="15.0" />
                                                                                                          </padding>
                                                                                                       </Label>
-                                                                                                      <JFXTextField fx:id="txtFxResult" editable="false" maxWidth="344.0" minWidth="41.0" prefHeight="37.0" prefWidth="242.0" />
+                                                                                                      <JFXTextField fx:id="txtFxResult" editable="false" maxWidth="344.0" minWidth="41.0" prefHeight="37.0" prefWidth="315.0" />
                                                                                                    </items>
                                                                                                 </ToolBar>
                                                                                              </children>
@@ -850,12 +850,12 @@
                                                                            <items>
                                                                               <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="248.0" prefWidth="775.0">
                                                                                  <content>
-                                                                                    <JFXTextArea fx:id="txtAreaUtilFSMStateName" maxHeight="1.7976931348623157E308" maxWidth="775.0" minWidth="775.0" prefHeight="321.0" prefWidth="775.0" promptText="Paste here list of states (One state in one line) Just the state name, Proper prefix will be automatically added" />
+                                                                                    <JFXTextArea fx:id="txtAreaUtilFSMStateName" minWidth="775.0" promptText="Paste here list of states (One state in one line) Just the state name, Proper prefix will be automatically added" />
                                                                                  </content>
                                                                               </ScrollPane>
                                                                               <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="119.0" prefWidth="775.0">
                                                                                  <content>
-                                                                                    <JFXTextArea fx:id="txtAreaUtilFSMEventName" maxWidth="775.0" minWidth="775.0" prefHeight="321.0" prefWidth="775.0" promptText="Paste here list of events(One event in one line) Just the event, Proper prefix will be automatically added" />
+                                                                                    <JFXTextArea fx:id="txtAreaUtilFSMEventName" promptText="Paste here list of events(One event in one line) Just the event, Proper prefix will be automatically added" />
                                                                                  </content>
                                                                               </ScrollPane>
                                                                            </items>
@@ -872,8 +872,8 @@
                                                                               <TextField fx:id="txtUtilFSMFnNamePrefix" promptText="FSM Name" />
                                                                               <Label text="Fn Prefix" />
                                                                               <TextField fx:id="txtUtilFSMFnPrefix" promptText="Prefix" />
-                                                                              <Label text="Fn Prefix" />
-                                                                              <TextField fx:id="txtUtilFSMFnPostFix" promptText="Postfix" />
+                                                                              <Label text="Fn Postfix" />
+                                                                              <TextField fx:id="txtUtilFSMFnPostFix" prefHeight="31.0" prefWidth="294.0" promptText="Postfix" />
                                                                            </items>
                                                                         </ToolBar>
                                                                         <ToolBar prefHeight="34.0" prefWidth="775.0">
@@ -900,7 +900,7 @@
                                                                      <children>
                                                                         <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="248.0" prefWidth="775.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                            <content>
-                                                                              <JFXTextArea fx:id="txtAreaUtilGen" maxHeight="1.7976931348623157E308" maxWidth="775.0" minWidth="775.0" prefHeight="321.0" prefWidth="775.0" promptText="Paste here" />
+                                                                              <JFXTextArea fx:id="txtAreaUtilGen" minWidth="775.0" promptText="Paste here" />
                                                                            </content>
                                                                         </ScrollPane>
                                                                      </children>
