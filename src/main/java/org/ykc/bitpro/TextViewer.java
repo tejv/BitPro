@@ -6,6 +6,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.geometry.*;
 
 public class TextViewer {
@@ -15,11 +16,10 @@ public class TextViewer {
         //Block events to other windows
         window.initModality(Modality.NONE);
         window.setTitle(title);
-        window.setMinWidth(250);
+        window.setMinWidth(1000);
+        window.getIcons().add(new Image("main_app_icon.png"));
 
         TextArea area = new TextArea();
-        //area.setStyle("-fx-font-family: Consolas");
-        area.setFont(Font.font("Consolas", FontWeight.NORMAL, 20));
         area.setEditable(false);
         area.setText(message.toString());
         
@@ -29,6 +29,7 @@ public class TextViewer {
 
         //Display window and wait for it to be closed before returning
         Scene scene = new Scene(layout);
+        scene.getStylesheets().add("application.css");
         window.setScene(scene);
         window.showAndWait();
     }
