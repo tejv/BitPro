@@ -26,7 +26,6 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.StatusBar?>
@@ -56,11 +55,11 @@
             </MenuBar>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
                <items>
-                  <Button fx:id="bOpen" mnemonicParsing="false" onAction="#openBitFile" prefHeight="31.0" prefWidth="64.0" text="Open" />
-                  <Button fx:id="bSave" mnemonicParsing="false" onAction="#saveBitFile" prefHeight="31.0" prefWidth="61.0" text="Save" />
-                  <Button fx:id="bLoad" mnemonicParsing="false" onAction="#loadBitFile" prefHeight="31.0" prefWidth="64.0" text="Load" />
-                  <Button fx:id="bGenMacros" mnemonicParsing="false" onAction="#generateMacros" prefHeight="31.0" prefWidth="163.0" text="Generate Macros" />
-                  <Button fx:id="bGenBinary" mnemonicParsing="false" onAction="#generateBinary" prefHeight="31.0" prefWidth="163.0" text="Generate Binary" />
+                  <Button fx:id="bOpen" mnemonicParsing="false" onAction="#openBitFile" prefHeight="31.0" prefWidth="13.0" />
+                  <Button fx:id="bSave" mnemonicParsing="false" onAction="#saveBitFile" prefHeight="31.0" prefWidth="11.0" />
+                  <Button fx:id="bLoad" mnemonicParsing="false" onAction="#loadBitFile" prefHeight="31.0" prefWidth="14.0" />
+                  <Button fx:id="bGenMacros" mnemonicParsing="false" onAction="#generateMacros" prefHeight="31.0" prefWidth="1.0" />
+                  <Button fx:id="bGenBinary" mnemonicParsing="false" onAction="#generateBinary" prefHeight="31.0" prefWidth="2.0" />
                </items>
             </ToolBar>
          </children>
@@ -173,27 +172,28 @@
                                                 </VBox>
                                              </bottom>
                                              <center>
-                                                <StackPane prefHeight="323.0" prefWidth="881.0" BorderPane.alignment="CENTER">
+                                                <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                                    <children>
-                                                      <TableView fx:id="tViewSPro" editable="true" prefHeight="312.0" prefWidth="881.0" tableMenuButtonVisible="true">
-                                                         <columns>
-                                                            <TableColumn fx:id="tColSProFname" prefWidth="100.0" sortable="false" text="Field Name" />
-                                                            <TableColumn fx:id="tColSProFsize" sortable="false" text="Bit Size" />
-                                                            <TableColumn fx:id="tColSProFdesc" prefWidth="105.0" sortable="false" text="Description" />
-                                                            <TableColumn fx:id="tColSProFenum" prefWidth="205.0" sortable="false" text="Enum (if any)" />
-                                                         </columns>
-                                                         <columnResizePolicy>
-                                                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                                         </columnResizePolicy>
-                                                         <opaqueInsets>
-                                                            <Insets />
-                                                         </opaqueInsets>
-                                                      </TableView>
+                                                      <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                         <content>
+                                                            <TableView fx:id="tViewSPro" editable="true" prefHeight="312.0" prefWidth="881.0" tableMenuButtonVisible="true">
+                                                               <columns>
+                                                                  <TableColumn fx:id="tColSProFname" maxWidth="300.0" minWidth="80.0" prefWidth="100.0" sortable="false" text="Field Name" />
+                                                                  <TableColumn fx:id="tColSProFsize" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" sortable="false" text="Size" />
+                                                                  <TableColumn fx:id="tColSProFdesc" minWidth="100.0" prefWidth="105.0" sortable="false" text="Description" />
+                                                                  <TableColumn fx:id="tColSProFenum" minWidth="100.0" prefWidth="205.0" sortable="false" text="Enum (if any)" />
+                                                               </columns>
+                                                               <columnResizePolicy>
+                                                                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                               </columnResizePolicy>
+                                                               <opaqueInsets>
+                                                                  <Insets />
+                                                               </opaqueInsets>
+                                                            </TableView>
+                                                         </content>
+                                                      </ScrollPane>
                                                    </children>
-                                                   <opaqueInsets>
-                                                      <Insets />
-                                                   </opaqueInsets>
-                                                </StackPane>
+                                                </AnchorPane>
                                              </center>
                                           </BorderPane>
                                        </children>
@@ -312,28 +312,29 @@
                                                             </VBox>
                                                          </bottom>
                                                          <center>
-                                                            <StackPane prefHeight="177.0" prefWidth="614.0" BorderPane.alignment="CENTER">
+                                                            <AnchorPane BorderPane.alignment="CENTER">
                                                                <children>
-                                                                  <TableView fx:id="tViewDPro" editable="true" prefHeight="153.0" prefWidth="662.0" tableMenuButtonVisible="true">
-                                                                     <columns>
-                                                                        <TableColumn fx:id="tColDProTypeName" prefWidth="100.0" sortable="false" text="Type" />
-                                                                        <TableColumn fx:id="tColDProFname" sortable="false" text="Name" />
-                                                                        <TableColumn fx:id="tColDProFsize" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" sortable="false" text="Size" />
-                                                                        <TableColumn fx:id="tColDProFdesc" prefWidth="205.0" sortable="false" text="Description" />
-                                                                        <TableColumn fx:id="tColDProFrelPath" prefWidth="205.0" sortable="false" text="Relative Path" />
-                                                                     </columns>
-                                                                     <columnResizePolicy>
-                                                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                                                     </columnResizePolicy>
-                                                                     <opaqueInsets>
-                                                                        <Insets />
-                                                                     </opaqueInsets>
-                                                                  </TableView>
+                                                                  <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                     <content>
+                                                                        <TableView fx:id="tViewDPro" editable="true" prefHeight="153.0" prefWidth="662.0" tableMenuButtonVisible="true">
+                                                                           <columns>
+                                                                              <TableColumn fx:id="tColDProTypeName" prefWidth="100.0" sortable="false" text="Type" />
+                                                                              <TableColumn fx:id="tColDProFname" sortable="false" text="Name" />
+                                                                              <TableColumn fx:id="tColDProFsize" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" sortable="false" text="Size" />
+                                                                              <TableColumn fx:id="tColDProFdesc" prefWidth="205.0" sortable="false" text="Description" />
+                                                                              <TableColumn fx:id="tColDProFrelPath" minWidth="150.0" prefWidth="205.0" sortable="false" text="Relative Path" />
+                                                                           </columns>
+                                                                           <columnResizePolicy>
+                                                                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                                           </columnResizePolicy>
+                                                                           <opaqueInsets>
+                                                                              <Insets />
+                                                                           </opaqueInsets>
+                                                                        </TableView>
+                                                                     </content>
+                                                                  </ScrollPane>
                                                                </children>
-                                                               <opaqueInsets>
-                                                                  <Insets />
-                                                               </opaqueInsets>
-                                                            </StackPane>
+                                                            </AnchorPane>
                                                          </center>
                                                       </BorderPane>
                                                    </children>
@@ -780,7 +781,7 @@
                                                                                        <center>
                                                                                           <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                                                                              <children>
-                                                                                                <ScrollPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                                                                <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                                                                    <content>
                                                                                                       <GridPane fx:id="gPaneFxLoad" prefHeight="122.0" prefWidth="614.0">
                                                                                                          <columnConstraints>

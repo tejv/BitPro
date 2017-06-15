@@ -54,6 +54,8 @@ import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -210,10 +212,10 @@ public class MainWindowController implements Initializable{
 
     @FXML
     private Button bParseUnion;
-    
+
     @FXML
-    private Button bParseEZSpro;  
-    
+    private Button bParseEZSpro;
+
     @FXML // fx:id="tabParse"
     private Tab tabParse; // Value injected by FXMLLoader
 
@@ -369,10 +371,10 @@ public class MainWindowController implements Initializable{
 
     @FXML // fx:id="txtFxResult"
     private JFXTextField txtFxResult; // Value injected by FXMLLoader
-    
+
     @FXML // fx:id="txtAreaFxDesc"
     private JFXTextArea txtAreaFxDesc; // Value injected by FXMLLoader
-    
+
     @FXML
     private JFXTextArea txtAreaFxFormula;
 
@@ -453,6 +455,17 @@ public class MainWindowController implements Initializable{
 			break;
 		}
 		tabPaneFX.getSelectionModel().select(tabFXLoad);
+
+		bOpen.setGraphic(new ImageView(new Image("/open.png")));
+		bOpen.setTooltip(new Tooltip("Open file"));
+		bSave.setGraphic(new ImageView(new Image("/save.png")));
+		bSave.setTooltip(new Tooltip("Save file"));
+		bLoad.setGraphic(new ImageView(new Image("/load.png")));
+		bLoad.setTooltip(new Tooltip("Load file"));
+		bGenMacros.setGraphic(new ImageView(new Image("/macro.png")));
+		bGenMacros.setTooltip(new Tooltip("Generate macros"));
+		bGenBinary.setGraphic(new ImageView(new Image("/binary.png")));
+		bGenBinary.setTooltip(new Tooltip("Generate binary"));
 
 		/* Link tViewSPro to Modal class SProRow */
 		tColSProFname.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -665,16 +678,16 @@ public class MainWindowController implements Initializable{
     void parsePDSpec(ActionEvent event) {
     	parseUSBPDSpec(event);
     }
-    
+
     @FXML
     void parseEZSpro(ActionEvent event) {
     	parseEZSproCreate(event);
     }
-    
+
 	@FXML
     void parseUnion(ActionEvent event) {
     	parseUnionStruct(event);
-    }    
+    }
 
 	@FXML
     void dproAddField(ActionEvent event) {
@@ -854,23 +867,23 @@ public class MainWindowController implements Initializable{
 			bSave.fireEvent(event);
 		}
 	}
-    
+
 	private void parseUnionStruct(ActionEvent event) {
 		if(ParseUnion.parse(txtAreaParse, statusBar, tViewSPro, txtSProName, rbSPro32bit) == true)
 		{
 			tabPaneMain.getSelectionModel().select(tabSPro);
 			bSave.fireEvent(event);
 		}
-	} 
-	
+	}
+
     private void parseEZSproCreate(ActionEvent event) {
 		if(ParseEZSPro.parse(txtAreaParse, statusBar, tViewSPro, txtSProName, rbSPro32bit) == true)
 		{
 			tabPaneMain.getSelectionModel().select(tabSPro);
 			bSave.fireEvent(event);
 		}
-		
-	}	
+
+	}
 
     private void utilsFSMGenerateFn(ActionEvent event) {
 		TextViewer.display("Generated Code", UtilsFSMGen.run(txtUtilFSMFnNamePrefix.getText(),
