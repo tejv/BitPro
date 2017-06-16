@@ -30,7 +30,11 @@ public class ParseEZSPro {
 						fName = strings[0].trim().toLowerCase();				
 						fSize = Integer.parseInt(strings[1].trim());
 						if(strings.length >= 3){
-							fDesc = strings[2].trim();
+							int i = 2;
+							while(i < strings.length){
+								fDesc += strings[i] + " ";
+								i++;
+							}
 						}
 						SProRow bField;
 						try {
