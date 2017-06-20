@@ -15,4 +15,6 @@ BitPro
 #New feature  Option to create new calculations and run existing calculations in integer
 or float both option. 
 
+#more keyboard keys for easy create spro. Add bit size in ezspro
+
 
