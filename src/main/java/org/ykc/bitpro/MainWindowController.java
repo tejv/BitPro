@@ -825,6 +825,7 @@ public class MainWindowController implements Initializable{
     private void closeProgram() {
     	storeDataBeforeClose();
     	Platform.exit();
+    	System.exit(0);
 	}
 
     private void solveExpression() {
