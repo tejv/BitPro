@@ -1,6 +1,7 @@
 package org.ykc.bitpro;
 
 import java.text.DateFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -8,6 +9,8 @@ import com.jfoenix.controls.JFXTextArea;
 
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.WordUtils;
 
 public class UtilsFSMGen {
 	public static StringBuilder run(String namePrefix, String prefix, String postfix,
@@ -81,11 +84,11 @@ public class UtilsFSMGen {
 		String fnNamePrefix = "";
 		String fnNamePrefixRaw = namePrefix.trim();
 		if(!fnNamePrefixRaw.isEmpty()){
-			fnNamePrefix = fnNamePrefixRaw + "_FSM_EVT_";
+			fnNamePrefix = fnNamePrefixRaw + "_SM_EVT_";
 		}
-		String enumName = fnNamePrefixRaw.toLowerCase()+ "_fsm_evt";
+		String enumName = fnNamePrefixRaw.toUpperCase()+ "_SM_EVT";
 		xBuilder.append("/**\n");
-		xBuilder.append(" * @enum " + enumName + "_t"+ "\n");
+		xBuilder.append(" * @enum " + enumName + ""+ "\n");
 		xBuilder.append(" * @brief Enum to \n");
 		xBuilder.append(" */\n");
 		xBuilder.append("typedef enum\n{\n");
@@ -105,7 +108,7 @@ public class UtilsFSMGen {
 				xBuilder.append(line);
 			}
 			xBuilder.append("    " + fnNamePrefix.toUpperCase() + "MAX_EVTS\n");
-			xBuilder.append("}" + enumName + "_t;\n\n");
+			xBuilder.append("}" + enumName + ";\n\n");
 		} catch (Exception e) {
 			xBuilder.append("\n\nParsing Failed");
 		}
@@ -116,11 +119,11 @@ public class UtilsFSMGen {
 		String fnNamePrefix = "";
 		String fnNamePrefixRaw = namePrefix.trim();
 		if(!fnNamePrefixRaw.isEmpty()){
-			fnNamePrefix = fnNamePrefixRaw + "_FSM_";
+			fnNamePrefix = fnNamePrefixRaw + "_SM_STATE_";
 		}
-		String enumName = fnNamePrefixRaw.toLowerCase()+ "_fsm_state";
+		String enumName = fnNamePrefixRaw.toUpperCase()+ "_SM_STATE";
 		xBuilder.append("/**\n");
-		xBuilder.append(" * @enum " + enumName + "_t"+ "\n");
+		xBuilder.append(" * @enum " + enumName + ""+ "\n");
 		xBuilder.append(" * @brief Enum to \n");
 		xBuilder.append(" */\n");
 		xBuilder.append("typedef enum\n{\n");
@@ -140,7 +143,7 @@ public class UtilsFSMGen {
 				xBuilder.append(line);
 			}
 			xBuilder.append("    " + fnNamePrefix.toUpperCase() + "MAX_STATES\n");
-			xBuilder.append("}" + enumName + "_t;\n\n");
+			xBuilder.append("}" + enumName + ";\n\n");
 		} catch (Exception e) {
 			xBuilder.append("\n\nParsing Failed");
 		}
@@ -151,7 +154,7 @@ public class UtilsFSMGen {
 		String fnNamePrefix = "";
 		String fnNamePrefixRaw = namePrefix.trim();
 		if(!fnNamePrefixRaw.isEmpty()){
-			fnNamePrefix = fnNamePrefixRaw + "_FSM_";
+			fnNamePrefix = fnNamePrefixRaw + "_STATE_";
 		}
 		String fnProtPrefix = prefix.trim();
 		String fnProtPostfix = postfix.trim();
@@ -162,9 +165,9 @@ public class UtilsFSMGen {
 			for (String line : txtAreaStateNames.getText().split("\\n"))
 			{
 				line = line.trim();
-				line = line.toLowerCase();
 
 				line = fnNamePrefix.toLowerCase() + line;
+				line = WordUtils.capitalizeFully(line, '_').replaceAll("_", "");
 				xBuilder.append(fnProtPrefix + " " + line + fnProtPostfix + ";\n");
 			}
 			xBuilder.append("\n\n");
@@ -178,13 +181,16 @@ public class UtilsFSMGen {
 		String fnNamePrefix = "";
 		String fnNamePrefixRaw = namePrefix.trim();
 		if(!fnNamePrefixRaw.isEmpty()){
-			fnNamePrefix = fnNamePrefixRaw + "_FSM_";
+			fnNamePrefix = fnNamePrefixRaw + "_STATE_";
 		}
 		String fnProtPrefix = prefix.trim();
 		String fnProtPostfix = postfix.trim();
 
+		String stateTableName = fnNamePrefix + "Table";
+		stateTableName =  WordUtils.capitalizeFully(stateTableName, '_').replaceAll("_", "");
+		stateTableName = "s_" + stateTableName;
 		xBuilder.append("/* State Table */\n");
-		xBuilder.append(fnProtPrefix + " (*const " +  fnNamePrefix.toLowerCase() + "table [" + fnNamePrefix.toUpperCase() + "MAX_STATES]) " + fnProtPostfix + " =\n");
+		xBuilder.append(fnProtPrefix + " (*const " +  stateTableName + " [" + fnNamePrefixRaw.toUpperCase() + "_SM_STATE_MAX_STATES]) " + fnProtPostfix + " =\n");
 		xBuilder.append("{\n");
 		try {
 			for (String line : txtAreaStateNames.getText().split("\\n"))
@@ -193,7 +199,8 @@ public class UtilsFSMGen {
 				line = line.toLowerCase();
 
 				line = fnNamePrefix.toLowerCase() + line;
-				xBuilder.append("    /* " + line + " */\n");
+//				xBuilder.append("    /* " + line + " */\n");
+				line = WordUtils.capitalizeFully(line, '_').replaceAll("_", "");
 				xBuilder.append("    " + line + ",\n");
 			}
 			xBuilder.append("};\n\n");
@@ -207,7 +214,7 @@ public class UtilsFSMGen {
 		String fnNamePrefix = "";
 		String fnNamePrefixRaw = namePrefix.trim();
 		if(!fnNamePrefixRaw.isEmpty()){
-			fnNamePrefix = fnNamePrefixRaw + "_FSM_";
+			fnNamePrefix = fnNamePrefixRaw + "_SM_";
 		}
 		String fnProtPrefix = prefix.trim();
 		String fnProtPostfix = postfix.trim();
@@ -227,6 +234,7 @@ public class UtilsFSMGen {
 				line = line.toLowerCase();
 
 				line = fnNamePrefix.toLowerCase() + line;
+				line = WordUtils.capitalizeFully(line, '_').replaceAll("_", "");
 				xBuilder.append(fnProtPrefix + " " + line + fnProtPostfix + "\n");
 				xBuilder.append("{\n");
 				xBuilder.append("    /* TODO */\n\n");
@@ -244,9 +252,9 @@ public class UtilsFSMGen {
 		String fnNamePrefix = "";
 		String fnNamePrefixRaw = namePrefix.trim();
 		if(!fnNamePrefixRaw.isEmpty()){
-			fnNamePrefix = fnNamePrefixRaw + "_FSM_EVT_";
+			fnNamePrefix = fnNamePrefixRaw + "_SM_EVT_";
 		}
-		result = "    switch(evt)\n";
+		result = "    switch (evt)\n";
 		result += "    {\n";
 
 		try {
@@ -256,14 +264,14 @@ public class UtilsFSMGen {
 				line = line.toUpperCase();
 
 				line = fnNamePrefix.toUpperCase() + line;
-				result += "        case " + line + ":\n";
-				result += "            \n";
-				result += "            break;\n";
+				result += "    case " + line + ":\n";
+				result += "        \n";
+				result += "        break;\n";
 			}
-			result += "        default:\n";
-			result += "            \n";
-			result += "            break;\n";
-			result += "    }\n\n";
+			result += "    default:\n";
+			result += "        \n";
+			result += "        break;\n";
+			result += "    }\n";
 			return result;
 		} catch (Exception e) {
 			return "Parsing Failed";
@@ -275,7 +283,7 @@ public class UtilsFSMGen {
 		String fnNamePrefix = "";
 		String fnNamePrefixRaw = namePrefix.trim();
 		if(!fnNamePrefixRaw.isEmpty()){
-			fnNamePrefix = fnNamePrefixRaw + "_FSM_EVT_";
+			fnNamePrefix = fnNamePrefixRaw + "_SM_EVT_";
 		}
 		int i = 0;
 		try {
@@ -287,10 +295,10 @@ public class UtilsFSMGen {
 				line = fnNamePrefix.toUpperCase() + line;
 				if(i == 0)
 				{
-					result += "    if(evt == " + line + ")\n";
+					result += "    if (evt == " + line + ")\n";
 				}
 				else {
-					result += "    else if(evt == " + line + ")\n";
+					result += "    else if (evt == " + line + ")\n";
 				}
 				result += "    {\n";
 				result += "        \n";
