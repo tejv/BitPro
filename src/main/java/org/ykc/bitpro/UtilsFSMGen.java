@@ -214,7 +214,7 @@ public class UtilsFSMGen {
 		String fnNamePrefix = "";
 		String fnNamePrefixRaw = namePrefix.trim();
 		if(!fnNamePrefixRaw.isEmpty()){
-			fnNamePrefix = fnNamePrefixRaw + "_SM_";
+			fnNamePrefix = fnNamePrefixRaw + "_State_";
 		}
 		String fnProtPrefix = prefix.trim();
 		String fnProtPostfix = postfix.trim();
@@ -265,11 +265,11 @@ public class UtilsFSMGen {
 
 				line = fnNamePrefix.toUpperCase() + line;
 				result += "    case " + line + ":\n";
-				result += "        \n";
+//				result += "        \n";
 				result += "        break;\n";
 			}
 			result += "    default:\n";
-			result += "        \n";
+//			result += "        \n";
 			result += "        break;\n";
 			result += "    }\n";
 			return result;

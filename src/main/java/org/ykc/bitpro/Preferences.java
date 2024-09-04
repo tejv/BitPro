@@ -21,6 +21,8 @@ public class Preferences {
 	private static String utilsFnNamePrefixString = "";
 	private static String utilsFnPrefixString = "";
 	private static String utilsFnPostfixString = "";
+	private static String utilsFnStateString = "";
+	private static String utilsFnEventString = "";
 	private static File dproLastBrowseDir = new File(System.getProperty("user.home"));
 	private static File dproBasePath = new File(System.getProperty("user.home") + "/BitPro");
 	private static File lastDPROFile = null;
@@ -81,6 +83,23 @@ public class Preferences {
 
 	public static void setUtilsFnPostfixString(String utilsFnPostfixString) {
 		Preferences.utilsFnPostfixString = utilsFnPostfixString;
+	}
+
+	public static String getUtilsFnStateString() {
+		return utilsFnStateString;
+	}
+	public static void setUtilsFnStateString(String text)
+	{
+		Preferences.utilsFnStateString = text;
+	}
+
+	public static String getUtilsFnEventString() {
+		return utilsFnEventString;
+	}
+
+	public static void setUtilsFnEventString(String text)
+	{
+		Preferences.utilsFnEventString = text;
 	}
 
 	public static String getLoadViewPrefixValue() {

@@ -816,6 +816,8 @@ public class MainWindowController implements Initializable{
 		Preferences.setUtilsFnNamePrefixString(txtUtilFSMFnNamePrefix.getText());
 		Preferences.setUtilsFnPrefixString(txtUtilFSMFnPrefix.getText());
 		Preferences.setUtilsFnPostfixString(txtUtilFSMFnPostFix.getText());
+		Preferences.setUtilsFnStateString(txtAreaUtilFSMStateName.getText());
+		Preferences.setUtilsFnEventString(txtAreaUtilFSMEventName.getText());
 		Preferences.setDproBasePath(new File(txtDProBPath.getText()));
 		fxLoad.saveOldData();
     	bProLoad.saveLoadedData();
